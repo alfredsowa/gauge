@@ -1,0 +1,15 @@
+div.image-container {
+    width: '150px';
+    overflow: 'hidden';
+    height: '150px'; 
+    border-radius: '20px'; 
+    background-color: '#cecece'
+}
+.image-container img {width: '100%'; 
+    height: 'auto'; 
+}
+input {
+    margin-bottom: '15px'; 
+    padding: '7px';
+    border: '1px solid #cecece';
+}

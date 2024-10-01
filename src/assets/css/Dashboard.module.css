@@ -1,0 +1,34 @@
+/* .root {
+    padding: calc(var(--mantine-spacing-lg));
+  }
+  
+  .value {
+    font-size: rem(24px);
+    font-weight: 700;
+    line-height: 1;
+  }
+  
+  .diff {
+    line-height: 1;
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon {
+    color: light-dark(var(--mantine-color-gray-4), var(--mantine-color-dark-3));
+  }
+  
+  .title {
+    font-weight: 700;
+    text-transform: uppercase;
+  } */
+
+  .root {
+    padding: calc(var(--mantine-spacing-lg));
+  }
+  
+  .label {
+    font-family:
+      Greycliff CF, sans-serif,
+      var(--mantine-font-family);
+  }
