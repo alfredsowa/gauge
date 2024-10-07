@@ -1,7 +1,6 @@
 import {
     Group,
     Button,
-    Anchor,
     Container,
   } from '@mantine/core';
   import classes from '../../assets/css/HomepageHeader.module.css';
@@ -21,13 +20,11 @@ import {UserModel} from "../../auth/core/_models.ts";
             <Group>
                 {currentUser ? (
                     <>
-                        <Button variant="light" color="orange" onClick={logout}>Logout</Button>
+                        <Button radius={'xl'} size='sm' variant="light" color="orange" onClick={logout}>Logout</Button>
                     </>
                 ):(
                     <>
-                        <Anchor variant="light" c={'gauge-primary.6'} fw={600} component={Link} to="/login" title='Get started on your goals'>
-                            Login
-                        </Anchor>
+                        <Button radius={'xl'} size='sm' component={Link} to="/login" variant="filled" onClick={logout}>LOGIN</Button>
                     </>
                 )}
             </Group>

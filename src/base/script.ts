@@ -13,6 +13,7 @@ export const baseTheme = createTheme({
       Button: Button.extend({
         defaultProps: {
           size: 'md',
+          // color: 'gauge-primary.9'
         },
       }),
       Text: Text.extend({
@@ -127,7 +128,7 @@ export const baseTheme = createTheme({
     },
     primaryColor: 'gauge-primary',
           colors: {
-            'gauge-primary': generateColors('#113822'),
+            'gauge-primary': generateColors('#50d962'),
             // 'gauge-primary': myColor,
           },
     fontSizes: {
