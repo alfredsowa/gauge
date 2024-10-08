@@ -201,7 +201,7 @@ const PurchaseList = () => {
                 </Table.Td>
                 <Table.Td ta={'left'}>
                     <Text c="dimmed">
-                    <PrettyFigure figure={row.quantity}  />
+                    <PrettyFigure figure={row.actual_quantity}  />
                     </Text>
                 </Table.Td>
                 <Table.Td ta={'left'}>
@@ -324,7 +324,7 @@ const PurchaseList = () => {
                                 {/* <Text fw={700}>
                                 </Text> */}
                                 </Table.Th>
-                                <Table.Th style={{ width: '150px' }} ta={'left'}>
+                                <Table.Th style={{ width: '250px' }} ta={'left'}>
                                         Contact
                                     {/* <Text fw={700}>
                                     </Text> */}

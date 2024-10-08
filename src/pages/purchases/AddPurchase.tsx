@@ -38,6 +38,7 @@ const AddPurchase = () => {
       purchase_date: '',
       status: '',
       quantity: '',
+      actual_quantity: '',
       unit_price: '',
       amount_paid: '',
       purchase_details: '',
@@ -52,6 +53,7 @@ const AddPurchase = () => {
       purchase_date: (value) => (value.length < 10 ? 'Invalid date' : null),
       status: (value) => ((value !== purchaseStatusOptions[0] && value !== purchaseStatusOptions[1]) ? 'Invalid type selected' : null),
       quantity: (value) => ((parseInt(value) < 0) ? 'Enter a positive number' : null),
+      actual_quantity: (value) => ((parseInt(value) < 0) ? 'Enter a positive number' : null),
       unit_price: (value) => ((parseInt(value) < 0) ? 'Enter a positive number' : null),
       amount_paid: (value) => ((parseInt(value) < 0) ? 'Enter a positive number' : null),
       discounts: (value) => ((parseInt(value) < 0) ? 'Enter a positive number' : null),
@@ -70,6 +72,7 @@ const AddPurchase = () => {
       purchase_date: values.purchase_date,
       status: values.status,
       quantity: parseInt(values.quantity),
+      actual_quantity: parseInt(values.actual_quantity),
       unit_price: parseInt(values.unit_price),
       amount_paid: parseInt(values.amount_paid),
       discounts: parseInt(values.discounts),
@@ -101,7 +104,6 @@ const AddPurchase = () => {
       }
 
     } catch(error) {
-      
       notify({
         type:'error',
         message: 'Ensure all compulsory fields are filled. Try again later',

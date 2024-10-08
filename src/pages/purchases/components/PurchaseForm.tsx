@@ -16,6 +16,8 @@ interface GeneralInformation {
     getInputProps: (name: string) => any;
     key: (name: string) => string;
     getValues: any;
+    setValues: any;
+    watch: any;
   }
 
 type MaterialOpt = {
@@ -26,12 +28,10 @@ type MaterialOpt = {
 const PurchaseForm = ({generalInformation, suppliers,handleNewSupplierClick}:
     {generalInformation: GeneralInformation, suppliers: SupplierBasic[]|null, handleNewSupplierClick: ()=>void}) => {
     const [materials, setMaterials] = useState<MaterialBasicModel[]|null>([]);
-    // const [suppliers, setSuppliers] = useState<SupplierBasic[]|null>([]);
+    const [trackingUnit, setTrackingUnit] = useState<string|undefined>('Piece');
+    // const [trackingUnitCost, setTrackingUnitCost] = useState<number|undefined>(0);
     const {currentBusiness} = useAuth()
     
-
-
-
     useEffect(()=>{
         const materialsResponse = async() => {
         const response = await getMaterialsOption(true);
@@ -54,6 +54,13 @@ const PurchaseForm = ({generalInformation, suppliers,handleNewSupplierClick}:
         },
         [materials]
       );
+
+      generalInformation.watch('material', ({ value }:{ value: number }) => {
+        const itemSelected = materials?.find((materials) => materials.id === Number(value))
+        setTrackingUnit(itemSelected?.unit_of_measurement);
+        generalInformation.setValues({unit_price: itemSelected?.cost_per_unit})
+        // setTrackingUnitCost(itemSelected?.cost_per_unit);
+      });
 
     const suppliersOpt = useMemo(
         () => {
@@ -124,13 +131,33 @@ const PurchaseForm = ({generalInformation, suppliers,handleNewSupplierClick}:
                 required
                 withAsterisk
                 
-                label="Payment Status"
+                label="Purchase Status"
                 placeholder="Choose one"
                 data={purchaseStatusOptions}
                 />
             </Grid.Col>
 
             {/* Quantity */}
+            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 4, md: 4, lg: 4 }}>
+                <NumberInput
+                {...generalInformation.getInputProps('actual_quantity')}
+                key={generalInformation.key('actual_quantity')}
+                radius={"md"}
+                step={0.01}
+                leftSection={<TextFieldToolTip title="This is the actual quantity of material bought"/>}
+                variant="filled"
+                // c={'dimmed'}
+                min={0}
+                
+                label="Quantity Purchased"
+                withAsterisk
+                thousandSeparator=","
+                required
+                placeholder="0"
+                />
+            </Grid.Col>
+
+            {/* Quantity Per Tracking Unit */}
             <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 4, md: 4, lg: 4 }}>
                 <NumberInput
                 {...generalInformation.getInputProps('quantity')}
@@ -142,7 +169,7 @@ const PurchaseForm = ({generalInformation, suppliers,handleNewSupplierClick}:
                 // c={'dimmed'}
                 min={0}
                 
-                label="Quantity Purchased"
+                label={`Quantity Per Tracking Unit (${trackingUnit})`}
                 withAsterisk
                 thousandSeparator=","
                 required
@@ -163,7 +190,7 @@ const PurchaseForm = ({generalInformation, suppliers,handleNewSupplierClick}:
                 min={0}
                 step={0.01}
                 prefix={currentBusiness?.currency_symbol}
-                label="Unit Price"
+                label="Cost Per Tracking Unit"
                 required
                 thousandSeparator=","
                 withAsterisk

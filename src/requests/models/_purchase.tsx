@@ -16,6 +16,7 @@ export interface PurchaseBasicModel {
     purchase_date: string;
     purchase_details?: string;
     quantity: number;
+    actual_quantity: number;
     unit_price: number;
     amount_paid: number;
     tax?: number;
@@ -57,6 +58,7 @@ export interface PurchaseSave {
     purchase_date: string|Date;
     purchase_details?: string;
     quantity: number;
+    actual_quantity: number;
     unit_price: number;
     amount_paid: number;
     tax?: number;
