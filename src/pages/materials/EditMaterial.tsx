@@ -10,7 +10,8 @@ import {
     TextInput,
     Textarea,
     rem,
-    Anchor
+    Anchor,
+    NumberInput
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import {IconPlus, IconQrcode} from "@tabler/icons-react";
@@ -25,6 +26,7 @@ import { MaterialModel } from "../../requests/models/_material";
 import PageTitle from "../../components/PageTitle";
 import { AxiosError } from "axios";
 import MaterialCategoryForm from "./components/MaterialCategoryForm";
+import TextFieldToolTip from "../../components/TextFieldToolTip";
 
 
 const EditMaterial = () => {
@@ -187,6 +189,7 @@ const EditMaterial = () => {
       name: (getMaterialData.name)?getMaterialData.name:'',
       code: (getMaterialData.code)?getMaterialData.code:'',
       type: (getMaterialData.type)?getMaterialData.type:'',
+      minimum_stock_level: (getMaterialData.minimum_stock_level)?getMaterialData.minimum_stock_level:1,
       is_reusable_after_damaged: Number(getMaterialData.is_reusable_after_damaged) === 1 ? true : false,
       category: (getMaterialData.material_category_id)?String(getMaterialData.material_category_id):'',
       description: (getMaterialData.description)?getMaterialData.description:'',
@@ -195,6 +198,7 @@ const EditMaterial = () => {
       name: (value) => (value.length < 2 ? 'Name is too small' : null),
       code: (value) => (value.length > 0 && value.length < 2 ? 'Code is too small' : null),
       type: (value) => ((value !== 'In-house' && value !== 'Sourced') ? 'Invalid type selected' : null),
+      minimum_stock_level: (value) => ((Number(value) < 0) ? 'Enter a positive number' : null),
       category: (value) => (Number(value) < 1 ? 'Invalid category selected' : null),
       description: (value) => value.length < 0 ?(value.length < 2 ? 'Description is too small' : null):null,
     },
@@ -209,6 +213,7 @@ const EditMaterial = () => {
       name: values.name,
       code: values.code,
       type: values.type,
+      minimum_stock_level: values.minimum_stock_level,
       is_reusable_after_damaged: values.is_reusable_after_damaged,
       material_category_id: Number(values.category),
       description: values.description
@@ -399,6 +404,25 @@ const EditMaterial = () => {
                 
                 label="Code"
                 placeholder="Code"
+              />
+            </Grid.Col>
+
+            {/* Minimum Stock Level */}
+            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
+              <NumberInput
+                {...generalInformation.getInputProps('minimum_stock_level')}
+                key={generalInformation.key('minimum_stock_level')}
+                radius={"md"}
+                leftSection={<TextFieldToolTip title="A alert will be shown when level is equal or less"/>}
+                variant="filled"
+                // c={'dimmed'}
+                 
+                min={0}
+                label="Minimum Stock Level"
+                required
+                thousandSeparator=","
+                withAsterisk
+                placeholder="0"
               />
             </Grid.Col>
 

@@ -1,5 +1,5 @@
 import { generateColors } from "@mantine/colors-generator";
-import { Anchor, Button, Card, createTheme, InputLabel, Modal, rem, Text } from "@mantine/core";
+import { Anchor, Button, Card, createTheme, Divider, InputLabel, Modal, rem, Text } from "@mantine/core";
 
 export const baseTheme = createTheme({
     fontFamily: 'Barlow',
@@ -8,6 +8,12 @@ export const baseTheme = createTheme({
       Anchor: Anchor.extend({
         defaultProps: {
           underline: 'never',
+        },
+      }),
+      Divider: Divider.extend({
+        defaultProps: {
+          size: 'xs',
+          // variant:"dashed"
         },
       }),
       Button: Button.extend({

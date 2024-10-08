@@ -13,10 +13,11 @@ import {
   TextInput,
   Textarea,
   rem,
-  Anchor
+  Anchor,
+  Alert
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import {IconArrowRight, IconPlus, IconQrcode, IconX} from "@tabler/icons-react";
+import {IconArrowRight, IconInfoCircle, IconPlus, IconQrcode, IconX} from "@tabler/icons-react";
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import { createMaterial, getMaterialCategories } from "../../requests/_materialsRequests";
 import { MaterialCategory } from "../../requests/models/_business";
@@ -369,13 +370,63 @@ const AddMaterial = () => {
                 placeholder="Code"
               />
             </Grid.Col>
-
-            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 12, md: 12, lg: 12 }}>
-              <Divider mb={12}  />
+              
+            <Grid.Col pt={30} pb={5} span={{ base: 12, sm: 12, md: 12, lg: 12 }}>
+              <Divider mb={5} label="Tracking Metrics" labelPosition="left" />
+              <Alert variant="light" color="blue" radius="md" title="How it works" icon={<IconInfoCircle />}>
+                  <strong>Tracking Measurement Unit :</strong> The measure of unit in which the materials are to be tracked. <br />
+                  <strong>Cost Per Tracking Unit :</strong> The cost of material per tracking unit. <br />
+                  <strong>Current Stock Level : </strong> The current quantity of materials available in stock. 
+                  Enter the current stock level of your material in the selected Tracking Measurement Unit. 
+                  If the Tracking Measurement Unit is different from the actual materials unit, convert the stock level accordingly and enter the equivalent.<br />
+                  <strong>Minimum Stock Level :</strong> The minimum quantity of materials that should be in stock. <br />
+              </Alert>
             </Grid.Col>
 
+            {/* Unit of measure */}
+            <Grid.Col pt={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
+              <Select
+                {...generalInformation.getInputProps('unit_of_measurement')}
+                key={generalInformation.key('unit_of_measurement')}
+                radius={"md"}
+                variant="filled"
+                checkIconPosition="right"
+                // c={'dimmed'}
+                required
+                withAsterisk
+                
+                label="Tracking Measurement Unit"
+                placeholder="Pick one"
+                data={unitsAndSymbols}
+                searchable
+                nothingFoundMessage="Not Found"
+              />
+            </Grid.Col>
+
+            {/* Unit Cost */}
+            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
+              <NumberInput
+                {...generalInformation.getInputProps('cost_per_unit')}
+                key={generalInformation.key('cost_per_unit')}
+                radius={"md"}
+                variant="filled"
+                prefix={currentBusiness?.currency_symbol}
+                thousandSeparator=","
+                step={0.01}
+                label="Cost Per Tracking Unit"
+                min={0}
+                required
+                withAsterisk
+                placeholder="0"
+              />
+            </Grid.Col>
+
+            {/* <Grid.Col pt={15} pb={5} span={{ base: 12, sm: 12, md: 12, lg: 12 }}>
+              <Divider mb={5} label="Stock Levels" labelPosition="left" />
+            </Grid.Col> */}
+
             {/* Current Stock Level */}
-            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 4, md: 4, lg: 4 }}>
+            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
               <NumberInput
                 {...generalInformation.getInputProps('current_stock_level')}
                 key={generalInformation.key('current_stock_level')}
@@ -393,7 +444,7 @@ const AddMaterial = () => {
             </Grid.Col>
 
             {/* Minimum Stock Level */}
-            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 4, md: 4, lg: 4 }}>
+            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
               <NumberInput
                 {...generalInformation.getInputProps('minimum_stock_level')}
                 key={generalInformation.key('minimum_stock_level')}
@@ -403,53 +454,15 @@ const AddMaterial = () => {
                 // c={'dimmed'}
                  
                 min={0}
-                label="Min. Stock Level"
+                label="Minimum Stock Level"
                 required
                 thousandSeparator=","
                 withAsterisk
                 placeholder="0"
               />
             </Grid.Col>
-              
-            {/* Unit Cost */}
-            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 4, md: 4, lg: 4 }}>
-              <NumberInput
-                {...generalInformation.getInputProps('cost_per_unit')}
-                key={generalInformation.key('cost_per_unit')}
-                radius={"md"}
-                variant="filled"
-                prefix={currentBusiness?.currency_symbol}
-                thousandSeparator=","
-                
-                step={0.01}
-                label="Unit Cost"
-                min={0}
-                required
-                withAsterisk
-                placeholder="0"
-              />
-            </Grid.Col>
 
 
-            {/* Unit of measure */}
-            <Grid.Col pt={10} span={{ base: 12, sm: 4, md: 4, lg: 4 }}>
-              <Select
-                {...generalInformation.getInputProps('unit_of_measurement')}
-                key={generalInformation.key('unit_of_measurement')}
-                radius={"md"}
-                variant="filled"
-                checkIconPosition="right"
-                // c={'dimmed'}
-                required
-                withAsterisk
-                
-                label="Measure Per Unit"
-                placeholder="Pick one"
-                data={unitsAndSymbols}
-                searchable
-                nothingFoundMessage="Not Found"
-              />
-            </Grid.Col>
             {/* Unit of Measure */}
             {/* <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 4, md: 4, lg: 4 }}>
               <TextInput
@@ -468,7 +481,7 @@ const AddMaterial = () => {
             </Grid.Col> */}
 
             {/* Reusability */}
-            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 12, md: 8, lg: 8 }}>
+            <Grid.Col pt={10} pb={10} span={{ base: 12 }}>
               <Switch mb={12} mt={12}
               defaultChecked={false}
               {...generalInformation.getInputProps('is_reusable_after_damaged')}

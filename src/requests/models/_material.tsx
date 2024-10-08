@@ -15,6 +15,7 @@ export interface MaterialUpdate {
     name: string;
     code: string;
     type: string;
+    minimum_stock_level: number;
     description: string;
     is_reusable_after_damaged: boolean;
     material_category_id: number;

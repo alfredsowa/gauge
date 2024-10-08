@@ -2,6 +2,7 @@ import {Container, Title, Text, Button, Grid, Image, Center } from '@mantine/cor
 import classes from '../../assets/css/LandingPage.module.css';
 import {Link} from "react-router-dom";
 import {UserModel} from "../../auth/core/_models.ts";
+import image from '../../assets/images/dashboard.png'
 // import {IconExternalLink} from "@tabler/icons-react";
 
 const LandingPage = ({currentUser}:{currentUser: UserModel|undefined}) => {
@@ -110,7 +111,7 @@ const LandingPage = ({currentUser}:{currentUser: UserModel|undefined}) => {
             </Grid.Col>
             <Grid.Col span={{ base: 12, sm: 6, md: 6, lg: 5 }}>
               <Center>
-              <Image className={classes.illustration} src={'/src/assets/images/dashboard.png'}  />
+              <Image className={classes.illustration} src={image}  />
               </Center>
             </Grid.Col>
           </Grid>
