@@ -10,6 +10,7 @@ import {UserModel} from "../../auth/core/_models.ts";
   
   export function HomepageHeader({currentUser,logout}:{currentUser: UserModel|undefined, logout: ()=>void}) {
   
+    console.log(currentUser)
     return (
       <Container size="lg" pt={10} pb={10}>
         <header className={classes.header}>

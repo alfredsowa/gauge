@@ -1,13 +1,14 @@
 import { Avatar, Card, Divider, Group, Indicator, Text } from '@mantine/core'
 import { Link } from 'react-router-dom'
 import { MostUsedMaterial } from '../requests/models/_dashboard'
+import { GetWithUnit } from '../requests/general/_numberHelper'
 
-const MaterialsUsedDasboardCard = ({material}:{material: MostUsedMaterial}) => {
+const MaterialsUsedDasboardCard = ({material,last=false}:{material: MostUsedMaterial,last?:boolean}) => {
     return (
         <>
           <Card py={10} px={15} bg={'transparent'} key={material.id} mb={0} style={{cursor: 'pointer'}} 
           component={Link} to={`/materials/${material.id}/view`} radius={'none'} withBorder={false} shadow='none'>
-            <Group gap="sm" wrap='nowrap'>
+            <Group wrap='nowrap'>
               <Indicator disabled={material.current_stock_level <= material.minimum_stock_level ? false:true}
               position="bottom-center" size={14}  withBorder processing color='red' inline label="Low">
                   <Avatar
@@ -19,28 +20,26 @@ const MaterialsUsedDasboardCard = ({material}:{material: MostUsedMaterial}) => {
               {/* <div> */}
                 <Text fz="md" fw={600}>
                   {material.material_name} <br />
-                  <Text fz="sm" component='span' c="dimmed" fw={600}>
+                  <Group justify='space-between'>
+                  <Text c="dimmed">
                     
-                  Used: <Text fz="sm" component='span' c="dimmed" fw={400}>
-                    {material.quantity_used} {material.unit}
+                    <GetWithUnit figure={Number(material.quantity_used)} unit={material.unit}  /> <Text  component='span' c="red">used</Text>
                   </Text>
-                  <Text fz="sm" mx={10} component='span' c="dimmed" fw={400}>
-                    -
-                  </Text>
-                  Left: <Text fz="sm" component='span' c="dimmed" fw={400}>
-                    {material.current_stock_level} {material.unit}
-                  </Text>
-                  </Text>
+                  
+                  {/* <Text  component='span' c="dimmed" fw={400}>
+                    Left:  {material.current_stock_level} {material.unit}
+                  </Text> */}
+                  </Group>
                 </Text>
-                <Group gap="sm" wrap='nowrap' justify='space-between'>
+                {/* <Group gap="sm" wrap='nowrap' justify='space-between'>
                   
                   
-                </Group>
+                </Group> */}
               {/* </div> */}
             </Group>
             
           </Card>
-          <Divider variant="dashed" mb={2} />
+          {!last && <Divider variant="dashed" mb={2} />}
         </>
     )
 }

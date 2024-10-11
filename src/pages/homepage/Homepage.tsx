@@ -1,6 +1,6 @@
 import { HomepageHeader } from '../../layouts/components/HomepageHeader.tsx'
 import LandingPage from './LandingPage.tsx'
-import {useAuth} from "../../auth/core/Auth.tsx";
+import {AuthInit, useAuth} from "../../auth/core/Auth.tsx";
 import BenefitSection from "./BenefitSection.tsx";
 import {HomepageFooter} from "../../layouts/components/HomepageFooter.tsx";
 import CallToAction from "./CallToAction.tsx";
@@ -9,8 +9,9 @@ import WhySection from './WhySection.tsx';
 
 const Homepage = () => {
 
-    const {currentUser,logout} = useAuth()
+  const {currentUser,logout} = useAuth()
   return (
+    <AuthInit>
     <div style={{minHeight: '100vh'}}>
         <HomepageHeader currentUser={currentUser} logout={logout} />
         <LandingPage currentUser={currentUser} />
@@ -20,6 +21,7 @@ const Homepage = () => {
         <ScrollToTop />
         <HomepageFooter />
     </div>
+    </AuthInit>
   )
 }
 

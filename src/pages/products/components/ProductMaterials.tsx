@@ -337,6 +337,7 @@ const ProductMaterials = ({product_id,prodMaterials,prodIntermediateGoods,setPro
                                 withAsterisk
                                 // size="sm"
                                 mb={10}
+                                searchable
                                 label="Material"
                                 placeholder="Which material has been used?"
                                 data={generalInformation.getValues().material_type == 'Material'?materialsOpt:intermediateGoodsOpt}

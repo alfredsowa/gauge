@@ -98,22 +98,26 @@ const Dashboard = () => {
 
   });
 
+
+  let completedProductionDashboardCardPosition = 0;
   const latestOngoingProductionsTableList = latestOngoingProductionsTable?.map((production) =>{
+    completedProductionDashboardCardPosition += 1;
     return (
-      <ProductionDasboardCard key={production.id} production={production} cardAnalyticsLoading={cardAnalyticsLoading} />
+      <ProductionDasboardCard key={production.id} last={completedProductionDashboardCardPosition === 5} production={production} cardAnalyticsLoading={cardAnalyticsLoading} />
     )
 
   })
 
+  let materialsUsedDashboardCardPosition = 0;
   const mostUsedMaterialsTableList = mostUsedMaterials?.map((material) =>{
+    materialsUsedDashboardCardPosition+=1
     return (
-      <MaterialsUsedDasboardCard key={material.id} material={material} />
+      <MaterialsUsedDasboardCard key={material.id} material={material} last={materialsUsedDashboardCardPosition === 5} />
     )
 
   })
 
   let completedProductsProductionsGraphList: ProductGraph[]|null = null
-
   if(completedProductsProductionsGraph){
     completedProductsProductionsGraphList = completedProductsProductionsGraph.map((production) =>{
       return {

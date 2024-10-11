@@ -30,6 +30,7 @@ export interface PurchaseBasicModel {
     addedBy: AddedBy;
     material_name: string;
     material_image: string;
+    tracking_unit: string;
     supplier_name: string;
     supplier_contact: string;
 }

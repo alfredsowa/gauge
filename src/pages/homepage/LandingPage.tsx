@@ -21,7 +21,8 @@ const LandingPage = ({currentUser}:{currentUser: UserModel|undefined}) => {
                   </Title>
 
                   <Text className={classes.description}>
-                    Gauge aims to help small businesses streamline manufacturing processes to prevent time and materials wastage
+                    {/* Gauge aims to help small businesses streamline manufacturing processes to prevent time and materials wastage */}
+                    Get real-time control over your materials to prevent wastage, cut costs, and improve production.
                   </Text>
 
                   <div  className={classes.actionButton}>
@@ -43,17 +44,6 @@ const LandingPage = ({currentUser}:{currentUser: UserModel|undefined}) => {
                           Get Started for Free
                         </Button> 
                     )}
-                    {/*<Button*/}
-                    {/*  variant={'filled'}*/}
-                    {/*  color={'white'}*/}
-                    {/*  c={'gauge-primary.7'}*/}
-                    {/*  target={'_blank'}*/}
-                    {/*  component={'a'} href="https://resoura.app/gauge"*/}
-                    {/*  size="lg"*/}
-                    {/*  rightSection={<IconExternalLink size={18} />}*/}
-                    {/*>*/}
-                    {/*  Learn More*/}
-                    {/*</Button>*/}
                   </div>
 
                 </div>
@@ -71,7 +61,7 @@ const LandingPage = ({currentUser}:{currentUser: UserModel|undefined}) => {
               </Title>
 
               <Text className={classes.description}>
-                Gauge aims to help small businesses streamline manufacturing processes to prevent time and materials wastage
+              Get real-time control over your materials to prevent wastage, cut costs, and improve production.
               </Text>
 
               <div  className={classes.actionButton}>
