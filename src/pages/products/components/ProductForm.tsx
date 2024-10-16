@@ -9,6 +9,7 @@ import { removeImage } from '../../../requests/_productRequests';
 import PaperCard from "../../../components/PaperCard.tsx";
 import PaperCardHeader from "../../../components/PaperCardHeader.tsx";
 import PaperCardBody from "../../../components/PaperCardBody.tsx";
+import product_image from '../../../assets/images/no-product.jpg';
 
 const imageContainerClass = {
     width: '150px',
@@ -122,7 +123,7 @@ const ProductForm = ({generalInformation,setFileM, imageUrl}:
                             <div style={imageContainerClass}>
                                 <img
                                     id="productPhoto"
-                                    src={hasImage}
+                                    src={hasImage?hasImage:product_image}
                                     style={imgTagClass}
                                 />
                             </div>

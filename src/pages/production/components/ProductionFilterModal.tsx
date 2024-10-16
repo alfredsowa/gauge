@@ -57,7 +57,7 @@ const ProductionFilterModal = ({searchParams, setSearchParams}:{setSearchParams:
 
     <Modal opened={opened} size="md" padding='xl' onClose={close} 
         // centered
-        title={<Text fw={600} fz={17}>Filter Sales</Text>} overlayProps={{
+        title={<Text fw={600} fz={17}>Filter Production</Text>} overlayProps={{
         backgroundOpacity: 0.55,
         blur: 1,
       }}>
@@ -107,8 +107,8 @@ const ProductionFilterModal = ({searchParams, setSearchParams}:{setSearchParams:
         
     </Modal>
     <Button variant="light" title='Filter' color="gauge-primary" onClick={openFilter} 
-       aria-label="Filter" ml={10}>
-        <IconAdjustmentsHorizontal size={20} />
+       aria-label="Filter" ml={10} leftSection={<IconAdjustmentsHorizontal size={20} />}>
+        Filter
     </Button>
     </>
   )

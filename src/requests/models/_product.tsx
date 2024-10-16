@@ -7,9 +7,20 @@ export interface ProductModel extends ProductBasicModel{
     added_by: AddedBy;
     supplier?: SupplierBasic;
     materials?: ProductMaterialsModel[];
+    productions?: ProductProductions[];
     intermediate_goods?: ProductIntermediateGoodsModel[];
     used_intermediate_goods?: IntermediateGoodVitalModel[];
     created_at: string;
+}
+export interface ProductProductions {
+    production_id: number;
+    title: string;
+    status: string;
+    production_quantity: number;
+    start_date: string;
+    completed_at: string;
+    first_name: string;
+    last_name: string;
 }
 export interface ProductBasicModel {
     id: number;

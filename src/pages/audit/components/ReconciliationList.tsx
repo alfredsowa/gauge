@@ -2,7 +2,7 @@ import { Group, Paper, ScrollArea, Table, TableTrProps } from '@mantine/core';
 import React from 'react'
 import Empty from '../../../components/Empty';
 import { notify } from '../../../requests/general/toast';
-import TotalRecord from '../../../components/TotalRecord';
+// import TotalRecord from '../../../components/TotalRecord';
 // import { ReconciliationModel } from '../../../requests/models/_audit';
 import { deleteReconciliation, getReconciliationsLoader } from '../../../requests/_auditRequest';
 import ReconciliationItem from './ReconciliationItem';
@@ -64,12 +64,12 @@ const ReconciliationList = () => {
             </Group>
             {
                 isLoading?
-                <TableLoadingSingle withImage={false} columns={7}/>: 
+                <TableLoadingSingle withImage={false} columns={6}/>: 
                 rows.length > 0 ? (
-                <Paper shadow="xs" p="sm" radius="lg">
-                    <Group justify="space-between" mb={10}>
+                <Paper shadow="xs" radius="lg">
+                    {/* <Group justify="space-between" mb={10}>
                         <TotalRecord count={rows.length} />
-                    </Group>
+                    </Group> */}
                     <ScrollArea>
                         <Table withRowBorders={true} highlightOnHover withColumnBorders={false} 
                         horizontalSpacing="sm" verticalSpacing="xs" miw={700} layout="fixed" mb={20}>
@@ -95,9 +95,9 @@ const ReconciliationList = () => {
                                 Categories
                                 </Table.Th>
                                 
-                                <Table.Th style={{ width: '160px' }}>
+                                {/* <Table.Th style={{ width: '160px' }}>
                                 Created by
-                                </Table.Th>
+                                </Table.Th> */}
                                 
                                 <Table.Th style={{ width: '60px' }}>
 

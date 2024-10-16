@@ -1,4 +1,4 @@
-import { Group, Text } from '@mantine/core'
+import { Group, Title } from '@mantine/core'
 import { PropsChildren } from '../requests/models/_general'
 import { BackButton } from './BackButton'
 
@@ -7,10 +7,10 @@ const PageTitle = ({title,back=true,children}:{title: string, back?: boolean, ch
     <>
     <Group wrap="wrap" justify="space-between" mb={20}>
       <>
-        <Text fw={400} fz={25} mr={20}>
+        <Title fw={400} fz={22} mr={20}>
           {back && <BackButton mr={15} />}
           {title}
-        </Text>
+        </Title>
       </>
         {children}
     </Group>

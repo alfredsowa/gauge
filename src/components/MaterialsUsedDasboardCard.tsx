@@ -18,7 +18,7 @@ const MaterialsUsedDasboardCard = ({material,last=false}:{material: MostUsedMate
                   />
               </Indicator>
               {/* <div> */}
-                <Text fz="md" fw={600}>
+                <Text fz="md" fw={500}>
                   {material.material_name} <br />
                   <Group justify='space-between'>
                   <Text c="dimmed">

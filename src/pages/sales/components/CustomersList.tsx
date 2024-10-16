@@ -9,7 +9,7 @@ import Empty from '../../../components/Empty';
 import { notify } from '../../../requests/general/toast';
 import { modals } from '@mantine/modals';
 import { deleteCustomer } from '../../../requests/_saleRequests';
-import TotalRecord from '../../../components/TotalRecord';
+// import TotalRecord from '../../../components/TotalRecord';
 import TableLoadingSingle from '../../../components/TableLoadingSingle';
 
 interface RowData {
@@ -262,10 +262,10 @@ const CustomersList = ({customers}:{customers: CustomerBasicModel[]|undefined}) 
             </Paper>
             {
                 rows.length > 0 ? (
-                <Paper shadow="xs" p="sm" radius="lg">
-                    <Group justify="space-between" mb={10}>
+                <Paper shadow="xs" radius="lg">
+                    {/* <Group justify="space-between" mb={10}>
                         <TotalRecord count={rows.length} />
-                    </Group>
+                    </Group> */}
                     <ScrollArea>
                     <Table.ScrollContainer minWidth={700}>
                         <Table withRowBorders={true} highlightOnHover withColumnBorders={false} horizontalSpacing="sm" verticalSpacing="xs" miw={700}>

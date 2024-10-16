@@ -65,7 +65,7 @@ const MaterialItem = ({row,materialsList,setMaterialsList}:{row: MaterialCollect
                         {/*           position="top-center" size={14}  withBorder processing color='red' inline*/}
                         {/*           label={<Text fz={12}>low</Text>}>*/}
                             <Avatar component={Link} to={`/materials/${row.id}/view`}
-                            size={50}
+                            size={40}
                             radius="md"
                             src={row.image}
                             />

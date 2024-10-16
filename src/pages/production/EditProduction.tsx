@@ -233,7 +233,7 @@ const EditProduction = () => {
       <Grid.Col span={{base:12, lg:5}}>
         {
           // isStringInArray(production.category,['training','sample']) || production.status !== 'backlog' ? (
-          isStringInArray(production.category,['training','sample']) || production.status !== 'backlog' ? (
+          isStringInArray(production.category,['training','sample','batch_product']) || production.status !== 'backlog' ? (
             <>
             {isStringInArray(production.type,['product','intermediate_good']) && isStringInArray(production.status,['in_progress','on_hold'])?
             (

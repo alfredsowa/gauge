@@ -61,11 +61,11 @@ const ReconciliationItem = ({row,deleteItem}:{row: ReconciliationModel,deleteIte
             </Text>
         </Table.Td>
 
-        <Table.Td>
+        {/* <Table.Td>
             <Text c="dimmed">
                 {row.user.firstname+" " + row.user.name}
             </Text>
-        </Table.Td>
+        </Table.Td> */}
 
         <Table.Td>
             <Menu shadow="md" width={200}>

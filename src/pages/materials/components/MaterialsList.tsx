@@ -4,7 +4,7 @@ import {
     Button,
     Flex,
     Grid,
-    Group,
+    // Group,
     keys,
     Paper,
     rem,
@@ -18,7 +18,7 @@ import { IconPlus, IconSearch, IconSortAscendingLetters, IconSortDescendingLette
 import Empty from '../../../components/Empty';
 import {Link, useSearchParams} from 'react-router-dom';
 import Categories from './Categories';
-import TotalRecord from '../../../components/TotalRecord';
+// import TotalRecord from '../../../components/TotalRecord';
 import MaterialItem from './MaterialItem';
 import FilterModal from './FilterModal';
 import {getMaterials} from "../../../requests/_materialsRequests.ts";
@@ -169,10 +169,10 @@ const MaterialsList = () => {
       {
         loading?<TableLoadingSingle withImage={true} columns={6} />:
         rows.length > 0 ? (
-          <Paper shadow="xs" p={10} radius="lg">
-          <Group justify="space-between" mb={10}>
+          <Paper shadow="xs" p={0} radius="lg">
+          {/* <Group justify="space-between" mb={10}>
             <TotalRecord count={rows.length} />
-          </Group>
+          </Group> */}
           <ScrollArea>
             <Table withRowBorders={true} highlightOnHover withColumnBorders={false} horizontalSpacing="sm" verticalSpacing="xs" miw={700} layout="fixed" mb={20}>
               <Table.Thead>

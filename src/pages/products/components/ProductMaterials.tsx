@@ -127,7 +127,7 @@ const ProductMaterials = ({product_id,prodMaterials,prodIntermediateGoods,setPro
     const generalInformation = useForm({
         mode: 'controlled',
         initialValues: {
-            material_type: 'Intermediate',
+            material_type: 'Material',
             material: 0,
             quantity: 0,
         },
@@ -354,7 +354,7 @@ const ProductMaterials = ({product_id,prodMaterials,prodIntermediateGoods,setPro
                                 // c={'dimmed'}
                                 // size="sm"
                                 label={
-                                    generalInformation.getValues().material_type == 'Material'? `Quantity in (${selectedMaterial?.unit_of_measurement})`:`Quantity in (Piece)`
+                                    generalInformation.getValues().material_type == 'Material'? `Quantity ${selectedMaterial?.unit_of_measurement?' in ('+selectedMaterial?.unit_of_measurement+')':''}`:`Quantity in (Piece)`
                                 }
                                 min={0}
                                 step={0.01}

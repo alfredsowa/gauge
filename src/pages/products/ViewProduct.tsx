@@ -1,10 +1,10 @@
 import { LinkItem } from '../../requests/models/_general'
 import PageBreadCrumb from '../../components/PageBreadCrumb'
-import { Avatar, Button, Grid, Group, Text } from '@mantine/core'
+import { Avatar, Button, Grid, Group, Table, Text } from '@mantine/core'
 import { Link, useLoaderData, useNavigate } from 'react-router-dom'
 import { ProductCost, ProductModel } from '../../requests/models/_product'
 import { DefaultDate } from '../../requests/general/_dates'
-import { MoneyFigure, PrettyFigure, PrettyPercentage } from '../../requests/general/_numberHelper'
+import { PrettyFigure, PrettyPercentage } from '../../requests/general/_numberHelper'
 import { modals } from '@mantine/modals'
 import { deleteProduct } from '../../requests/_productRequests'
 import { notify } from '../../requests/general/toast'
@@ -16,6 +16,8 @@ import PaperCardBody from '../../components/PaperCardBody'
 import ProductMaterials from './components/ProductMaterials'
 import ProductCostAndPricing from './components/ProductCostAndPricing'
 import { useEffect, useState } from 'react'
+import StatusBadge from '../../components/StatusBadge'
+import product_image from '../../assets/images/no-product.jpg';
     
 const items: Array<LinkItem> = [
     { title: 'Dashboard', href: '/dashboard' },
@@ -27,6 +29,8 @@ const ViewProduct = () => {
     const [productCosts, setProductCosts] = useState<ProductCost>();
     const navigate  = useNavigate()
     const getProductData = useLoaderData() as ProductModel;
+
+    console.log(getProductData)
 
     useEffect(() =>{
         const prodCost = () => {
@@ -111,7 +115,7 @@ const ViewProduct = () => {
                             <Grid.Col span={{ base: 12, sm: 4, md: 6, lg: 6 }}>
                                 <Avatar radius={14} style={{ maxWidth: 'auto', minWidth:'150px',
                                     maxHeight: '200px', minHeight:'150px' }}
-                                        src={getProductData.image}  />
+                                        src={getProductData.image?getProductData.image:product_image}  />
                             </Grid.Col>
                             <Grid.Col span={{ base: 12, sm: 6, md: 12, lg: 6 }}>
                                 <Grid>
@@ -138,7 +142,45 @@ const ViewProduct = () => {
                                         )}
                                         </Group>
                                     </Grid.Col>
-                                    <Grid.Col span={12}>
+                                    <Grid.Col span={{ base: 12 }}>
+                                        <Group justify='space-between'>
+                                            <Text size='sm' c={'dimmed'}>Stock Quantity:</Text>
+                                            <Text size='sm'>
+                                                {
+                                                    (getProductData.stock_quantity <= 0)?
+                                                        (
+                                                            <>
+                                                                <PrettyFigure figure={getProductData.stock_quantity} />
+                                                                <Text size='sm' component='span' mx={4} fw={600} c={'red'}>
+                                                                    - Out of stock
+                                                                </Text>
+                                                            </>):
+                                                        (getProductData.min_stock_quantity > getProductData.stock_quantity)?
+                                                            (
+                                                                <>
+                                                                    <PrettyFigure figure={getProductData.stock_quantity} />
+                                                                    <Text size='sm' component='span' mx={4} fw={600} c={'yellow'}>
+                                                                        - Almost out of stock
+                                                                    </Text>
+                                                                </>):
+                                                            (
+                                                                <>
+                                                                    <PrettyFigure figure={getProductData.stock_quantity} />
+                                                                    <Text size='sm' component='span' mx={4} fw={600} c={'green'}>
+                                                                        - In stock
+                                                                    </Text>
+                                                                </>)
+                                                }
+                                            </Text>
+                                        </Group>
+                                    </Grid.Col>
+                                    <Grid.Col span={{ base: 12 }}>
+                                        <Group justify='space-between'>
+                                            <Text size='sm' c={'dimmed'}>Minimum Stock Quantity:</Text>
+                                            <Text size='sm'><PrettyFigure figure={getProductData.min_stock_quantity} /></Text>
+                                        </Group>
+                                    </Grid.Col>
+                                    {/* <Grid.Col span={12}>
                                         <Group justify='space-between'>
                                         <Text size='sm' c={'dimmed'}>Retail Price:</Text>
                                         <Text size='sm'><MoneyFigure figure={getProductData.price}  /></Text>
@@ -149,13 +191,13 @@ const ViewProduct = () => {
                                         <Text size='sm' c={'dimmed'}>Wholesale Price:</Text>
                                         <Text size='sm'><MoneyFigure figure={getProductData.wholesale_price}  /></Text>
                                         </Group>
-                                    </Grid.Col>
-                                    <Grid.Col span={12}>
+                                    </Grid.Col> */}
+                                    {/* <Grid.Col span={12}>
                                         <Group justify='space-between'>
                                         <Text size='sm' c={'dimmed'}>Production Cost:</Text>
                                         <Text size='sm'><MoneyFigure figure={getProductData.production_cost}  /></Text>
                                         </Group>
-                                    </Grid.Col>
+                                    </Grid.Col> */}
                                 </Grid>
                             </Grid.Col>
                             <Grid.Col span={{ base: 12, sm: 6, md: 12, lg: 6 }}>
@@ -164,44 +206,7 @@ const ViewProduct = () => {
                                     <Text size='sm'>{getProductData.sku?getProductData.sku:"N/A"}</Text>
                                 </Group>
                             </Grid.Col>
-                            <Grid.Col span={{ base: 12, sm: 6, md: 12, lg: 6 }}>
-                                <Group justify='space-between'>
-                                    <Text size='sm' c={'dimmed'}>Stock Quantity:</Text>
-                                    <Text size='sm'>
-                                        {
-                                            (getProductData.stock_quantity <= 0)?
-                                                (
-                                                    <>
-                                                        <PrettyFigure figure={getProductData.stock_quantity} />
-                                                        <Text size='sm' component='span' mx={4} fw={600} c={'red'}>
-                                                            - Out of stock
-                                                        </Text>
-                                                    </>):
-                                                (getProductData.min_stock_quantity > getProductData.stock_quantity)?
-                                                    (
-                                                        <>
-                                                            <PrettyFigure figure={getProductData.stock_quantity} />
-                                                            <Text size='sm' component='span' mx={4} fw={600} c={'yellow'}>
-                                                                - Almost out of stock
-                                                            </Text>
-                                                        </>):
-                                                    (
-                                                        <>
-                                                            <PrettyFigure figure={getProductData.stock_quantity} />
-                                                            <Text size='sm' component='span' mx={4} fw={600} c={'green'}>
-                                                                - In stock
-                                                            </Text>
-                                                        </>)
-                                        }
-                                    </Text>
-                                </Group>
-                            </Grid.Col>
-                            <Grid.Col span={{ base: 12, sm: 6, md: 12, lg: 6 }}>
-                                <Group justify='space-between'>
-                                    <Text size='sm' c={'dimmed'}>Minimum Stock Quantity:</Text>
-                                    <Text size='sm'><PrettyFigure figure={getProductData.min_stock_quantity} /></Text>
-                                </Group>
-                            </Grid.Col>
+                            
                             <Grid.Col span={{ base: 12, sm: 6, md: 12, lg: 6 }}>
                                 <Group justify='space-between'>
                                 <Text size='sm' c={'dimmed'}>Discount:</Text>
@@ -233,19 +238,70 @@ const ViewProduct = () => {
                         </Grid>
                     </PaperCardBody>
                 </PaperCard>
+                <PaperCard>
+                    <PaperCardHeader>
+                        <Text fw={'bold'} fz={'md'}>
+                            Production History
+                        </Text>
+                    </PaperCardHeader>
+                    <PaperCardBody>
+                        {
+                            getProductData.productions &&
+                            getProductData.productions?.length > 0 ? (
+                                <Table.ScrollContainer minWidth={500}>
+                                    <Table striped withColumnBorders={false} withRowBorders={false}>
+                                        <Table.Thead>
+                                            <Table.Tr>
+                                            <Table.Th><Text>Title</Text></Table.Th>
+                                            <Table.Th><Text>Status</Text></Table.Th>
+                                            <Table.Th w={100}><Text>Quantity</Text></Table.Th>
+                                            <Table.Th w={150}><Text>Start Date</Text></Table.Th>
+                                            </Table.Tr>
+                                        </Table.Thead>
+                                        <Table.Tbody>
+                                            {
+                                                getProductData.productions.map((productions) => {
+                                                    return (
+                                                        <Table.Tr>
+                                                            <Table.Td>
+                                                                <Text>{productions.title}</Text>
+                                                            </Table.Td>
+                                                            <Table.Td>
+                                                                <Text><StatusBadge status={productions.status} /></Text>
+                                                            </Table.Td>
+                                                            <Table.Td>
+                                                                <Text><PrettyFigure figure={productions.production_quantity}  /></Text>
+                                                            </Table.Td>
+                                                            <Table.Td>
+                                                                <Text><DefaultDate dateFormat={productions.start_date} /></Text>
+                                                            </Table.Td>
+                                                        </Table.Tr>
+                                                    )
+                                                })
+                                            }
+                                        </Table.Tbody>
+                                    </Table>
+                                </Table.ScrollContainer>
+                            ):(
+                                <Text c={'dimmed'}>No Production records</Text>
+                            )
+                        }
+                        
+                    </PaperCardBody>
+                </PaperCard>
             </Grid.Col>
 
             <Grid.Col span={{ base: 12, lg: 5 }} id='product_materials'>
             <PaperCard>
-            <PaperCardHeader>
-              <Text fw={'bold'} fz={'md'}>
-                Cost & Pricing
-              </Text>
-            </PaperCardHeader>
-            <PaperCardBody>
-              <ProductCostAndPricing productCosts={productCosts} product={getProductData}/>
-            </PaperCardBody>
-          </PaperCard>
+                <PaperCardHeader>
+                <Text fw={'bold'} fz={'md'}>
+                    Cost & Pricing
+                </Text>
+                </PaperCardHeader>
+                <PaperCardBody>
+                <ProductCostAndPricing productCosts={productCosts} product={getProductData}/>
+                </PaperCardBody>
+            </PaperCard>
             <PaperCard>
                 <PaperCardHeader>
                     <Text fw={'bold'} fz={'md'}>

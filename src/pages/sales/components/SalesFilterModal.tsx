@@ -81,8 +81,8 @@ const SalesFilterModal = ({searchParams, setSearchParams}:{setSearchParams:(para
         
     </Modal>
     <Button variant="light" color="gauge-primary" onClick={openFilter} 
-       aria-label="Filter" ml={10}>
-        <IconAdjustmentsHorizontal size={20} />
+       aria-label="Filter" ml={10} leftSection={<IconAdjustmentsHorizontal size={20} />}>
+        Filter
     </Button>
     </>
   )

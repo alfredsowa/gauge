@@ -49,6 +49,9 @@ const ProductionForm = ({productionInformation, assignees, products, intermediat
         },
         [assignees]
     );
+
+    console.log(getProductionData);
+    
   
     const productsOptions = useMemo(
         () => {
@@ -115,7 +118,7 @@ const ProductionForm = ({productionInformation, assignees, products, intermediat
 
                     {/* Production Type */}
                     {
-                        isStringInArray(category,['product'])?(
+                        isStringInArray(category,['product','batch_product'])?(
                             <>
                             {/* Type */}
                             <Grid.Col pt={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
@@ -195,8 +198,8 @@ const ProductionForm = ({productionInformation, assignees, products, intermediat
                         thousandSeparator=","
                         // c={'dimmed'}
                         // size="sm"
-                        required
-                        withAsterisk
+                        required={getProductionData?.category !== 'batch_product'}
+                        withAsterisk={getProductionData?.category !== 'batch_product'}
                         label="Quantity to Produce"
                         min={1}
                         placeholder="1"
@@ -234,24 +237,6 @@ const ProductionForm = ({productionInformation, assignees, products, intermediat
                     }
                     {/* labour_cost % */}
 
-
-                    {/* Estimated Hours */}
-                    <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
-                        <NumberInput
-                        {...productionInformation.getInputProps('estimated_hours')}
-                        key={productionInformation.key('estimated_hours')}
-                        radius={"md"}
-                        variant="filled"
-                        // c={'dimmed'}
-                        min={0}
-                        step={0.1}
-                        // size="sm"
-                        label="Estimated Hours per item"
-                        // label={(<TextLabelWithToolTip label={"Estimated Hours per item"} title={"How long do you estimate each item must take?"}  />)}
-                        placeholder="0"
-                        />
-                    </Grid.Col>
-
                     {/* Assignee */}
                     <Grid.Col pt={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
                         <Select
@@ -270,6 +255,24 @@ const ProductionForm = ({productionInformation, assignees, products, intermediat
                         data={assigneesOptions}
                         searchable
                         nothingFoundMessage={(<Anchor px={15}>Add Employee</Anchor>)}
+                        />
+                    </Grid.Col>
+
+
+                    {/* Estimated Hours */}
+                    <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
+                        <NumberInput
+                        {...productionInformation.getInputProps('estimated_hours')}
+                        key={productionInformation.key('estimated_hours')}
+                        radius={"md"}
+                        variant="filled"
+                        // c={'dimmed'}
+                        min={0}
+                        step={0.1}
+                        // size="sm"
+                        label="Estimated Hours per item"
+                        // label={(<TextLabelWithToolTip label={"Estimated Hours per item"} title={"How long do you estimate each item must take?"}  />)}
+                        placeholder="0"
                         />
                     </Grid.Col>
 

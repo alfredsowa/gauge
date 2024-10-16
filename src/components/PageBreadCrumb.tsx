@@ -11,7 +11,7 @@ const PageBreadCrumb = ({pageBreadCrumbs}:{pageBreadCrumbs: Array<LinkItem>}) =>
   ))
   return (
     <>
-      <Breadcrumbs separator="-" px={3} py={3} separatorMargin={7}>
+      <Breadcrumbs separator="/" px={3} py={3} separatorMargin={7}>
           {menus}
       </Breadcrumbs>
     </>

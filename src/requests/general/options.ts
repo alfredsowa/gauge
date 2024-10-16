@@ -17,12 +17,19 @@ export const priorityOptions = ['low', 'normal','critical']
 
 export const productionTypeOptions = ['intermediate_good', 'product']
 
-export const productionCategoryOptions = ['product', 'sample','training']
+export const productionCategoryOptions = ['product', 
+    // 'batch_product', 
+    'sample','training']
 export const productionCategoryList = [
-     {
+    {
         name: 'product',
         label: 'Allows for labour cost and estimated time. The items produced are added to inventory.',
-    },{
+    },
+    // {
+    //     name: 'batch_product',
+    //     label: 'Similar to Product but does not allow for product quantity. The quantity is determined at the end of the production.',
+    // },
+    {
         name:'sample',
         label: 'Items produced does not update inventory and allows for labour cost only. It is suitable for testing out new designs or products.',
     },{

@@ -126,7 +126,7 @@ const AddProductionModal = () => {
             key={generalInformation.key('category')}
             name="category"
             label="Select production category"
-            description="This is anonymous"
+            // description="This is anonymous"
             withAsterisk
             mb={30}
             >

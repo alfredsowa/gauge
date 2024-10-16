@@ -16,7 +16,7 @@ const ProductionDasboardCard = ({production,last=false}:{
           {/* <Skeleton visible={cardAnalyticsLoading} mb={5} > */}
             <Card py={10} bg={'transparent'} px={15} key={production.id} mb={0} style={{cursor: 'pointer'}} 
               component={Link} to={`/productions/${production.id}/view`} radius={'none'} withBorder={false} shadow='none'>
-              <Text fw={600}>
+              <Text fw={500}>
               <PriorityDot priority={production.priority} /> {production.title} 
               </Text>
               <Group justify='space-between'>

@@ -12,7 +12,7 @@ const ProductCostAndPricing = ({product,productCosts}:{product: ProductModel|und
         if(!product?.use_manual_pricing) {
 
             if(product && productCosts) {
-                wholesale_price = productCosts.materials_cost * Number(product.wholesale_markup)
+                wholesale_price = productCosts.total_cost_of_goods * Number(product.wholesale_markup)
                 retail_price = wholesale_price * Number(product.retail_markup)
             }
         
@@ -25,11 +25,15 @@ const ProductCostAndPricing = ({product,productCosts}:{product: ProductModel|und
     <Text mb={15}>
         The Wholesale and Retail Prices varies based on your pricing settings.
     </Text>
-      <Table withColumnBorders striped withTableBorder verticalSpacing="md">
+      <Table withColumnBorders striped withTableBorder>
       <Table.Tbody>
         <Table.Tr>
             <Table.Th>Cost of Materials</Table.Th>
             <Table.Td><MoneyFigure figure={productCosts?.materials_cost}  /></Table.Td>
+        </Table.Tr>
+        <Table.Tr>
+            <Table.Th>Labour Cost</Table.Th>
+            <Table.Td><MoneyFigure figure={product?.labour_cost}  /></Table.Td>
         </Table.Tr>
         <Table.Tr>
             <Table.Th>Overhead Cost</Table.Th>

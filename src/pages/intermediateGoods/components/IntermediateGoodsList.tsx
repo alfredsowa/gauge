@@ -10,7 +10,7 @@ import { modals } from '@mantine/modals';
 import { IntermediateGoodBasicModel, IntermediateGoodMaterialsModel } from '../../../requests/models/_intermediateGood.tsx';
 import { deleteIntermediateGood, duplicateIntermediateGood } from '../../../requests/_intermediateGoodsRequests.ts';
 // import { DefaultReadableDate } from '../../../requests/general/_dates';
-import TotalRecord from '../../../components/TotalRecord';
+// import TotalRecord from '../../../components/TotalRecord';
 // import TableLoadingSingle from '../../../components/TableLoadingSingle';
 import AddIntermediateGoodsModal from "./AddIntermediateGoodsModal.tsx";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -282,11 +282,11 @@ const IntermediateGoodsList = ({intermediateGoods}:{intermediateGoods: Intermedi
                   </Text>
                 </Table.Td>
 
-                <Table.Td ta={'left'}>
+                {/* <Table.Td ta={'left'}>
                     <Text c={'dimmed'}>
                         <Text c={'dimmed'} component='span' fw={600}><MoneyFigure figure={row.labour_cost} /></Text>
                     </Text>
-                </Table.Td>
+                </Table.Td> */}
 
                 <Table.Td ta={'left'}>
                     <Menu shadow="md" width={200}>
@@ -357,8 +357,8 @@ const IntermediateGoodsList = ({intermediateGoods}:{intermediateGoods: Intermedi
             </Paper>
             {
               rows.length > 0 ? (
-              <Paper shadow="xs" p="sm" radius="lg">
-              <TotalRecord count={rows.length} />
+              <Paper shadow="xs"  radius="lg">
+              {/* <TotalRecord count={rows.length} /> */}
                   <ScrollArea>
                       <Table withRowBorders={true} highlightOnHover withColumnBorders={false} horizontalSpacing="sm" verticalSpacing="xs" miw={700} layout="fixed">
                           <Table.Thead>
@@ -383,9 +383,9 @@ const IntermediateGoodsList = ({intermediateGoods}:{intermediateGoods: Intermedi
                                 Materials Cost
                               </Table.Th>
                               
-                              <Table.Th style={{ width: '150px' }} ta={'left'}>
+                              {/* <Table.Th style={{ width: '150px' }} ta={'left'}>
                                 Labour Cost
-                              </Table.Th>
+                              </Table.Th> */}
 
                               <Table.Th style={{ width: '60px' }} ta={'left'}>
 

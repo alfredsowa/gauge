@@ -14,6 +14,7 @@ import PaperCardHeader from '../../components/PaperCardHeader'
 import { IconPencil, IconTrash } from '@tabler/icons-react'
 import PaperCardBody from '../../components/PaperCardBody'
 import IntermediateGoodsMaterialsView from './components/IntermediateGoodsMaterialsView.tsx'
+import StatusBadge from '../../components/StatusBadge.tsx'
     
 const items: Array<LinkItem> = [
     { title: 'Dashboard', href: '/dashboard' },
@@ -201,13 +202,13 @@ const ViewIntermediateGood = () => {
                         {
                             getIntermediateGoodData.productions?.length > 0 ? (
                                 <Table.ScrollContainer minWidth={500}>
-                                    <Table striped withColumnBorders withRowBorders={false}>
+                                    <Table striped withColumnBorders={false} withRowBorders={false}>
                                         <Table.Thead>
                                             <Table.Tr>
                                             <Table.Th><Text>Title</Text></Table.Th>
-                                            <Table.Th><Text>Assignee</Text></Table.Th>
+                                            <Table.Th><Text>Status</Text></Table.Th>
                                             <Table.Th w={100}><Text>Quantity</Text></Table.Th>
-                                            <Table.Th w={150}><Text>Date</Text></Table.Th>
+                                            <Table.Th w={150}><Text>Start Date</Text></Table.Th>
                                             </Table.Tr>
                                         </Table.Thead>
                                         <Table.Tbody>
@@ -219,13 +220,13 @@ const ViewIntermediateGood = () => {
                                                                 <Text>{productions.title}</Text>
                                                             </Table.Td>
                                                             <Table.Td>
-                                                                <Text>{productions.status}</Text>
-                                                            </Table.Td>
-                                                            <Table.Td>
-                                                                <Text>{productions.first_name+" "+productions.last_name}</Text>
+                                                                <Text><StatusBadge status={productions.status} /></Text>
                                                             </Table.Td>
                                                             <Table.Td>
                                                                 <Text><PrettyFigure figure={productions.production_quantity}  /></Text>
+                                                            </Table.Td>
+                                                            <Table.Td>
+                                                                <Text><DefaultDate dateFormat={productions.start_date} /></Text>
                                                             </Table.Td>
                                                         </Table.Tr>
                                                     )

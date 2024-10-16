@@ -1,6 +1,6 @@
 import { Avatar, Group, Table, Text} from '@mantine/core'
 import { useMemo } from 'react'
-import { MoneyFigure, PrettyFigure } from '../../../requests/general/_numberHelper'
+import { GetWithUnit, MoneyFigure, PrettyFigure } from '../../../requests/general/_numberHelper'
 import { IntermediateGoodMaterialsModel } from '../../../requests/models/_intermediateGood'
 
 const IntermediateGoodsMaterialsView = ({prodMaterials}:{prodMaterials: IntermediateGoodMaterialsModel[]|undefined}) => {
@@ -29,7 +29,7 @@ const IntermediateGoodsMaterialsView = ({prodMaterials}:{prodMaterials: Intermed
 
         {/* <Grid gutter={'md'}> */}
         <Table.ScrollContainer minWidth={500}>
-        <Table striped withColumnBorders withRowBorders={false}>
+        <Table striped withColumnBorders={false} withRowBorders={false}>
             <Table.Thead>
                 <Table.Tr>
                 <Table.Th>Material</Table.Th>
@@ -68,7 +68,7 @@ const IntermediateGoodsMaterialsView = ({prodMaterials}:{prodMaterials: Intermed
                                 <Avatar src={material.image} size={40} radius={10}>MT</Avatar>
                                 <Text>{material.name}</Text>
                                 </Group></Table.Td>
-                            <Table.Td><Text><PrettyFigure figure={material.quantity} /></Text></Table.Td>
+                            <Table.Td><Text><GetWithUnit figure={material.quantity} unit={material.unit_of_measurement} /></Text></Table.Td>
                             <Table.Td><Text><MoneyFigure figure={Number(material.quantity)*Number(material.cost_per_unit)} /></Text></Table.Td>
                       </Table.Tr>
                     // </Grid.Col>

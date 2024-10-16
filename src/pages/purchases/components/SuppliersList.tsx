@@ -10,7 +10,7 @@ import AddSupplierModal from './AddSupplierModal';
 import { notify } from '../../../requests/general/toast';
 import EditSupplierModal from './EditSupplierModal';
 import ViewSupplierModal from './ViewSupplierModal';
-import TotalRecord from '../../../components/TotalRecord';
+// import TotalRecord from '../../../components/TotalRecord';
 import TableLoadingSingle from '../../../components/TableLoadingSingle';
 
 interface RowData {
@@ -254,10 +254,10 @@ const SuppliersList = ({supplierList, setSupplierList}:{supplierList: SupplierBa
             </Paper>
             {
                 rows.length > 0 ? (
-                    <Paper shadow="xs" p="sm" radius="lg">
-                    <Group justify="space-between" mb={10}>
+                    <Paper shadow="xs" radius="lg">
+                    {/* <Group justify="space-between" mb={10}>
                     <TotalRecord count={rows.length} />
-                    </Group>
+                    </Group> */}
                     <ScrollArea>
                         <Table withRowBorders={true} highlightOnHover withColumnBorders={false} horizontalSpacing="sm" verticalSpacing="xs" mb={20} miw={700} layout="fixed">
                             <Table.Thead>

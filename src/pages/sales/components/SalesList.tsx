@@ -13,7 +13,7 @@ import { DefaultDateTime } from '../../../requests/general/_dates';
 import SaleStatusBadge from '../../../components/SaleStatusBadge';
 import { isStringInArray } from '../../../requests/general/_stringHelper';
 import PaymentStatusBadge from '../../../components/PaymentStatusBadge';
-import TotalRecord from '../../../components/TotalRecord';
+// import TotalRecord from '../../../components/TotalRecord';
 import TableLoadingSingle from '../../../components/TableLoadingSingle';
 import SalesFilterModal from './SalesFilterModal';
 import { useQuery } from '@tanstack/react-query';
@@ -215,11 +215,11 @@ const SalesList = () => {
                     {row.order_status}
                     </Text> */}
                 </Table.Td>
-                <Table.Td>
+                {/* <Table.Td>
                     <Text c="dimmed">
                     {row.sold_by}
                     </Text>
-                </Table.Td>
+                </Table.Td> */}
                 <Table.Td>
                     <Text c="dimmed">
                         <DefaultDateTime dateFormat={row.sale_date_time}  />
@@ -306,12 +306,12 @@ const SalesList = () => {
                 </Grid>
             </Paper>
             {
-                isLoading||loading? <TableLoadingSingle withImage={true} columns={7}/>:
+                isLoading||loading? <TableLoadingSingle withImage={true} columns={6}/>:
                 rows.length > 0 ? (
-                <Paper shadow="xs" p="sm" radius="lg">
-                    <Group justify="space-between" mb={10}>
+                <Paper shadow="xs" radius="lg">
+                    {/* <Group justify="space-between" mb={10}>
                         <TotalRecord count={rows.length} />
-                    </Group>
+                    </Group> */}
                     <ScrollArea>
                         <Table.ScrollContainer minWidth={700}>
                             <Table withRowBorders={true} highlightOnHover withColumnBorders={false} horizontalSpacing="sm" verticalSpacing="xs" miw={700} layout="fixed">
@@ -327,9 +327,9 @@ const SalesList = () => {
                                     <Table.Th style={{ width: '120px' }}>
                                     Status
                                     </Table.Th>
-                                    <Table.Th style={{ width: '200px' }}>
+                                    {/* <Table.Th style={{ width: '200px' }}>
                                     Sold By
-                                    </Table.Th>
+                                    </Table.Th> */}
                                     <Table.Th style={{ width: '180px' }}>
                                     Date Sold
                                     </Table.Th>

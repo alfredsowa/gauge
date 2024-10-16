@@ -83,8 +83,8 @@ const FilterModal = ({setSearchParams}:{setSearchParams:(params: { categories: s
         </Group>
         
     </Modal>
-    <Button variant="light" color="gauge-primary" onClick={openFilter} aria-label="Filter">
-        <IconAdjustmentsHorizontal size={20} />
+    <Button variant="outline" color="gauge-primary" leftSection={<IconAdjustmentsHorizontal size={20} />} onClick={openFilter} aria-label="Filter">
+         Filter
     </Button>
     </>
   )

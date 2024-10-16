@@ -166,9 +166,9 @@ const Dashboard = () => {
       <PageTitle back={false} title='Dashboard' />
 
       <Group mb={10} justify="space-between">
-        <Text mx={5} fw={500}>Quick monthly comparison analysis</Text>
+        <Text mx={5} fw={400}>Quick monthly comparison analysis</Text>
         <Group>
-          <Text mx={5} fw={500}>Select Month </Text>
+          <Text mx={5} fw={400}>Select Month </Text>
           <MonthPickerInput
             w={200}
             leftSection={icon}
@@ -206,7 +206,7 @@ const Dashboard = () => {
             ):
             <PaperCard height={290}>
               <PaperCardHeader>
-                <Text fz="lg" fw={600} >
+                <Text fz="md" fw={600} >
                   Most Products Produced in {getFullMonth(Number(monthSelected))}
                 </Text>
                 {/* <ActionIcon variant="subtle" color="gray">
@@ -266,7 +266,7 @@ const Dashboard = () => {
             ):
             <PaperCard height={290}>
               <PaperCardHeader>
-                <Text fz="lg" fw={600} >
+                <Text fz="md" fw={600} >
                   Top Moving Products in {getFullMonth(Number(monthSelected))}
                 </Text>
                 {/* <ActionIcon variant="subtle" color="gray">
@@ -328,7 +328,7 @@ const Dashboard = () => {
             ):
             <PaperCard height={410}>
               <PaperCardHeader>
-                <Text fz="lg" fw={600} >
+                <Text fz="md" fw={600} >
                   Channels Rate in {getFullMonth(Number(monthSelected))}
                 </Text>
                 {/* <ActionIcon variant="subtle" color="gray">
@@ -381,7 +381,7 @@ const Dashboard = () => {
             ):
             <PaperCard height={410}>
               <PaperCardHeader>
-                <Text fz="lg" fw={600} >
+                <Text fz="md" fw={600} >
                   Most Used Materials in {getFullMonth(Number(monthSelected))}
                 </Text>
                 {/* <ActionIcon variant="subtle" color="gray">
@@ -416,7 +416,7 @@ const Dashboard = () => {
             ):
             <PaperCard height={410}>
               <PaperCardHeader>
-                <Text fz="lg" fw={600} >
+                <Text fz="md" fw={600} >
                   Latest Productions
                 </Text>
                 {/* <ActionIcon variant="subtle" color="gray">

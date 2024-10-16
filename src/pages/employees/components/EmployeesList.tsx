@@ -10,7 +10,7 @@ import { modals } from '@mantine/modals';
 import { EmployeeModel } from '../../../requests/models/_employee';
 import { deleteEmployee, employeesLoader } from '../../../requests/_employeeRequests';
 import { notify } from '../../../requests/general/toast';
-import TotalRecord from '../../../components/TotalRecord';
+// import TotalRecord from '../../../components/TotalRecord';
 import { DefaultReadableDate } from '../../../requests/general/_dates';
 import TableLoadingSingle from '../../../components/TableLoadingSingle';
 import { useQuery } from '@tanstack/react-query';
@@ -277,10 +277,10 @@ const EmployeesList = () => {
             {
                 isLoading||loading? <TableLoadingSingle withImage={true} columns={5}/>:
                 rows.length > 0 ? (
-                <Paper shadow="xs" p="sm" radius="lg">
-                    <Group justify="space-between" mb={10}>
+                <Paper shadow="xs" radius="lg">
+                    {/* <Group justify="space-between" mb={10}>
                         <TotalRecord count={rows.length} />
-                    </Group>
+                    </Group> */}
                     <ScrollArea>
                         <Table withRowBorders={true} highlightOnHover withColumnBorders={false} horizontalSpacing="sm" verticalSpacing="xs" miw={700} layout="fixed">
                             <Table.Thead>

@@ -67,17 +67,17 @@ const AddPurchase = () => {
   const handleSubmit = async(values: typeof generalInformation.values) => {
     
     const data = {
-      material_id: parseInt(values.material),
-      supplier_id: parseInt(values.supplier_id),
+      material_id: Number(values.material),
+      supplier_id: Number(values.supplier_id),
       purchase_date: values.purchase_date,
       status: values.status,
-      quantity: parseInt(values.quantity),
-      actual_quantity: parseInt(values.actual_quantity),
-      unit_price: parseInt(values.unit_price),
-      amount_paid: parseInt(values.amount_paid),
-      discounts: parseInt(values.discounts),
+      quantity: Number(values.quantity),
+      actual_quantity: Number(values.actual_quantity),
+      unit_price: Number(values.unit_price),
+      amount_paid: Number(values.amount_paid),
+      discounts: Number(values.discounts),
       purchase_details: values.purchase_details,
-      shipping: parseInt(values.shipping),
+      shipping: Number(values.shipping),
       invoice_number: values.invoice_number,
       notes: values.notes,
     }

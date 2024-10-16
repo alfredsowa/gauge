@@ -374,12 +374,12 @@ const AddMaterial = () => {
             <Grid.Col pt={30} pb={5} span={{ base: 12, sm: 12, md: 12, lg: 12 }}>
               <Divider mb={5} label="Tracking Metrics" labelPosition="left" />
               <Alert variant="light" color="blue" radius="md" title="How it works" icon={<IconInfoCircle />}>
-                  <strong>Tracking Measurement Unit :</strong> The measure of unit in which the materials are to be tracked. <br />
+                  <Text><strong>Tracking Measurement Unit :</strong> The measure of unit in which the materials are to be tracked. <br />
                   <strong>Cost Per Tracking Unit :</strong> The cost of material per tracking unit. <br />
                   <strong>Current Stock Level : </strong> The current quantity of materials available in stock. 
                   Enter the current stock level of your material in the selected Tracking Measurement Unit. 
                   If the Tracking Measurement Unit is different from the actual materials unit, convert the stock level accordingly and enter the equivalent.<br />
-                  <strong>Minimum Stock Level :</strong> The minimum quantity of materials that should be in stock. <br />
+                  <strong>Minimum Stock Level :</strong> The minimum quantity of materials that should be in stock. <br /></Text>
               </Alert>
             </Grid.Col>
 

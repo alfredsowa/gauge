@@ -10,7 +10,7 @@ import { notify } from '../../../requests/general/toast';
 import { isStringInArray, toHeadline } from '../../../requests/general/_stringHelper';
 import Priority from '../../../components/Priority';
 import StatusBadge from '../../../components/StatusBadge';
-import TotalRecord from '../../../components/TotalRecord';
+// import TotalRecord from '../../../components/TotalRecord';
 import { AxiosError } from 'axios';
 import ProductionFilterModal from './ProductionFilterModal';
 import { DefaultReadableDate } from '../../../requests/general/_dates';
@@ -234,13 +234,13 @@ const ProductionList = () => {
                     </Text>
                 </Table.Td>
 
-                <Table.Td>
+                {/* <Table.Td>
                     <Text c="dimmed">
                     {
                         row.assignee? 
                     (row.assignee?.first_name+" "+row.assignee?.last_name) : '-'}
                     </Text>
-                </Table.Td>
+                </Table.Td> */}
 
                 <Table.Td>
                     <Group>
@@ -330,12 +330,12 @@ const ProductionList = () => {
             </Paper>
 
             {
-                isLoading||loading? <TableLoadingSingle withImage={false} columns={7}/>:
+                isLoading||loading? <TableLoadingSingle withImage={false} columns={6}/>:
                 rows.length > 0 ? (
-                    <Paper shadow="xs" p="sm" radius="md">
-                        <Group justify="space-between" mb={10}>
+                    <Paper shadow="xs" radius="md">
+                        {/* <Group justify="space-between" mb={10}>
                             <TotalRecord count={rows.length} />
-                        </Group>
+                        </Group> */}
                             <ScrollArea>
                                 <Table withRowBorders={true} highlightOnHover withColumnBorders={false} horizontalSpacing="sm" verticalSpacing="xs" mb={20} miw={700} layout="fixed">
                                     <Table.Thead>
@@ -365,11 +365,11 @@ const ProductionList = () => {
                                             {/* <Text fw={500}>
                                             </Text> */}
                                         </Table.Th>
-                                        <Table.Th style={{ width: '150px' }}>
+                                        {/* <Table.Th style={{ width: '150px' }}>
                                                 Assignee
-                                            {/* <Text fw={500}>
-                                            </Text> */}
-                                        </Table.Th>
+                                            <Text fw={500}>
+                                            </Text>
+                                        </Table.Th> */}
                                         <Table.Th style={{ width: '60px' }}>
 
                                         </Table.Th>

@@ -1,5 +1,5 @@
-import { ActionIcon, Avatar, Center, Flex, Grid, Group, Menu, Paper, ScrollArea, Table, TableTdProps, Text, TextInput, UnstyledButton, keys, rem } from '@mantine/core';
-import { IconChevronDown, IconChevronRight, IconChevronUp, IconCopy, IconEdit, IconEye, IconSearch, IconSelector, IconTrash } from '@tabler/icons-react';
+import { ActionIcon, Anchor, Avatar, Center, Flex, Grid, Group, Menu, Paper, ScrollArea, Table, TableTdProps, Text, TextInput, UnstyledButton, keys, rem } from '@mantine/core';
+import { IconChevronDown, IconChevronRight, IconChevronUp, IconCopy, IconEdit, IconEye, IconLayoutGridFilled, IconList, IconSearch, IconSelector, IconTrash } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react'
 import classes from '../../purchases/assets/TableSelection.module.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,9 +9,11 @@ import { notify } from '../../../requests/general/toast';
 import { modals } from '@mantine/modals';
 import { ProductBasicModel } from '../../../requests/models/_product';
 import { deleteProduct, duplicateProduct, getProducts } from '../../../requests/_productRequests';
-import TotalRecord from '../../../components/TotalRecord';
+// import TotalRecord from '../../../components/TotalRecord';
 import TableLoadingSingle from '../../../components/TableLoadingSingle';
+import product_image from '../../../assets/images/no-product.jpg';
 import AddProductModal from "./AddProductModal.tsx";
+import ProductListGrid from './ProductListGrid.tsx';
 
 interface RowData {
   name: string;
@@ -88,6 +90,7 @@ const ProductsList = () => {
     const [sortBy, setSortBy] = useState<keyof ProductBasicModel>('name');
     const [reverseSortDirection, setReverseSortDirection] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [isGrid, setIsGrid] = useState(false);
     const navigate = useNavigate()
 
     useEffect(()=>{
@@ -103,6 +106,17 @@ const ProductsList = () => {
     useEffect(()=>{
         setSortedData(products);
     },[products])
+
+    useEffect(()=>{
+      const productGridToggle = localStorage.getItem('productGridToggle');
+      if(productGridToggle === 'true'){
+          setIsGrid(true);
+          // localStorage.setItem("productGridToggle", "true")
+      }else if(productGridToggle === 'false'){
+        setIsGrid(false);
+        // localStorage.setItem("productGridToggle", "false")
+      }
+    },[])
 
     const setSorting = (field: keyof RowData) => {
         const reversed = field === sortBy ? !reverseSortDirection : false;
@@ -189,13 +203,16 @@ const ProductsList = () => {
     });
     
     let rows: React.ReactElement<TableTdProps>[] = [];
+    let grids: React.ReactElement<TableTdProps>[] = [];
 
     if(sortedData) {
         rows = sortedData.map((row) => (
             <Table.Tr key={row.id}>
                 <Table.Td>
                   <Group gap="sm">
-                      <Avatar src={row.image} size={40} radius={10}>PD</Avatar>
+                    <Anchor component={Link} to={`/products/${row.slug}/view`}>
+                      <Avatar src={row.image?row.image:product_image} size={40} radius={10}>PD</Avatar>
+                      </Anchor>
                       <div>
                           <Text  fw={600}>
                           {row.name} 
@@ -219,12 +236,6 @@ const ProductsList = () => {
                     (<Text  c="dimmed"><Text component='span'  c={'yellow'}> Running out </Text> - <PrettyFigure figure={row.stock_quantity} /></Text>):
                     (<Text  c="dimmed"><Text component='span'  c={'green'}> In stock </Text> - <PrettyFigure figure={row.stock_quantity} /></Text>)
                   }
-                </Table.Td>
-
-                <Table.Td ta={'left'}>
-                  <Text  c="dimmed">
-                  <MoneyFigure figure={row.labour_cost} />
-                  </Text>
                 </Table.Td>
 
                 <Table.Td ta={'left'}>
@@ -290,6 +301,17 @@ const ProductsList = () => {
                 </Table.Td>
             </Table.Tr>
         ));
+
+        grids = sortedData.map((row) => (
+          <ProductListGrid key={row.id} row={row} duplicateProductData={duplicateProductData} openDeleteModal={openDeleteModal} />
+        ));
+    }
+
+    const toggleGrid = () => {
+      isGrid?localStorage.setItem("productGridToggle", "false"):localStorage.setItem("productGridToggle", "true");
+      setIsGrid(q=>!q);
+      console.log(isGrid)
+      console.log(localStorage.getItem('productGridToggle'))
     }
 
     return (
@@ -313,60 +335,81 @@ const ProductsList = () => {
                         direction="row"
                         wrap="wrap"
                     >
+                        {
+                          isGrid? (
+                            <ActionIcon size={'lg'} onClick={toggleGrid} variant='transparent'>
+                              <IconList  style={{ width: '80%', height: '80%' }} stroke={2.5} />
+                            </ActionIcon>
+                          ):(
+                            <ActionIcon size={'lg'} onClick={toggleGrid} variant='transparent'>
+                              <IconLayoutGridFilled  style={{ width: '80%', height: '80%' }} stroke={2.5} />
+                            </ActionIcon>
+                          )
+                        }
                         <AddProductModal />
-                        {/*<Button component={Link} to={'/products/add'} variant='filled'*/}
-                        {/*leftSection={<IconPlus size={16} />}>New Product</Button>*/}
+                        {/* <Button component={Link} to={'/products/add'} variant='filled'
+                        leftSection={<IconPlus size={16} />}>New Product</Button> */}
                     </Flex>
                 </Grid.Col>
             </Grid>
         </Paper>
         {
-          loading?<TableLoadingSingle withImage={true} columns={6} />:
-          rows.length > 0 ? (
-          <Paper shadow="xs" p="sm" radius="lg">
-            <Group justify="space-between" mb={10}>
-              <TotalRecord count={rows.length} />
-            </Group>
-              <ScrollArea>
-                <Table withRowBorders={true} highlightOnHover withColumnBorders={false} horizontalSpacing="sm" verticalSpacing="xs" miw={700} layout="fixed">
-                    <Table.Thead>
-                    <Table.Tr>
-                        <Th 
-                        sorted={sortBy === 'name'}
-                        reversed={reverseSortDirection}
-                        onSort={() => setSorting('name')}
-                        >
-                        Name
-                        </Th>
-                        
-                        <Table.Th style={{ width: '120px' }} ta={'left'}>
-                          Current Stock
-                        </Table.Th>
-                        
-                        <Table.Th style={{ width: '120px' }} ta={'left'}>
-                          Labour
-                        </Table.Th>
-                        
-                        <Table.Th style={{ width: '120px' }} ta={'left'}>
-                          Wholesale
-                        </Table.Th>
-                        
-                        <Table.Th style={{ width: '120px' }} ta={'left'}>
-                          Retail
-                        </Table.Th>
-                        <Table.Th style={{ width: '60px' }} ta={'left'}>
+          loading?
+          <TableLoadingSingle withImage={true} columns={5} />:
+          rows.length > 0 ? 
+          isGrid? (
+            <Grid align="stretch">
+              {grids}
+            </Grid>):
+          (
+            <Paper shadow="xs" radius="lg">
+              {/* <Group justify="space-between" mb={10}>
+                <TotalRecord count={rows.length} />
+              </Group> */}
+                <ScrollArea>
+                  <Table withRowBorders={true} highlightOnHover withColumnBorders={false} horizontalSpacing="sm" verticalSpacing="xs" miw={700} layout="fixed">
+                      <Table.Thead>
+                      <Table.Tr>
+                          <Th 
+                          sorted={sortBy === 'name'}
+                          reversed={reverseSortDirection}
+                          onSort={() => setSorting('name')}
+                          >
+                          Name
+                          </Th>
+                          
+                          <Table.Th style={{ width: '120px' }} ta={'left'}>
+                            Current Stock
+                          </Table.Th>
+                          
+                          {/* <Table.Th style={{ width: '120px' }} ta={'left'}>
+                            Labour
+                          </Table.Th> */}
+                          
+                          <Table.Th style={{ width: '120px' }} ta={'left'}>
+                            Wholesale
+                          </Table.Th>
+                          
+                          <Table.Th style={{ width: '120px' }} ta={'left'}>
+                            Retail
+                          </Table.Th>
+                          <Table.Th style={{ width: '60px' }} ta={'left'}>
 
-                        </Table.Th>
-                    </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>
-                    {rows}
-                    </Table.Tbody>
-                </Table>
-              </ScrollArea>
-          </Paper>):(
-            <Empty  />
-          )}
+                          </Table.Th>
+                      </Table.Tr>
+                      </Table.Thead>
+                      <Table.Tbody>
+                      {rows}
+                      </Table.Tbody>
+                  </Table>
+                </ScrollArea>
+            </Paper>)
+          :(
+              <Empty  />
+            )
+          }
+          
+          
       </>
     )
 }
