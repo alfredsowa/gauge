@@ -240,11 +240,11 @@ const Dashboard = () => {
                     <Flex justify={"center"} align="center" wrap="wrap" p={20}>
                       <Stack align="center" justify="flex-start">
                         <IconChartBar  size="3.5rem" stroke={1} />
-                        <Text fz="sm" fw={400} c="dimmed" mb="sm">
+                        <Text fw={400} c="dimmed" mb="sm">
                           No product produced this month
                         </Text>
-                        <Text fz="sm" fw={400} c="dimmed" mb="md">
-                          We want to see you producing more and more for your customers. Let's get busy! 
+                        <Text fw={400} c="dimmed" mb="md">
+                          We want to see you producing more for your customers. Let's get busy! 
                         </Text>
                       </Stack>
                     </Flex>
@@ -300,11 +300,11 @@ const Dashboard = () => {
                     <Flex justify={"center"} align="center" wrap="wrap" p={20}>
                       <Stack align="center" justify="flex-start">
                         <IconChartBar  size="3.5rem" stroke={1} />
-                        <Text fz="sm" fw={400} c="dimmed" mb="sm">
+                        <Text fw={400} c="dimmed" mb="sm">
                           No product sold this month
                         </Text>
-                        <Text fz="sm" fw={400} c="dimmed" mb="md">
-                          We want to see you selling more and more to your customers. Let's get busy! 
+                        <Text fw={400} c="dimmed" mb="md">
+                          We want to see you selling more to your customers. Let's get busy! 
                         </Text>
                       </Stack>
                     </Flex>
@@ -336,7 +336,7 @@ const Dashboard = () => {
                 </ActionIcon> */}
               </PaperCardHeader>
               <PaperCardBody>
-                <Text fz={'sm'}>
+                <Text>
                   This chart shows the total number of items sold.
                 </Text>
                 <Center>
@@ -357,7 +357,7 @@ const Dashboard = () => {
                         <Flex justify={"center"} align="center" wrap="wrap" mt={30}>
                           <Stack align="center" justify="flex-start">
                             <IconChartPie  size="3.5rem" stroke={1} />
-                            <Text fz="sm" fw={400} c="dimmed" mb="md">
+                            <Text fw={400} c="dimmed" mb="md">
                               No sales channel rate data available
                             </Text>
                           </Stack>
@@ -396,7 +396,7 @@ const Dashboard = () => {
                     <Flex justify={"center"} align="center" wrap="wrap" mt={30}>
                           <Stack align="center" justify="flex-start">
                             <IconList  size="3.5rem" stroke={1} />
-                            <Text fz="sm" fw={400} c="dimmed" mb="md">
+                            <Text fw={400} c="dimmed" mb="md">
                               No used materials recorded
                             </Text>
                           </Stack>
@@ -435,10 +435,10 @@ const Dashboard = () => {
                     <Flex justify={"center"} align="center" wrap="wrap" p={20}>
                       <Stack align="center" justify="flex-start">
                         <IconList  size="3.5rem" stroke={2} />
-                        <Text fz="sm" fw={400} c="dimmed" mb="md">
+                        <Text fw={400} c="dimmed" mb="md">
                           No ongoing productions 
                         </Text>
-                        <Text fz="sm" fw={400} c="dimmed" mb="md">
+                        <Text fw={400} c="dimmed" mb="md">
                           We want to see you producing more and more for your customers. Let's get busy! 
                         </Text>
                       </Stack>
