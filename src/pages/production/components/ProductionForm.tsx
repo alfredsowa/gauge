@@ -50,9 +50,6 @@ const ProductionForm = ({productionInformation, assignees, products, intermediat
         [assignees]
     );
 
-    console.log(getProductionData);
-    
-  
     const productsOptions = useMemo(
         () => {
             return products?.map((product) => ({

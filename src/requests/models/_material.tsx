@@ -15,6 +15,8 @@ export interface MaterialUpdate {
     name: string;
     code: string;
     type: string;
+    unit_of_measurement: string;
+    cost_per_unit: number;
     minimum_stock_level: number;
     description: string;
     is_reusable_after_damaged: boolean;

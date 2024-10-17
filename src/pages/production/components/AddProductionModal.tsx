@@ -156,7 +156,7 @@ const AddProductionModal = () => {
             </Button>
         </form>
     </Modal>
-        <Button variant='filled' onClick={addNewProduction} leftSection={<IconPlus size={16} />}>Start New</Button>
+        <Button variant='filled' onClick={addNewProduction} leftSection={<IconPlus size={16} />}>New Production Run</Button>
     </>
   )
 }

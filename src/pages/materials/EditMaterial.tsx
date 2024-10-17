@@ -11,10 +11,12 @@ import {
     Textarea,
     rem,
     Anchor,
-    NumberInput
+    NumberInput,
+    Divider,
+    Alert
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import {IconPlus, IconQrcode} from "@tabler/icons-react";
+import {IconInfoCircle, IconPlus, IconQrcode} from "@tabler/icons-react";
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import { changeImage, getMaterialCategories, removeImage, updateMaterial } from "../../requests/_materialsRequests";
 import { MaterialCategory } from "../../requests/models/_business";
@@ -27,6 +29,8 @@ import PageTitle from "../../components/PageTitle";
 import { AxiosError } from "axios";
 import MaterialCategoryForm from "./components/MaterialCategoryForm";
 import TextFieldToolTip from "../../components/TextFieldToolTip";
+import { unitsAndSymbols } from "../../requests/general/options";
+import { useAuth } from "../../auth/core/Auth";
 
 
 const EditMaterial = () => {
@@ -39,6 +43,7 @@ const EditMaterial = () => {
   const hiddenFileInput = useRef<HTMLInputElement>(null);
     const hiddenNewCategory = useRef<HTMLAnchorElement>(null);
   const getMaterialData  = useLoaderData() as MaterialModel;
+  const {currentBusiness} = useAuth()
 
   const navigate  = useNavigate()
   const imageContainerClass = {
@@ -189,6 +194,8 @@ const EditMaterial = () => {
       name: (getMaterialData.name)?getMaterialData.name:'',
       code: (getMaterialData.code)?getMaterialData.code:'',
       type: (getMaterialData.type)?getMaterialData.type:'',
+      unit_of_measurement: (getMaterialData.unit_of_measurement)?getMaterialData.unit_of_measurement:"",
+      cost_per_unit: (getMaterialData.cost_per_unit)?getMaterialData.cost_per_unit:0,
       minimum_stock_level: (getMaterialData.minimum_stock_level)?getMaterialData.minimum_stock_level:1,
       is_reusable_after_damaged: Number(getMaterialData.is_reusable_after_damaged) === 1 ? true : false,
       category: (getMaterialData.material_category_id)?String(getMaterialData.material_category_id):'',
@@ -200,6 +207,8 @@ const EditMaterial = () => {
       type: (value) => ((value !== 'In-house' && value !== 'Sourced') ? 'Invalid type selected' : null),
       minimum_stock_level: (value) => ((Number(value) < 0) ? 'Enter a positive number' : null),
       category: (value) => (Number(value) < 1 ? 'Invalid category selected' : null),
+      unit_of_measurement: (value) => (value.length < 2 ? 'Must be 2 or more characters' : null),
+      cost_per_unit: (value) => ((Number(value) < 0) ? 'Enter a positive number' : null),
       description: (value) => value.length < 0 ?(value.length < 2 ? 'Description is too small' : null):null,
     },
   });
@@ -214,6 +223,8 @@ const EditMaterial = () => {
       code: values.code,
       type: values.type,
       minimum_stock_level: values.minimum_stock_level,
+      unit_of_measurement: values.unit_of_measurement,
+      cost_per_unit: values.cost_per_unit,
       is_reusable_after_damaged: values.is_reusable_after_damaged,
       material_category_id: Number(values.category),
       description: values.description
@@ -404,6 +415,67 @@ const EditMaterial = () => {
                 
                 label="Code"
                 placeholder="Code"
+              />
+            </Grid.Col>
+            <Grid.Col pt={30} pb={5} span={{ base: 12, sm: 12, md: 12, lg: 12 }}>
+              <Divider mb={5} label="Tracking Metrics" labelPosition="left" />
+              <Alert variant="light" color="blue" radius="md" title="How it works" icon={<IconInfoCircle />}>
+                  <Text><strong>Tracking Measurement Unit :</strong> The measure of unit in which the materials are to be tracked. <br />
+                  <strong>Cost Per Tracking Unit :</strong> The cost of material per tracking unit. <br />
+                  <strong>Current Stock Level : </strong> The current quantity of materials available in stock. 
+                  Create a Purchase order if you want to update the current quantity.<br />
+                  <strong>Minimum Stock Level :</strong> The minimum quantity of materials that should be in stock. <br /></Text>
+              </Alert>
+            </Grid.Col>
+
+            {/* Unit of measure */}
+            <Grid.Col pt={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
+              <Select
+                {...generalInformation.getInputProps('unit_of_measurement')}
+                key={generalInformation.key('unit_of_measurement')}
+                radius={"md"}
+                variant="filled"
+                checkIconPosition="right"
+                // c={'dimmed'}
+                required
+                withAsterisk
+                
+                label="Tracking Measurement Unit"
+                placeholder="Pick one"
+                data={unitsAndSymbols}
+                searchable
+                nothingFoundMessage="Not Found"
+              />
+            </Grid.Col>
+
+            {/* Unit Cost */}
+            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
+              <NumberInput
+                {...generalInformation.getInputProps('cost_per_unit')}
+                key={generalInformation.key('cost_per_unit')}
+                radius={"md"}
+                variant="filled"
+                prefix={currentBusiness?.currency_symbol}
+                thousandSeparator=","
+                step={0.01}
+                label="Cost Per Tracking Unit"
+                min={0}
+                required
+                withAsterisk
+                placeholder="0"
+              />
+            </Grid.Col>
+
+            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
+              <NumberInput
+                radius={"md"}
+                variant="filled"
+                disabled
+                min={0}
+                value={getMaterialData.current_stock_level}
+                label="Current Stock Level"
+                thousandSeparator=","
+                placeholder="0"
               />
             </Grid.Col>
 

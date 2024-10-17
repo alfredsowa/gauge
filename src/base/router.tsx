@@ -24,6 +24,7 @@ import PageNotFound from "../pages/PageNotFound";
 import PasswordConfirmed from "../pages/PasswordConfirmed";
 import EditProduction from "../pages/production/EditProduction";
 import Production from "../pages/production/Production";
+import ProductionHistory from "../pages/production/ProductionHistory";
 import ViewProduction from "../pages/production/ViewProduction";
 import AddProduct from "../pages/products/AddProduct";
 import EditProduct from "../pages/products/EditProduct";
@@ -144,6 +145,11 @@ export const appPaths =  [
         {
           path: "/productions",
           element: <Production />,
+          loader: productionsLoader
+        },
+        {
+          path: "/productions/history",
+          element: <ProductionHistory />,
           loader: productionsLoader
         },
         {
