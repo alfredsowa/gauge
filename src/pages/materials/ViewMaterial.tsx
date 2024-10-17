@@ -27,7 +27,7 @@ function AccordionLabel({ invoice_number, purchased_date,status }: AccordionLabe
     return (
         <Group  justify="space-between" wrap="nowrap" p={0}>
             <div>
-                <Text fz="sm" fw={600}>Invoice #: {invoice_number}
+                <Text fw={600}>Invoice #: {invoice_number}
                     {status === 'Draft' ? (
                         <Text component='span' tt={"uppercase"} c={"yellow"} fz={"xs"}> - {status}</Text>
                     ):(
@@ -35,7 +35,7 @@ function AccordionLabel({ invoice_number, purchased_date,status }: AccordionLabe
                     )}
                 </Text>
             </div>
-                <Text fz="sm" me={20} c="dimmed" fw={400}>
+                <Text me={20} c="dimmed" fw={400}>
                     Purchased on: {(purchased_date?purchased_date:'-')}
                 </Text>
         </Group>
@@ -107,73 +107,73 @@ const ViewMaterial = () => {
             <Grid gutter={{ base: 5, xs: 'sm', md: 'md', xl: 30 }}>
 
                 <Grid.Col pt={10} pb={0} span={{ base: 6, sm: 6, md: 6, lg: 6 }}>
-                    <Text fz="sm" fw={500}>
+                    <Text fw={500}>
                         Supplied By 
                     </Text>
-                    <Text fz="sm" c="dimmed">
+                    <Text c="dimmed">
                         {purchase.supplier_name} - ({purchase.supplier_contact})
                     </Text>
                 </Grid.Col>
 
                 <Grid.Col pt={10} pb={0} span={{ base: 6, sm: 6, md: 6, lg: 6 }}>
-                    <Text fz="sm" fw={500}>
+                    <Text fw={500}>
                         Amount Paid
                     </Text>
-                    <Text fz="sm" c="dimmed">
+                    <Text c="dimmed">
                         <MoneyFigure figure={purchase.amount_paid}  />
                     </Text>
                 </Grid.Col>
 
                 <Grid.Col pt={10} pb={0} span={{ base: 6, sm: 6, md: 6, lg: 6 }}>
-                    <Text fz="sm" fw={500}>
+                    <Text fw={500}>
                         Quantity
                     </Text>
-                    <Text fz="sm" c="dimmed">
+                    <Text c="dimmed">
                         <PrettyFigure figure={purchase.quantity}  />
                     </Text>
                 </Grid.Col>
 
                 <Grid.Col pt={10} pb={0} span={{ base: 6, sm: 6, md: 6, lg: 6 }}>
-                    <Text fz="sm" fw={500}>
+                    <Text fw={500}>
                         Unit Price
                     </Text>
-                    <Text fz="sm" c="dimmed">
+                    <Text c="dimmed">
                         <MoneyFigure figure={purchase.unit_price}  />
                     </Text>
                 </Grid.Col>
 
                 <Grid.Col pt={10} pb={0} span={{ base: 6, sm: 6, md: 6, lg: 6 }}>
-                    <Text fz="sm" fw={500}>
+                    <Text fw={500}>
                         Shipping / Delivery
                     </Text>
-                    <Text fz="sm" c="dimmed">
+                    <Text c="dimmed">
                         {purchase.shipping?(<MoneyFigure figure={Number(purchase.shipping)}  />):'-'}
                     </Text>
                 </Grid.Col>
 
                 <Grid.Col pt={10} pb={0} span={{ base: 6, sm: 6, md: 6, lg: 6 }}>
-                    <Text fz="sm" fw={500}>
+                    <Text fw={500}>
                         Tax
                     </Text>
-                    <Text fz="sm" c="dimmed">
+                    <Text c="dimmed">
                     {purchase.tax?purchase.tax:'-'}
                     </Text>
                 </Grid.Col>
 
                 <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 12, md: 12, lg: 12 }}>
-                    <Text fz="sm" fw={500}>
+                    <Text fw={500}>
                         Purchase Details
                     </Text>
-                    <Text fz="sm" c="dimmed">
+                    <Text c="dimmed">
                         {purchase.purchase_details?purchase.purchase_details:' - '}
                     </Text>
                 </Grid.Col>
 
                 <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 12, md: 12, lg: 12 }}>
-                    <Text fz="sm" fw={500}>
+                    <Text fw={500}>
                         Other Notes
                     </Text>
-                    <Text fz="sm" c="dimmed">
+                    <Text c="dimmed">
                         {purchase.notes?purchase.notes:' - '}
                     </Text>
                 </Grid.Col>
