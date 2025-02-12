@@ -2,13 +2,13 @@ import { generateColors } from "@mantine/colors-generator";
 import { Anchor, Button, Card, createTheme, Divider, InputLabel, Menu, Modal, Paper, rem, Table, Text } from "@mantine/core";
 
 export const baseTheme = createTheme({
-    fontFamily: 'Assistant',
-    headings: { fontFamily: 'Lexend Deca, sans-serif' },
+    fontFamily: 'Public Sans',
+    headings: { fontFamily: 'Public Sans, sans-serif' },
     components: {
       TableTh: Table.Th.extend({
         defaultProps: {
           fz: 'md',
-          // py: '20px',
+          fw: 500,
         },
       }),
       MenuItem: Menu.Item.extend({
@@ -157,10 +157,10 @@ export const baseTheme = createTheme({
             // 'gauge-primary': myColor,
           },
     fontSizes: {
-      xs: rem(12),
-      sm: rem(13),
-      md: rem(15),
-      lg: rem(18),
+      xs: rem(11),
+      sm: rem(12),
+      md: rem(14),
+      lg: rem(16),
       xl: rem(22),
     },
   });

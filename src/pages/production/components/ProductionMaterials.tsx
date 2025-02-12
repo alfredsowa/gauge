@@ -229,7 +229,7 @@ const ProductionMaterials = ({prodMaterials,prodIntermediateGoods,production_id,
                 />
                 {
                     selectedMaterial &&
-                    <Text fz="sm" c={'dark'} mb={10}>
+                    <Text c={'dark'} mb={10}>
                         Current Stock Level is {selectedMaterial && 
                         // <PrettyFigure figure={Number(selectedMaterial?.current_stock_level)}  />
                         <GetWithUnit figure={Number(selectedMaterial?.current_stock_level)} unit={selectedMaterial?.unit_of_measurement} symbol={false} />}. 
@@ -259,7 +259,7 @@ const ProductionMaterials = ({prodMaterials,prodIntermediateGoods,production_id,
 
                 {(selectedMaterial)?(
                     (totalMaterialsUsed > selectedMaterial?.current_stock_level)?(
-                    <Text mb={0} fz="sm" c={'red'}>
+                    <Text mb={0} c={'red'}>
                         The materials required for the entire production exceeds the current materials in stock. <br />
                         - Update the production quantity then proceed.
                     </Text>
@@ -320,10 +320,10 @@ const ProductionMaterials = ({prodMaterials,prodIntermediateGoods,production_id,
                                                 <Group>
                                                     <Avatar src={material.image} size={40} radius={10}>MK</Avatar>
                                                     <div>
-                                                        <Text fz="sm" fw={600}>
+                                                        <Text fw={600}>
                                                             {material.name}
                                                         </Text>
-                                                        <Text fz="sm" c="dimmed">
+                                                        <Text c="dimmed">
                                                             Quantity: <PrettyFigure figure={material.quantity} />
 
                                                             <Text c="dimmed" component='span' ml={10}> - Cost: <MoneyFigure figure={Number(material.cost)} /></Text>
@@ -341,7 +341,7 @@ const ProductionMaterials = ({prodMaterials,prodIntermediateGoods,production_id,
                                         </Paper>
                                     )
                                 }):(
-                                    <Text fz="sm" c="dimmed" mt={20}>No materials added</Text>
+                                    <Text c="dimmed" mt={20}>No materials added</Text>
                                 ):''
                             }
                         </Accordion.Panel>
@@ -363,13 +363,13 @@ const ProductionMaterials = ({prodMaterials,prodIntermediateGoods,production_id,
                                                     <Group>
                                                         <Avatar src={material.image} size={40} radius={10}>IG</Avatar>
                                                         <div>
-                                                            <Text fz="sm" fw={600}>
+                                                            <Text fw={600}>
                                                                 {material.name}
                                                             </Text>
-                                                            <Text fz="sm" c="dimmed">
+                                                            <Text c="dimmed">
                                                                 Quantity: <PrettyFigure figure={material.quantity} />
 
-                                                                <Text fz="sm" c="dimmed" component='span' ml={10}> - Labour: <MoneyFigure figure={Number(material.labour_cost)*Number(material.quantity)} /></Text>
+                                                                <Text c="dimmed" component='span' ml={10}> - Labour: <MoneyFigure figure={Number(material.labour_cost)*Number(material.quantity)} /></Text>
                                                             </Text>
                                                         </div>
                                                     </Group>

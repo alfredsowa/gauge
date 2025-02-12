@@ -1,5 +1,18 @@
-import { ActionIcon, Avatar, Button, Flex, Grid, GridColProps, Group, Menu, Paper, Text, TooltipFloating, rem } from '@mantine/core';
-import { IconChevronRight, IconCopy, IconHistory, IconPencil, IconStatusChange, IconTrash } from '@tabler/icons-react';
+import {
+    Avatar,
+    Button,
+    Flex,
+    Grid,
+    GridColProps,
+    Group,
+    Menu,
+    Paper,
+    Text,
+    TooltipFloating,
+    rem,
+    Divider, ActionIcon
+} from '@mantine/core';
+import { IconCopy, IconDotsVertical, IconHistory, IconTrash} from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate} from 'react-router-dom';
 import { modals } from '@mantine/modals';
@@ -126,88 +139,102 @@ const ProductionList = () => {
         grids = sortedData.map((row) => (
             <Grid.Col key={row.id} span={{base:12, sm: 6, md: 4}}>
             <Paper p={20} radius={10} withBorder={false} shadow='xs'>
-                <Group mb={10} justify='space-between'>
-                    <Priority priority={row.priority} bar={true} />
-                    <div>
-                        <TooltipFloating label='Edit Production' >
-                        <ActionIcon mr={5} variant="light" aria-label="Settings" component={Link} to={`/productions/${row.id}/edit`}>
-                            <IconPencil style={{ width: '70%', height: '70%' }} stroke={2} />
-                        </ActionIcon>
-                        </TooltipFloating>
-                        {
-                            !row.insufficient_materials?
-                            (row.category === 'product')?
-                            (row.type === 'product' && row.product_id) || (row.type === 'intermediate_good' && row.intermediate_good_id)?(
-                                <TooltipFloating label='Change Status' >
-                                <ActionIcon mr={5} variant="filled" aria-label="Settings" component={Link} to={`/productions/${row.id}/view`}>
-                                    <IconStatusChange style={{ width: '70%', height: '70%' }} stroke={2} />
-                                </ActionIcon>
-                                </TooltipFloating>
-                            ):null:(
-                                <TooltipFloating label='Change Status' >
-                                <ActionIcon mr={5} variant="filled" aria-label="Settings" component={Link} to={`/productions/${row.id}/view`}>
-                                    <IconStatusChange style={{ width: '70%', height: '70%' }} stroke={2} />
-                                </ActionIcon>
-                                </TooltipFloating>
-                            ):null
-                        }
-                        
-                        <Menu shadow="md" width={200}>
-                            <TooltipFloating label='More Actions' >
+                <Group mb={10} justify='space-between' wrap="nowrap">
+                    <Text fz={15} fw={'500'}>{row.title}</Text>
+                    <Menu shadow="md" width={200}>
+                        <TooltipFloating label='More Actions' >
                             <Menu.Target>
-                            <ActionIcon color='gray' variant="light" aria-label="Settings">
-                            <IconChevronRight style={{ width: '70%', height: '70%' }} stroke={2} />
-                            </ActionIcon>
+                                <ActionIcon color='gray' variant="transparent" aria-label="Settings">
+                                    <IconDotsVertical style={{ width: '70%', height: '70%' }} stroke={2} />
+                                </ActionIcon>
                             </Menu.Target>
-                            </TooltipFloating>
+                        </TooltipFloating>
 
-                            <Menu.Dropdown>
+                        <Menu.Dropdown>
 
-                                <Menu.Item onClick={() => duplicateProductData(row.id)}
-                                    leftSection={<IconCopy style={{ width: rem(14), height: rem(14) }} />}>
-                                    Duplicate
-                                </Menu.Item>
+                            <Menu.Item onClick={() => duplicateProductData(row.id)}
+                                       leftSection={<IconCopy style={{ width: rem(14), height: rem(14) }} />}>
+                                Duplicate
+                            </Menu.Item>
                             <Menu.Divider />
 
                             {/* <Menu.Label>Danger zone</Menu.Label> */}
-                            
-                            <Menu.Item 
+
+                            <Menu.Item
                                 onClick={()=>openDeleteModal(row.id)}
-                                    color="red"
-                                    leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
-                                >
+                                color="red"
+                                leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
+                            >
                                 Delete
                             </Menu.Item>
-                            </Menu.Dropdown>
-                        </Menu>
-                    </div>
+                        </Menu.Dropdown>
+                    </Menu>
                 </Group>
-                <Group mb={10}>
-                    <Text fz={'md'} fw={'600'}>{row.title}</Text>
-                </Group>
-                <Group mb={6} justify='space-between'>
+                <Divider my={15} variant="dashed" />
+                <Group mb={10} justify='space-between'>
+                    <Text c="dimmed">Type:</Text>
                     <Text c="dimmed">
                     {toHeadline(row.category)}
                     </Text>
-                    <StatusBadge status={row.status}  />
-                    {/* <Text>
-                        <IconCalendar size={20} />
-                        <DefaultReadableDate dateFormat={row.start_date} />
-                    </Text> */}
                 </Group>
-                {
-                    row.assignee?(
-                        <Group gap="sm">
-                            <Avatar size={25} src={row.assignee?.image} radius={25} />
-                            <Text>
-                                {`${row.assignee?.first_name} ${row.assignee?.last_name}`}
-                            </Text>
-                        </Group>
-                    ):(
-                        <Text c={'dimmed'} fs={'italic'}>No Assigned</Text>
-                    )
-                }
-                
+                <Group mb={10} justify='space-between'>
+                    <Text c="dimmed">Status:</Text>
+                    <StatusBadge status={row.status}  />
+                </Group>
+                <Group mb={10} justify='space-between'>
+                    <Text c="dimmed">Assignee:</Text>
+                    {
+                        row.assignee?(
+                            <Group gap="sm">
+                                <Text c={'dimmed'}>
+                                    {`${row.assignee?.first_name} ${row.assignee?.last_name}`}
+                                </Text>
+                                <Avatar size={25} src={row.assignee?.image} radius={25} />
+                            </Group>
+                        ):(
+                            <Text c={'dimmed'} fs={'italic'}>Not Assigned</Text>
+                        )
+                    }
+                </Group>
+                <Group mb={10} justify='space-between'>
+                    <Text c="dimmed">Priority:</Text>
+                    <Priority priority={row.priority} bar={false} />
+                </Group>
+                <Group mb={10} justify='space-between'>
+                    {/*<div>*/}
+                        {/*<TooltipFloating label='Edit Production' >*/}
+                        {/*    <ActionIcon mr={5} variant="light" aria-label="Settings" component={Link} to={`/productions/${row.id}/edit`}>*/}
+                        {/*        <IconPencil style={{ width: '70%', height: '70%' }} stroke={2} />*/}
+                        {/*    </ActionIcon>*/}
+                        {/*</TooltipFloating>*/}
+                        <Button component={Link} my={5} mr={7} size={'xs'} to={`/productions/${row.id}/edit`} variant='light' title={'Edit Production'}>
+                            Edit
+                        </Button>
+                        {
+                            !row.insufficient_materials?
+                                (row.category === 'product')?
+                                    (row.type === 'product' && row.product_id) || (row.type === 'intermediate_good' && row.intermediate_good_id)?(
+                                        // <TooltipFloating label='Change Status' >
+                                        //     <ActionIcon mr={5} variant="filled" aria-label="Settings" component={Link} to={`/productions/${row.id}/view`}>
+                                        //         <IconStatusChange style={{ width: '70%', height: '70%' }} stroke={2} />
+                                        //     </ActionIcon>
+                                        // </TooltipFloating>
+                                        <Button component={Link} my={5} mr={7} size={'xs'} to={`/productions/${row.id}/view`} variant='filled' title={'Change Status'}>
+                                            Change Status
+                                        </Button>
+                                    ):null:(
+                                        // <TooltipFloating label='Change Status' >
+                                        //     <ActionIcon mr={5} variant="filled" aria-label="Settings" component={Link} to={`/productions/${row.id}/view`}>
+                                        //         <IconStatusChange style={{ width: '70%', height: '70%' }} stroke={2} />
+                                        //     </ActionIcon>
+                                        // </TooltipFloating>
+                                        <Button component={Link} my={5} mr={7} size={'xs'} to={`/productions/${row.id}/view`} variant='filled' title={'Change Status'}>
+                                            Change Status
+                                        </Button>
+                                    ):null
+                        }
+                    {/*</div>*/}
+                </Group>
             </Paper>
             </Grid.Col>
         ));

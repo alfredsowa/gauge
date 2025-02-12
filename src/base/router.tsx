@@ -18,12 +18,14 @@ import Login from "../pages/Login";
 import AddMaterial from "../pages/materials/AddMaterial";
 import EditMaterial from "../pages/materials/EditMaterial";
 import Material from "../pages/materials/Material";
+import MaterialErrorBoundary from "../pages/materials/MaterialErrorBoundary";
 import ViewMaterial from "../pages/materials/ViewMaterial";
 import BusinessSetup from "../pages/onboarding/BusinessSetup";
 import PageNotFound from "../pages/PageNotFound";
 import PasswordConfirmed from "../pages/PasswordConfirmed";
 import EditProduction from "../pages/production/EditProduction";
 import Production from "../pages/production/Production";
+import ProductionErrorBoundary from "../pages/production/ProductionErrorBoundary";
 import ProductionHistory from "../pages/production/ProductionHistory";
 import ViewProduction from "../pages/production/ViewProduction";
 import AddProduct from "../pages/products/AddProduct";
@@ -77,6 +79,7 @@ export const appPaths =  [
           path: "/materials/:id/view",
           element: <ViewMaterial />,
           loader: viewMaterialLoader,
+          errorElement: <MaterialErrorBoundary />
         },
         {
           path: "/materials/add",
@@ -155,12 +158,14 @@ export const appPaths =  [
         {
           path: "/productions/:id/edit",
           element: <EditProduction />,
-          loader: productionLoader
+          loader: productionLoader,
+          errorElement: <ProductionErrorBoundary />
         },
         {
           path: "/productions/:id/view",
           element: <ViewProduction />,
-          loader: productionViewLoader
+          loader: productionViewLoader,
+          errorElement: <ProductionErrorBoundary />
         },
         {
           path: "/reports",

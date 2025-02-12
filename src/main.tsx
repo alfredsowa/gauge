@@ -15,7 +15,6 @@ import {
 } from '@tanstack/react-query'
 import { baseTheme } from './base/script.ts';
 import { appPaths } from './base/router.tsx';
-// import { DateInput } from '@mantine/dates';
 
 const queryClient = new QueryClient()
 

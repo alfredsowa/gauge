@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 import { Link, useLoaderData } from 'react-router-dom'
 import { LinkItem } from '../../requests/models/_general';
 import PageBreadCrumb from '../../components/PageBreadCrumb';
-import { Accordion, ActionIcon, Alert, Badge, Card, Grid, Group, Text } from '@mantine/core';
-import { IconEdit, IconInfoCircle } from '@tabler/icons-react';
+import { Accordion, ActionIcon, Alert, Badge, Button, Card, Grid, Group, Text } from '@mantine/core';
+import { IconAlertCircle, IconEdit, IconInfoCircle } from '@tabler/icons-react';
 import { History, ProductionFullModel, ProductionIntermediateGoods, ProductionMaterial } from '../../requests/models/_production';
 import { DefaultDate } from '../../requests/general/_dates';
 import { isStringInArray, toHeadline } from '../../requests/general/_stringHelper';
@@ -25,6 +25,7 @@ import { IntermediateGoodBasicModel } from '../../requests/models/_intermediateG
 import { getFullProduct } from '../../requests/_productRequests';
 import { ProductModel } from '../../requests/models/_product';
 import { getBasicIntermediateGood } from '../../requests/_intermediateGoodsRequests';
+import CompleteProductionModal from './components/CompleteProductionModal';
 
 const ViewProduction = () => {
     const getProductionViewData = useLoaderData() as ProductionFullModel
@@ -52,7 +53,7 @@ const ViewProduction = () => {
         }
         getMaterials()
         
-    })
+    },[production.product_id,production.intermediate_good_id,production.type])
 
     const items: Array<LinkItem> = [
         { title: 'Dashboard', href: '/dashboard' },
@@ -82,14 +83,40 @@ const ViewProduction = () => {
                         ):''
                 }
                 
-
+                <Group justify='right' mb={20}>
+                    <Group>
+                        {
+                            !isStringInArray(proStatus,productionEnds)?(
+                                !production.insufficient_materials?(
+                                    <>
+                                    <StatusProductionModal previousStatus={proStatus} id={production.id} nextStatus={proStage} setNextStatus={setProStage} setPreviousStatus={setProStatus} setHistory={setHistory} />
+                                    <CompleteProductionModal id={production.id} setNextStatus={setProStage} setPreviousStatus={setProStatus} setHistory={setHistory} />
+                                    <Button leftSection={<IconAlertCircle size={17} />} color='red'>Damage</Button>
+                                    </>
+                                ):''
+                            ):null
+                        }
+                        
+                    </Group>
+                </Group>
                 <PaperCard>
                     <PaperCardHeader>
                         <Text fz={18} fw={500}>
                             {production.title}
                         </Text>
-                        <Group>
-                            
+                        {
+                            (!isStringInArray(proStage,productionEnds))?(
+                                <ActionIcon size='lg' component={Link} to={`/productions/${production.id}/edit`} 
+                                variant='light' aria-label="Edit Production"> 
+                                <IconEdit size={17} stroke={2}  />
+                                </ActionIcon>
+                            ):(proStage === 'completed' ? (
+                                <Badge color="green" size='lg' radius="md">{toHeadline(production.status)}</Badge>
+                            ):(proStage === 'cancel' ?(
+                                <Badge color="red" tt={'uppercase'} size='lg' radius="md">Cancelled</Badge>
+                            ):<Badge color="red" tt={'uppercase'} size='lg' radius="md">Damaged</Badge>))
+                        }
+                        {/* <Group>
                             {
                                 (!isStringInArray(proStage,productionEnds))?(
                                     <ActionIcon size='lg' component={Link} to={`/productions/${production.id}/edit`} 
@@ -110,7 +137,7 @@ const ViewProduction = () => {
                                 ):null
                             }
                             
-                        </Group>
+                        </Group> */}
                     </PaperCardHeader>
                     <PaperCardBody px={0} py={0}>
 
@@ -222,9 +249,6 @@ const ViewProduction = () => {
             </Grid.Col>
 
             <Grid.Col pt={10} span={{ base: 12, lg: 5 }}>
-
-               
-
                 {
                     (proStage === 'backlog' && production.category === 'product')?
                     production.type === 'product'?
@@ -264,7 +288,6 @@ const ViewProduction = () => {
                         production_quantity={production.quantity} />
                     )
                 }
-
                 <Accordion variant="filled" radius={14}>
                     <Accordion.Item component={Card} p={0} value="materials">
                         <Accordion.Control>
@@ -277,14 +300,8 @@ const ViewProduction = () => {
                         </Accordion.Panel>
                     </Accordion.Item>
                 </Accordion>
-               
-
-                
-                
             </Grid.Col>
-
         </Grid>
-      
     </>
   )
 }

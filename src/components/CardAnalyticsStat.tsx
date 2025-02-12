@@ -13,10 +13,10 @@ const CardAnalyticsStat = ({stat,DiffIcon}:{
         <Paper withBorder={false} shadow='xs' key={stat.title} p="md" radius={14}>
           <Group justify="apart">
             <div>
-              <Text c="dimmed" tt="uppercase" fw={600} className={classes.label}>
+              <Text c="dimmed" fz="lg" tt="capitalize" fw={500} className={classes.label}>
                 {stat.title}
               </Text>
-              <Text fw={700} fz="xl">
+              <Text fw={500} fz="xl">
                 <MoneyFigure figure={stat.value}  />
               </Text>
             </div>
@@ -33,7 +33,7 @@ const CardAnalyticsStat = ({stat,DiffIcon}:{
             </ThemeIcon>
           </Group>
           <Text c="dimmed" mt="md">
-            <Text component="span" c={stat.diff > 0 ? 'teal' : 'red'} fw={700}>
+            <Text component="span" c={stat.diff > 0 ? 'teal' : 'red'} fw={600}>
               <PrettyPercentage figure={stat.diff} />
             </Text>
             {/* <br /> */}

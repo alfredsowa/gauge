@@ -8,7 +8,7 @@ const PaperCardHeader = ({ children }: { children: React.ReactNode }) => {
         <Group px={20} py={15} justify="space-between">
             {children}
         </Group>
-        <Divider  />
+        <Divider  variant="dashed" />
       </>
     )
   }

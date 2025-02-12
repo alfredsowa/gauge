@@ -54,10 +54,10 @@ export const productionStatusList = [
         name:   'cancel',
         label:  'The production will be cancel and all materials will be returned to inventory.',
     },
-    {
-        name:   'damaged',
-        label:  'The production will be ended and only resuable materials will be returned to inventory.',
-    }
+    // {
+    //     name:   'damaged',
+    //     label:  'The production will be ended and only resuable materials will be returned to inventory.',
+    // }
 ]
 
 export const productionStatusOptions = ['backlog', 'in_progress', 'on_hold', 'quality_control', 'cancel', 'damaged', 'completed']

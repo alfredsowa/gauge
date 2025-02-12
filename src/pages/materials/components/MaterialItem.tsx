@@ -71,10 +71,10 @@ const MaterialItem = ({row,materialsList,setMaterialsList}:{row: MaterialCollect
                             />
                         {/*</Indicator>*/}
                         <div>
-                            <Text fw={600} component={Link} to={`/materials/${row.id}/view`}>
+                            <Text fw={500} component={Link} to={`/materials/${row.id}/view`}>
                             {row.name} 
                             </Text>
-                            <Text c="dimmed">
+                            <Text c="dimmed" fz={'md'}>
                             {row.category?.title}
                             </Text>
                         </div>
@@ -98,7 +98,7 @@ const MaterialItem = ({row,materialsList,setMaterialsList}:{row: MaterialCollect
                 </Table.Td>
 
                 <Table.Td>
-                    <Text c={'dimmed'} fw={600}>
+                    <Text c={'dimmed'} fw={500}>
                         <MoneyFigure figure={row.cost_per_unit} />
                     </Text>
                 </Table.Td>

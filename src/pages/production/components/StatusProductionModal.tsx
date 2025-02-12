@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react'
-import { IconInfoCircle } from '@tabler/icons-react';
+import { IconInfoCircle, IconStatusChange } from '@tabler/icons-react';
 import {Alert, Button, Group, LoadingOverlay, Modal, Radio, Stack, Text, Textarea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notify } from '../../../requests/general/toast.tsx';
@@ -149,56 +149,6 @@ const StatusProductionModal = ({nextStatus,previousStatus,id,setNextStatus,setPr
         
     }
 
-    const complete = async() => {
-
-        setFormLoading(true);
-
-        setNextStatus(a => {
-            if(a !== 'completed') return 'completed';
-            else return 'completed';
-        });
-        
-        try {
-            
-            const response = await changeProductionStatus({id,status:'completed',note:nextStatusNote});
-            const result = response.data
-
-            if(result.saved) {
-                setFormLoading(false);
-                
-                setHistory(result.data)
-                setNextStatusNote('')
-                setPreviousStatus('completed')
-
-                notify({
-                    type:'success',
-                    message: result.message,
-                    title: 'Successful'
-                })
-                
-                close()
-                window.location.reload()
-            }
-        }
-        catch(error) {
-            if (error instanceof AxiosError) { // Check if error is an instance of AxiosError
-              notify({
-                type:'error',
-                message: error.response?.data.error, // Use optional chaining to access data property
-                title: 'Something went wrong'
-              })
-            } else {
-              notify({
-                type:'error',
-                message: 'An unexpected error occurred',
-                title: 'Something went wrong'
-              })
-            }
-
-            setFormLoading(false);
-        }
-    }
-
     return (
         <>
             <Modal opened={opened} size="xl" padding='xl' onClose={close} 
@@ -258,17 +208,20 @@ const StatusProductionModal = ({nextStatus,previousStatus,id,setNextStatus,setPr
                         ): (
                             <Group justify='space-between'>
                                 <Button mt={15} variant='filled' loading={formLoading} onClick={changeStatus}>Update Status</Button>
-                                <Button mt={15} variant='filled' color='green' loading={formLoading} onClick={complete}>Complete Production</Button>
+                                <Button mt={15} onClick={close} variant="filled" color='red'>Close</Button>
+                                {/* <Button mt={15} variant='filled' color='green' loading={formLoading} onClick={complete}>Complete Production</Button> */}
                             </Group>
                         )
                     }
                 </Stack>
             </Modal>
-            <Button variant='filled' onClick={updateStatus}>
+            {/* <Button variant='light' color={'gauge-primary.7'} onClick={updateStatus}> */}
                 {
-                    (previousStatus === 'backlog')?'Start': 'Update Status'
+                    (previousStatus === 'backlog')?(
+                        <Button variant='filled' onClick={updateStatus}>Start</Button>
+                    ): (<Button variant='light' leftSection={<IconStatusChange size={17} />} onClick={updateStatus}>Change Status</Button>)
                 }
-            </Button>
+            {/* </Button> */}
         </>
     )
     

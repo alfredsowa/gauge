@@ -186,7 +186,7 @@ const PurchaseList = () => {
                 <Group gap="sm">
                     <Avatar src={row.material_image} size={40} radius={10}>MK</Avatar>
                     <div>
-                        <Text fw={600}>
+                        <Text fw={500}>
                         {row.material_name} {row.status === 'Draft'? (
                             <Text component='span' fz="xs" tt={'uppercase'} c="yellow">
                                  - Draft

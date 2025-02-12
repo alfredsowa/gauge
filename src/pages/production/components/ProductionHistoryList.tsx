@@ -1,4 +1,4 @@
-import { ActionIcon, Flex, Grid, Group, Menu, Paper, ScrollArea, Table, TableTrProps, Text, TextInput, rem } from '@mantine/core';
+import { ActionIcon, Button, Flex, Grid, Group, Menu, Paper, ScrollArea, Table, TableTrProps, Text, TextInput, rem } from '@mantine/core';
 import { IconChevronRight, IconCopy, IconEdit, IconEye, IconSearch, IconTrash } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -327,6 +327,7 @@ const ProductionHistoryList = () => {
                             {/* <Button component={Link} to={'/productions/history'} variant='light'
                             leftSection={<IconHistory size={16} />}>History</Button> */}
                             {/* <AddProductionModal  /> */}
+                        <Button component={Link} to={'/productions'} variant=''>Go to Production Board</Button>
                         </Flex>
                     </Grid.Col>
                 </Grid>

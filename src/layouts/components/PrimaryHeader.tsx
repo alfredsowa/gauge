@@ -14,7 +14,6 @@ import {
     useMantineColorScheme,
     Stack
 } from '@mantine/core'
-// import { MantineLogo } from '@mantinex/mantine-logo'
 import { IconChevronDown, IconLogout, IconMoon, IconSettings, IconSun, IconUser} from '@tabler/icons-react'
 import { useState } from 'react'
 import classes from '../../assets/css/Header.module.css';

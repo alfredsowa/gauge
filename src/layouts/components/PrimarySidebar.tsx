@@ -34,18 +34,18 @@ const PrimarySidebar = ({toggle}:
     const items = data.map((item) => (
     <NavLink
       // ta={'center'}
-      style={{borderRadius: '7px'}}
+      style={{borderRadius: '4px'}}
       py={10}
       mb={1}
       noWrap={true}
       component={Link} 
       to={item.link}
       key={item.label}
-      fw={600}
+      fw={400}
       onClick={toggle}
       active={locationPathArray[1] === item.pathname}
       leftSection={<item.icon size="1.2rem" stroke={1.5} />}
-      label={<><Text fw={600}>{item.label}</Text></>}
+      label={<><Text fw={400}>{item.label}</Text></>}
       color="gauge-primary.9"
       variant="filled"
     />

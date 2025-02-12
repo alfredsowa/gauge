@@ -244,7 +244,7 @@ const IntermediateGoodsList = ({intermediateGoods}:{intermediateGoods: Intermedi
                   <Group gap="sm">
                       <Avatar src={row.image} size={40} radius={10}>PD</Avatar>
                       <div>
-                          <Text fw={600}>
+                          <Text fw={500}>
                           {row.name}
                           </Text>
                           <Text c="dimmed">

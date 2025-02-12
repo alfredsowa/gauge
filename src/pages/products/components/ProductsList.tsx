@@ -214,7 +214,7 @@ const ProductsList = () => {
                       <Avatar src={row.image?row.image:product_image} size={40} radius={10}>PD</Avatar>
                       </Anchor>
                       <div>
-                          <Text  fw={600}>
+                          <Text  fw={500}>
                           {row.name} 
                           </Text>
                           <Text  c="dimmed">
