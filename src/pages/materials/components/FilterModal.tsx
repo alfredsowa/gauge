@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { MaterialCategory } from '../../../requests/models/_business';
 import { getMaterialCategories } from '../../../requests/_materialsRequests';
 import { useNavigate } from 'react-router-dom';
-import { IconAdjustmentsHorizontal } from '@tabler/icons-react';
+import { IconFilter} from '@tabler/icons-react';
 
 const FilterModal = ({setSearchParams}:{setSearchParams:(params: { categories: string }) => void}) => {
     const [opened, { open, close }] = useDisclosure(false);
@@ -55,7 +55,7 @@ const FilterModal = ({setSearchParams}:{setSearchParams:(params: { categories: s
   return (
     <>
 
-    <Modal opened={opened} size="md" padding='xl' onClose={close} 
+    <Modal opened={opened} size="md" padding='lg' onClose={close}
         // centered
         title={<Text fw={600} fz={17}>Filter Materials</Text>} overlayProps={{
         backgroundOpacity: 0.55,
@@ -73,18 +73,18 @@ const FilterModal = ({setSearchParams}:{setSearchParams:(params: { categories: s
         />      
 
         <Group justify='space-between'>
-        <Button variant="filled" mt={20} mr={5} color="gauge-primary" onClick={runFilter}>
+        <Button variant="filled" mt={20} size={'sm'} mr={5} color="gauge-primary" onClick={runFilter}>
             Apply
         </Button>
 
-        <Button variant="light" mt={20} ml={5} color="red" onClick={clearFilter}>
+        <Button variant="light" size={'sm'} mt={20} ml={5} color="red" onClick={clearFilter}>
             Clear
         </Button>
         </Group>
         
     </Modal>
-    <Button variant="outline" color="gauge-primary" leftSection={<IconAdjustmentsHorizontal size={20} />} onClick={openFilter} aria-label="Filter">
-         Filter
+    <Button size={'sm'} variant="light" title={"Filter"} color="gauge-primary" onClick={openFilter} aria-label="Filter">
+        <IconFilter size={20} />
     </Button>
     </>
   )

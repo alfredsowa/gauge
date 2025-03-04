@@ -120,7 +120,7 @@ const Categories = () => {
 
   return (
     <>
-    <Button onClick={open} variant='light'> Categories </Button>
+    <Button onClick={open} size={'sm'} variant='light'> Categories </Button>
       
       <Drawer
         position="right"
@@ -169,6 +169,7 @@ const Categories = () => {
                 <Grid.Col pt={10} span={{ base: 12, md: 12, lg: 12 }}>
                     <Button  
                     type="submit"
+                    size={'sm'}
                     loading={categoryFormloading}
                     px={30}
                     variant="filled">
@@ -181,6 +182,7 @@ const Categories = () => {
                     onClick={resetForm}
                     disabled={enableClear}
                     px={30}
+                    size={'sm'}
                     color={'red'}
                     variant="light">
                     Reset

@@ -35,14 +35,14 @@ const ProductCostAndPricing = ({product,productCosts}:{product: ProductModel|und
             <Table.Th>Labour Cost</Table.Th>
             <Table.Td><MoneyFigure figure={product?.labour_cost}  /></Table.Td>
         </Table.Tr>
-        <Table.Tr>
-            <Table.Th>Overhead Cost</Table.Th>
-            <Table.Td>
-                {productCosts && (
-                    <MoneyFigure figure={productCosts.overheaad} />
-                )}
-            </Table.Td>
-        </Table.Tr>
+        {/*<Table.Tr>*/}
+        {/*    <Table.Th>Overhead Cost</Table.Th>*/}
+        {/*    <Table.Td>*/}
+        {/*        {productCosts && (*/}
+        {/*            <MoneyFigure figure={productCosts.overheaad} />*/}
+        {/*        )}*/}
+        {/*    </Table.Td>*/}
+        {/*</Table.Tr>*/}
         <Table.Tr>
             <Table.Th>Total Cost of Goods</Table.Th>
             <Table.Td><MoneyFigure figure={productCosts?.total_cost_of_goods}  /></Table.Td>

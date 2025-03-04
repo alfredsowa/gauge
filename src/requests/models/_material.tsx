@@ -66,27 +66,27 @@ export interface MaterialVitalModel {
     status: string
 }
 
-export interface MaterialCollection extends MaterialPagination {
-    data: MaterialCollectionData[]|null,
+export interface MaterialCollection  {
+    data: MaterialCollectionData[]|undefined,
+    links: MaterialPaginationLinks,
+    meta: MaterialPagination
 }
 
+export interface MaterialPaginationLinks {
+    first: string|null;
+    last: string|null;
+    next: string|null;
+    prev: string|null;
+}
 export interface MaterialPagination {
-    links:{
-        first: string|null;
-        last: string|null;
-        next: string|null;
-        prev: string|null;
-    },
-    meta: {
-        current_page: number;
-        from: number;
-        last_page: number;
-        links: Array<Links>;
-        path: string|undefined;
-        per_page: number|undefined;
-        to: number|undefined;
-        total: number|undefined
-    }
+    current_page: number;
+    from: number;
+    last_page: number;
+    links: Array<Links>;
+    path: string|undefined;
+    per_page: number;
+    to: number|0;
+    total: number|0
 }
 
 type Links = {

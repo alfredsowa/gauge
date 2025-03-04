@@ -44,10 +44,10 @@ const PrimarySidebar = ({toggle}:
       fw={400}
       onClick={toggle}
       active={locationPathArray[1] === item.pathname}
-      leftSection={<item.icon size="1.2rem" stroke={1.5} />}
+      leftSection={<item.icon size="1.2rem" stroke={1.0} />}
       label={<><Text fw={400}>{item.label}</Text></>}
       color="gauge-primary.9"
-      variant="filled"
+      variant="light"
     />
   ));
 

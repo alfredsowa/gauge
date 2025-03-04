@@ -213,10 +213,11 @@ const AddMaterial = () => {
   }
   
   const imageContainerClass = {
-    width: '150px',
+    width: 'auto',
+    textAlign: 'center',
     overflow: 'hidden', 
-    height: '150px', 
-    borderRadius: '20px', 
+    height: '150px',
+    borderRadius: '10px',
     backgroundColor: 'rgb(241 241 241)', 
   }
   const imgTagClass = {
@@ -262,265 +263,261 @@ const AddMaterial = () => {
       />
 
       <form method='POST' onSubmit={generalInformation.onSubmit(handleSubmit)}>
-        <Card radius={'md'} mb={'lg'} p={30}>
+        <Grid mb={40} gutter={{ base: 5, sm: 'md', md: 'xl', xl: 50 }}>
+          <Grid.Col span={{ base: 12, sm: 9, md: 9, lg: 9 }}>
+            <Card radius={'md'} mb={'lg'} p={40}>
+              <Grid gutter={{ base: 5, xs: 'md', md: 'lg', xl: 30 }}>
 
-          <Grid mb={40} gutter={{ base: 5, sm: 'md', md: 'xl', xl: 50 }}>
-            <Grid.Col span={{ base: 12, sm: 3, md: 3, lg: 3 }}>
-                <>
+                {/* Material Name */}
+                <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 12, md: 12, lg: 12 }}>
+                  <TextInput
+                    {...generalInformation.getInputProps('name')}
+                    key={generalInformation.key('name')}
+                    radius={"md"}
+                    variant="filled"
+                    // c={'dimmed'}
 
-                    <div style={imageContainerClass}>
-                      <img id="materialPhoto" src={hasImage} style={imgTagClass}/>
-                    </div>
-                  
+                    label="Name"
+                    withAsterisk
+                    required
+                    placeholder="White cotton thread"
+                  />
+                </Grid.Col>
 
-                  <>
-                    <Text mt={10} size='md'>Upload material image. <span style={{fontWeight:'500'}}><br />It must be less than 5MB</span></Text>
-                    <Button mt={10} mb={4} className="button-upload" variant="light" onClick={handleClick}>
-                      Upload a file
-                    </Button>
-                    <input type="file" id='materialImage' accept='image/*' ref={hiddenFileInput} onChange={handleChange} style={fileInputClass} />
-                    <div>
-                        {/* <Button onClick={getImageFileObject} disabled={!enableSubmit} mr={5}>Upload Photo</Button> */}
-                        
-                        {/* <Button color='red' variant='light' onClick={close}>Cancel</Button> */}
-                        {
-                          hasImage?(
-                            <Button mb={4} variant="light" disabled={hasImage?false:true} mr={5} color='red' onClick={clearImage}
+                {/* Type */}
+                <Grid.Col pt={10} span={{ base: 12, sm: 4, md: 4, lg: 4 }}>
+                  <Select
+                    {...generalInformation.getInputProps('type')}
+                    key={generalInformation.key('type')}
+                    radius={"md"}
+                    variant="filled"
+                    checkIconPosition="right"
+                    // c={'dimmed'}
+                    required
+                    withAsterisk
+
+                    label="Type"
+                    placeholder="Pick one"
+                    data={['In-house', 'Sourced']}
+                  />
+                </Grid.Col>
+
+                {/* Category */}
+                <Grid.Col pt={10} span={{ base: 12, sm: 4, md: 4, lg: 4 }}>
+                  <Select
+                    {...generalInformation.getInputProps('category')}
+                    key={generalInformation.key('category')}
+                    radius={"md"}
+                    variant="filled"
+                    checkIconPosition="right"
+                    // c={'dimmed'}
+                    required
+                    withAsterisk
+                    label="Category"
+                    placeholder="Pick one"
+                    data={materialCatogories}
+                    searchable
+                    nothingFoundMessage="Not Found"
+                  />
+                  <Anchor variant='filled' fw={500} fz={'xs'} onClick={handleCategoryButtonClick}>
+                    <IconPlus size={10} /> Add New Category
+                  </Anchor>
+                </Grid.Col>
+
+
+                {/* Code */}
+                <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 4, md: 4, lg: 4 }}>
+                  <TextInput
+                    {...generalInformation.getInputProps('code')}
+                    key={generalInformation.key('code')}
+                    radius={"md"}
+                    leftSection={<IconQrcode style={{ width: rem(16), height: rem(16) }} />}
+                    variant="filled"
+                    // c={'dimmed'}
+
+                    label="Code"
+                    placeholder="Code"
+                  />
+                </Grid.Col>
+
+                <Grid.Col pt={20} pb={15} span={{ base: 12, sm: 12, md: 12, lg: 12 }}>
+                  <Divider mb={15} label="Tracking Metrics" labelPosition="left" />
+                  <Alert variant="light" color="blue" radius="md" fz={'md'} title="How it works" icon={<IconInfoCircle />}>
+                      <Text mb={5}><strong>Tracking Measurement Unit :</strong> The measure of unit in which the materials are to be tracked. </Text>
+                      <Text mb={5}><strong>Cost Per Tracking Unit :</strong> The cost of material per tracking unit.</Text>
+                      <Text mb={5}><strong>Current Stock Level : </strong> The current quantity of materials available in stock.
+                      Enter the current stock level of your material in the selected Tracking Measurement Unit.
+                      If the Tracking Measurement Unit is different from the actual materials unit, convert the stock level accordingly and enter the equivalent.</Text>
+                      <Text mb={5}><strong>Minimum Stock Level :</strong> The minimum quantity of materials that should be in stock. <br /></Text>
+                  </Alert>
+                </Grid.Col>
+
+                {/* Unit of measure */}
+                <Grid.Col pt={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
+                  <Select
+                    {...generalInformation.getInputProps('unit_of_measurement')}
+                    key={generalInformation.key('unit_of_measurement')}
+                    radius={"md"}
+                    variant="filled"
+                    checkIconPosition="right"
+                    // c={'dimmed'}
+                    required
+                    withAsterisk
+
+                    label="Tracking Measurement Unit"
+                    placeholder="Pick one"
+                    data={unitsAndSymbols}
+                    searchable
+                    nothingFoundMessage="Not Found"
+                  />
+                </Grid.Col>
+
+                {/* Unit Cost */}
+                <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
+                  <NumberInput
+                    {...generalInformation.getInputProps('cost_per_unit')}
+                    key={generalInformation.key('cost_per_unit')}
+                    radius={"md"}
+                    variant="filled"
+                    prefix={currentBusiness?.currency_symbol}
+                    thousandSeparator=","
+                    step={0.01}
+                    label="Cost Per Tracking Unit"
+                    min={0}
+                    required
+                    withAsterisk
+                    placeholder="0"
+                  />
+                </Grid.Col>
+
+                {/* <Grid.Col pt={15} pb={5} span={{ base: 12, sm: 12, md: 12, lg: 12 }}>
+                  <Divider mb={5} label="Stock Levels" labelPosition="left" />
+                </Grid.Col> */}
+
+                {/* Current Stock Level */}
+                <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
+                  <NumberInput
+                    {...generalInformation.getInputProps('current_stock_level')}
+                    key={generalInformation.key('current_stock_level')}
+                    radius={"md"}
+                    variant="filled"
+                    // c={'dimmed'}
+                    min={0}
+
+                    label="Current Stock Level"
+                    withAsterisk
+                    thousandSeparator=","
+                    required
+                    placeholder="0"
+                  />
+                </Grid.Col>
+
+                {/* Minimum Stock Level */}
+                <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
+                  <NumberInput
+                    {...generalInformation.getInputProps('minimum_stock_level')}
+                    key={generalInformation.key('minimum_stock_level')}
+                    radius={"md"}
+                    leftSection={<TextFieldToolTip title="A alert will be shown when level is equal or less"/>}
+                    variant="filled"
+                    // c={'dimmed'}
+
+                    min={0}
+                    label="Minimum Stock Level"
+                    required
+                    thousandSeparator=","
+                    withAsterisk
+                    placeholder="0"
+                  />
+                </Grid.Col>
+
+
+                {/* Unit of Measure */}
+                {/* <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 4, md: 4, lg: 4 }}>
+                  <TextInput
+                    {...generalInformation.getInputProps('unit_of_measurement')}
+                    key={generalInformation.key('unit_of_measurement')}
+                    radius={"md"}
+                    leftSection={<IconRuler style={{ width: rem(16), height: rem(16) }} />}
+                    variant="filled"
+                    // c={'dimmed'}
+
+                    label="Measure per unit"
+                    required
+                    withAsterisk
+                    placeholder="Kg"
+                  />
+                </Grid.Col> */}
+
+                {/* Reusability */}
+                <Grid.Col pt={10} pb={10} span={{ base: 12 }}>
+                  <Switch mb={12} mt={12}
+                  defaultChecked={false}
+                  {...generalInformation.getInputProps('is_reusable_after_damaged')}
+                  key={generalInformation.key('is_reusable_after_damaged')}
+                  label="Is the material reusable after a damaged production?"
+                  description="Resusable items are added back to inventory after a damaged production."
+                  />
+                </Grid.Col>
+
+                {/* Description */}
+                <Grid.Col pt={10} span={{ base: 12, sm: 12, md: 12, lg: 12 }}>
+                  <Textarea
+                    {...generalInformation.getInputProps('description')}
+                    key={generalInformation.key('description')}
+                    radius={"md"}
+                    variant="filled"
+                    placeholder="You can add more information or specifications..."
+                    label="Item Description"
+                    autosize
+                    minRows={3}
+                  />
+                </Grid.Col>
+
+                {/* Save Button */}
+                <Grid.Col pt={10} span={{ base: 12, md: 12, lg: 12 }}>
+                  <Button
+                    type="submit"
+                    disabled={formLoading}
+                    px={40}
+                    variant="filled"
+                    rightSection={<IconArrowRight size={14} />}>
+                    Save
+                  </Button>
+                </Grid.Col>
+                </Grid>
+            </Card>
+          </Grid.Col>
+
+          <Grid.Col span={{ base: 12, sm: 3, md: 3, lg: 3 }}>
+            <Card radius={'md'} mb={'lg'} py={40}>
+              <div style={{ ...imageContainerClass, textAlign: 'center' }}>
+                <img id="materialPhoto" src={hasImage} style={imgTagClass}/>
+              </div>
+
+              <>
+                <Text mt={10} size='md'>Upload material image. <span style={{fontWeight:'500'}}><br />It must be less than 5MB</span></Text>
+                <Button mt={10} mb={4} className="button-upload" variant="light" onClick={handleClick}>
+                  Upload Photo
+                </Button>
+                <input type="file" id='materialImage' accept='image/*' ref={hiddenFileInput} onChange={handleChange} style={fileInputClass} />
+                <div>
+                  {/* <Button onClick={getImageFileObject} disabled={!enableSubmit} mr={5}>Upload Photo</Button> */}
+
+                  {/* <Button color='red' variant='light' onClick={close}>Cancel</Button> */}
+                  {
+                    hasImage?(
+                        <Button mb={4} variant="light" disabled={hasImage?false:true} mr={5} color='red' onClick={clearImage}
                                 leftSection={<IconX size={14} />} >
-                                Remove
-                            </Button>
-                          ):null
-                        }
-                    </div>
-                  </>
-                </>
-            </Grid.Col>
-            <Grid.Col span={{ base: 12, sm: 9, md: 9, lg: 9 }}>
-            <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
-
-            {/* Material Name */}
-            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 12, md: 12, lg: 12 }}>
-              <TextInput
-                {...generalInformation.getInputProps('name')}
-                key={generalInformation.key('name')}
-                radius={"md"}
-                variant="filled"
-                // c={'dimmed'}
-                
-                label="Name"
-                withAsterisk
-                required
-                placeholder="White cotton thread"
-              />
-            </Grid.Col>
-
-            {/* Type */}
-            <Grid.Col pt={10} span={{ base: 12, sm: 4, md: 4, lg: 4 }}>
-              <Select
-                {...generalInformation.getInputProps('type')}
-                key={generalInformation.key('type')}
-                radius={"md"}
-                variant="filled"
-                checkIconPosition="right"
-                // c={'dimmed'}
-                required
-                withAsterisk
-                
-                label="Type"
-                placeholder="Pick one"
-                data={['In-house', 'Sourced']}
-              />
-            </Grid.Col>
-
-            {/* Category */}
-            <Grid.Col pt={10} span={{ base: 12, sm: 4, md: 4, lg: 4 }}>
-              <Select
-                {...generalInformation.getInputProps('category')}
-                key={generalInformation.key('category')}
-                radius={"md"}
-                variant="filled"
-                checkIconPosition="right"
-                // c={'dimmed'}
-                required
-                withAsterisk
-                
-                label="Category"
-                placeholder="Pick one"
-                data={materialCatogories}
-                // searchable
-                nothingFoundMessage="Not Found"
-              />
-              <Anchor variant='filled' fw={500} fz={'xs'} onClick={handleCategoryButtonClick}>
-                <IconPlus size={10} /> Add New Category
-              </Anchor>
-            </Grid.Col>
-            
-
-            {/* Code */}
-            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 4, md: 4, lg: 4 }}>
-              <TextInput
-                {...generalInformation.getInputProps('code')}
-                key={generalInformation.key('code')}
-                radius={"md"}
-                leftSection={<IconQrcode style={{ width: rem(16), height: rem(16) }} />}
-                variant="filled"
-                // c={'dimmed'}
-                
-                label="Code"
-                placeholder="Code"
-              />
-            </Grid.Col>
-              
-            <Grid.Col pt={30} pb={5} span={{ base: 12, sm: 12, md: 12, lg: 12 }}>
-              <Divider mb={5} label="Tracking Metrics" labelPosition="left" />
-              <Alert variant="light" color="blue" radius="md" title="How it works" icon={<IconInfoCircle />}>
-                  <Text><strong>Tracking Measurement Unit :</strong> The measure of unit in which the materials are to be tracked. <br />
-                  <strong>Cost Per Tracking Unit :</strong> The cost of material per tracking unit. <br />
-                  <strong>Current Stock Level : </strong> The current quantity of materials available in stock. 
-                  Enter the current stock level of your material in the selected Tracking Measurement Unit. 
-                  If the Tracking Measurement Unit is different from the actual materials unit, convert the stock level accordingly and enter the equivalent.<br />
-                  <strong>Minimum Stock Level :</strong> The minimum quantity of materials that should be in stock. <br /></Text>
-              </Alert>
-            </Grid.Col>
-
-            {/* Unit of measure */}
-            <Grid.Col pt={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
-              <Select
-                {...generalInformation.getInputProps('unit_of_measurement')}
-                key={generalInformation.key('unit_of_measurement')}
-                radius={"md"}
-                variant="filled"
-                checkIconPosition="right"
-                // c={'dimmed'}
-                required
-                withAsterisk
-                
-                label="Tracking Measurement Unit"
-                placeholder="Pick one"
-                data={unitsAndSymbols}
-                searchable
-                nothingFoundMessage="Not Found"
-              />
-            </Grid.Col>
-
-            {/* Unit Cost */}
-            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
-              <NumberInput
-                {...generalInformation.getInputProps('cost_per_unit')}
-                key={generalInformation.key('cost_per_unit')}
-                radius={"md"}
-                variant="filled"
-                prefix={currentBusiness?.currency_symbol}
-                thousandSeparator=","
-                step={0.01}
-                label="Cost Per Tracking Unit"
-                min={0}
-                required
-                withAsterisk
-                placeholder="0"
-              />
-            </Grid.Col>
-
-            {/* <Grid.Col pt={15} pb={5} span={{ base: 12, sm: 12, md: 12, lg: 12 }}>
-              <Divider mb={5} label="Stock Levels" labelPosition="left" />
-            </Grid.Col> */}
-
-            {/* Current Stock Level */}
-            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
-              <NumberInput
-                {...generalInformation.getInputProps('current_stock_level')}
-                key={generalInformation.key('current_stock_level')}
-                radius={"md"}
-                variant="filled"
-                // c={'dimmed'}
-                min={0}
-                
-                label="Current Stock Level"
-                withAsterisk
-                thousandSeparator=","
-                required
-                placeholder="0"
-              />
-            </Grid.Col>
-
-            {/* Minimum Stock Level */}
-            <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 6, md: 6, lg: 6 }}>
-              <NumberInput
-                {...generalInformation.getInputProps('minimum_stock_level')}
-                key={generalInformation.key('minimum_stock_level')}
-                radius={"md"}
-                leftSection={<TextFieldToolTip title="A alert will be shown when level is equal or less"/>}
-                variant="filled"
-                // c={'dimmed'}
-                 
-                min={0}
-                label="Minimum Stock Level"
-                required
-                thousandSeparator=","
-                withAsterisk
-                placeholder="0"
-              />
-            </Grid.Col>
-
-
-            {/* Unit of Measure */}
-            {/* <Grid.Col pt={10} pb={10} span={{ base: 12, sm: 4, md: 4, lg: 4 }}>
-              <TextInput
-                {...generalInformation.getInputProps('unit_of_measurement')}
-                key={generalInformation.key('unit_of_measurement')}
-                radius={"md"}
-                leftSection={<IconRuler style={{ width: rem(16), height: rem(16) }} />}
-                variant="filled"
-                // c={'dimmed'}
-                
-                label="Measure per unit"
-                required
-                withAsterisk
-                placeholder="Kg"
-              />
-            </Grid.Col> */}
-
-            {/* Reusability */}
-            <Grid.Col pt={10} pb={10} span={{ base: 12 }}>
-              <Switch mb={12} mt={12}
-              defaultChecked={false}
-              {...generalInformation.getInputProps('is_reusable_after_damaged')}
-              key={generalInformation.key('is_reusable_after_damaged')}
-              label="Is the material reusable after a damaged production?"
-              description="Resusable items are added back to inventory after a damaged production."
-              />
-            </Grid.Col>
-
-            {/* Description */}
-            <Grid.Col pt={10} span={{ base: 12, sm: 12, md: 12, lg: 12 }}>
-              <Textarea
-                {...generalInformation.getInputProps('description')}
-                key={generalInformation.key('description')}
-                radius={"md"}
-                variant="filled"
-                placeholder="You can add more information or specifications..."
-                label="Item Description"
-                autosize
-                minRows={3}
-              />
-            </Grid.Col>
-
-            {/* Save Button */}
-            <Grid.Col pt={10} span={{ base: 12, md: 12, lg: 12 }}>
-              <Button  
-                type="submit"
-                disabled={formLoading}
-                px={40}
-                variant="filled"
-                rightSection={<IconArrowRight size={14} />}>
-                Save
-              </Button>
-            </Grid.Col>
-            </Grid>
-            </Grid.Col>
-          </Grid>
-          
-        </Card>
+                          Remove
+                        </Button>
+                    ):null
+                  }
+                </div>
+              </>
+            </Card>
+          </Grid.Col>
+        </Grid>
 
       </form>
     </Stack>

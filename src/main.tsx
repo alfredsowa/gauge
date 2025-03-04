@@ -18,14 +18,20 @@ import { appPaths } from './base/router.tsx';
 
 const queryClient = new QueryClient()
 
-const router = createBrowserRouter(appPaths);
+const router = createBrowserRouter(appPaths, {
+    future: {
+        v7_relativeSplatPath: true,
+    },
+});
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <MantineProvider theme={baseTheme}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-         <RouterProvider router={router} />
+         <RouterProvider router={router} future={{
+             v7_startTransition: true,
+         }}/>
         </AuthProvider>
       </QueryClientProvider>
       <Notifications position = 'top-right'/>

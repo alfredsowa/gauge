@@ -30,8 +30,6 @@ const ViewProduct = () => {
     const navigate  = useNavigate()
     const getProductData = useLoaderData() as ProductModel;
 
-    console.log(getProductData)
-
     useEffect(() =>{
         const prodCost = () => {
           return setProductCosts(getProductData.product_costs)

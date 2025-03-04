@@ -86,8 +86,8 @@ const EditProduct = () => {
       labour_cost: Number(values.labour_cost),
       stock_quantity: Number(values.stock_quantity),
       min_stock_quantity: Number(values.min_stock_quantity),
-      is_produced: values.is_produced?true: false,
-      is_active: values.is_active?true: false,
+      is_produced: values.is_produced,
+      is_active: values.is_active,
       description: values.description,
     }
 

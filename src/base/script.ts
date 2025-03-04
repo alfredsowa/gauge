@@ -153,7 +153,7 @@ export const baseTheme = createTheme({
     },
     primaryColor: 'gauge-primary',
           colors: {
-            'gauge-primary': generateColors('#50d962'),
+            'gauge-primary': generateColors('#045489FF'),
             // 'gauge-primary': myColor,
           },
     fontSizes: {

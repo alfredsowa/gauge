@@ -1,13 +1,15 @@
 import { IconCheck, IconExclamationCircle, IconExclamationMark } from '@tabler/icons-react';
 import { notifications } from "@mantine/notifications"
 import { rem } from '@mantine/core';
+// @ts-ignore
+import {NotificationPosition} from "@mantine/notifications/lib/notifications.store";
 
 type NotifyContent = {
     type: 'success'|'warning'|'error', 
     message: string, 
     title?: string|null, 
     icon?: JSX.Element|null, 
-    position?: string|null, 
+    position?:  NotificationPosition | undefined,
     autoClose?: number|null
 }
 export function notify(content: NotifyContent)

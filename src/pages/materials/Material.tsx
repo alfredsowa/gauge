@@ -3,6 +3,10 @@ import useDocumentTitle from '../../hooks/use-document-title'
 import MaterialsList from './components/MaterialsList';
 import PageTitle from '../../components/PageTitle';
 import PopUpSetupGuide from "../../components/PopUpSetupGuide.tsx";
+// import Categories from "./components/Categories.tsx";
+import {Button} from "@mantine/core";
+import {Link} from "react-router-dom";
+import {IconPlus} from "@tabler/icons-react";
 
 const Material = () => {
   // const [materialsList, setMaterialsList] = useState<MaterialCollectionData[] | undefined>();
@@ -22,7 +26,14 @@ const Material = () => {
   return (
     <>
       
-      <PageTitle back={false} title="Materials"  />
+        <PageTitle back={false} title="Materials">
+            <div>
+            {/*    <Categories  />*/}
+                <Button ml={'sm'} size={'sm'} component={Link} to={'/materials/add'} variant='filled'
+                        leftSection={<IconPlus size={16} />}>Add</Button>
+            </div>
+
+        </PageTitle>
 
       <MaterialsList />
 

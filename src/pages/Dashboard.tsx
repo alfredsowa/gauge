@@ -195,16 +195,16 @@ const Dashboard = () => {
         }
       </SimpleGrid>
 
-      <Grid mt={30} gutter={{ base: 5, xs: 'md', md: 'xl', xl: 30 }}>
+      <Grid mt={30} gutter={{ base: 5, xs: 'md', md: 'lg', xl: 'lg' }}>
 
-        <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
+        <Grid.Col span={{ base: 12, md: 7, lg: 8 }}>
           {
             cardAnalyticsLoading?(
               <>
               <Skeleton h={290} radius={14}></Skeleton>
               </>
             ):
-            <PaperCard height={290}>
+            <PaperCard height={410}>
               <PaperCardHeader>
                 <Text fz="md" fw={500} >
                   Most Products Produced in {getFullMonth(Number(monthSelected))}
@@ -254,130 +254,14 @@ const Dashboard = () => {
               </PaperCardBody>
             </PaperCard>
           }
-          
         </Grid.Col>
 
-        <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
+        <Grid.Col span={{ base: 12, md: 5, lg: 4 }}>
           {
             cardAnalyticsLoading?(
-              <>
-              <Skeleton h={290} radius={14}></Skeleton>
-              </>
-            ):
-            <PaperCard height={290}>
-              <PaperCardHeader>
-                <Text fz="md" fw={500} >
-                  Top Moving Products in {getFullMonth(Number(monthSelected))}
-                </Text>
-                {/* <ActionIcon variant="subtle" color="gray">
-                  <IconMaximize style={{ width: rem(16), height: rem(16) }} />
-                </ActionIcon> */}
-              </PaperCardHeader>
-              <PaperCardBody>
-              {
-                (topProductsSoldGraphList !== null 
-                  && 
-                  topProductsSoldGraphList.length > 0) ? 
-                
-                <BarChart
-                  h={350}
-                  barProps={{ radius: 10 }}
-                  data={topProductsSoldGraphList}
-                  dataKey="product"
-                  tooltipProps={{
-                    content: ({ label, payload }) => <ChartToolTip label={label} payload={payload} />,
-                  }}
-                  // withLegend={true}
-                  valueFormatter={(value) => new Intl.NumberFormat('en-US').format(value)}
-                  withBarValueLabel
-                  series={[
-                    { name: 'quantity', color: 'gauge-primary.3' },
-                  ]}
-                  tickLine="y" 
-                  legendProps={{ verticalAlign: 'top', height: 50 }}
-                /> : (
-                  // <Card p={20} withBorder={false} radius={14}>
-                    <Flex justify={"center"} align="center" wrap="wrap" p={20}>
-                      <Stack align="center" justify="flex-start">
-                        <IconChartBar  size="3.5rem" stroke={1} />
-                        <Text fw={400} c="dimmed" mb="sm">
-                          No product sold this month
-                        </Text>
-                        <Text fw={400} c="dimmed" mb="md">
-                          We want to see you selling more to your customers. Let's get busy! 
-                        </Text>
-                      </Stack>
-                    </Flex>
-                  // </Card>
-                )
-              }
-              </PaperCardBody>
-            </PaperCard>
-          }
-        </Grid.Col>
-      </Grid>
-
-      <Grid>
-
-        <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
-          {
-            cardAnalyticsLoading?(
-              <>
-              <Skeleton h={370} radius={14}></Skeleton>
-              </>
-            ):
-            <PaperCard height={410}>
-              <PaperCardHeader>
-                <Text fz="lg" fw={500} >
-                  Channels Rate in {getFullMonth(Number(monthSelected))}
-                </Text>
-                {/* <ActionIcon variant="subtle" color="gray">
-                  <IconMaximize style={{ width: rem(16), height: rem(16) }} />
-                </ActionIcon> */}
-              </PaperCardHeader>
-              <PaperCardBody>
-                <Text>
-                  This chart shows the total number of items sold.
-                </Text>
-                <Center>
-                  {
-                    salesChannelRate.length > 0 ? (
-                      <DonutChart 
-                        labelColor=''
-                        size={200} 
-                        tooltipDataSource="segment"
-                        thickness={50} 
-                        withLabelsLine 
-                        withLabels 
-                        paddingAngle={3} 
-                        data={salesChannelChart} 
-                      />
-                    ): (
-                      // <Card p={20} withBorder={false} radius={14}>
-                        <Flex justify={"center"} align="center" wrap="wrap" mt={30}>
-                          <Stack align="center" justify="flex-start">
-                            <IconChartPie  size="3.5rem" stroke={1} />
-                            <Text fw={400} c="dimmed" mb="md">
-                              No sales channel rate data available
-                            </Text>
-                          </Stack>
-                        </Flex>
-                      // </Card>
-                    )
-                  }
-                  
-                </Center>
-              </PaperCardBody>
-            </PaperCard>
-          }
-        </Grid.Col>
-
-        <Grid.Col span={{ base: 12, md: 6, lg: 5 }}>
-          {
-            cardAnalyticsLoading?(
-              <>
-              <Skeleton h={410} radius={14}></Skeleton>
-              </>
+                <>
+                  <Skeleton  h={410} radius={14}></Skeleton>
+                </>
             ):
             <PaperCard height={410}>
               <PaperCardHeader>
@@ -385,29 +269,152 @@ const Dashboard = () => {
                   Most Used Materials in {getFullMonth(Number(monthSelected))}
                 </Text>
                 {/* <ActionIcon variant="subtle" color="gray">
-                  <IconMaximize style={{ width: rem(16), height: rem(16) }} />
-                </ActionIcon> */}
+              <IconMaximize style={{ width: rem(16), height: rem(16) }} />
+            </ActionIcon> */}
               </PaperCardHeader>
               <PaperCardBody px={0} py={0}>
                 {
-                  (mostUsedMaterialsTableList !== undefined && mostUsedMaterialsTableList.length > 0) ? 
-                  mostUsedMaterialsTableList :
+                  (mostUsedMaterialsTableList !== undefined && mostUsedMaterialsTableList.length > 0) ?
+                      mostUsedMaterialsTableList :
 
-                    <Flex justify={"center"} align="center" wrap="wrap" mt={30}>
-                          <Stack align="center" justify="flex-start">
-                            <IconList  size="3.5rem" stroke={1} />
-                            <Text fw={400} c="dimmed" mb="md">
-                              No used materials recorded
-                            </Text>
-                          </Stack>
-                        </Flex>
+                      <Flex justify={"center"} align="center" wrap="wrap" mt={30}>
+                        <Stack align="center" justify="flex-start">
+                          <IconList  size="3.5rem" stroke={1} />
+                          <Text fw={400} c="dimmed" mb="md">
+                            No used materials recorded
+                          </Text>
+                        </Stack>
+                      </Flex>
                 }
               </PaperCardBody>
             </PaperCard>
           }
         </Grid.Col>
 
-        <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
+      </Grid>
+
+      <Grid>
+
+        <Grid.Col span={{ base: 12, md: 7, lg: 8 }}>
+          {
+            cardAnalyticsLoading?(
+                    <>
+                      <Skeleton h={410} radius={14}></Skeleton>
+                    </>
+                ):
+                <PaperCard height={410}>
+                  <PaperCardHeader>
+                    <Text fz="md" fw={500} >
+                      Top Moving Products in {getFullMonth(Number(monthSelected))}
+                    </Text>
+                    {/* <ActionIcon variant="subtle" color="gray">
+                  <IconMaximize style={{ width: rem(16), height: rem(16) }} />
+                </ActionIcon> */}
+                  </PaperCardHeader>
+                  <PaperCardBody>
+                    {
+                      (topProductsSoldGraphList !== null
+                          &&
+                          topProductsSoldGraphList.length > 0) ?
+
+                          <BarChart
+                              h={350}
+                              barProps={{ radius: 10 }}
+                              data={topProductsSoldGraphList}
+                              dataKey="product"
+                              tooltipProps={{
+                                content: ({ label, payload }) => <ChartToolTip label={label} payload={payload} />,
+                              }}
+                              // withLegend={true}
+                              valueFormatter={(value) => new Intl.NumberFormat('en-US').format(value)}
+                              withBarValueLabel
+                              series={[
+                                { name: 'quantity', color: 'gauge-primary.3' },
+                              ]}
+                              tickLine="y"
+                              legendProps={{ verticalAlign: 'top', height: 50 }}
+                          /> : (
+                              // <Card p={20} withBorder={false} radius={14}>
+                              <Flex justify={"center"} align="center" wrap="wrap" p={20}>
+                                <Stack align="center" justify="flex-start">
+                                  <IconChartBar  size="3.5rem" stroke={1} />
+                                  <Text fw={400} c="dimmed" mb="sm">
+                                    No product sold this month
+                                  </Text>
+                                  <Text fw={400} c="dimmed" mb="md">
+                                    We want to see you selling more to your customers. Let's get busy!
+                                  </Text>
+                                </Stack>
+                              </Flex>
+                              // </Card>
+                          )
+                    }
+                  </PaperCardBody>
+                </PaperCard>
+          }
+        </Grid.Col>
+
+        {false && (
+            <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
+              {
+                cardAnalyticsLoading?(
+                        <>
+                          <Skeleton h={370} radius={14}></Skeleton>
+                        </>
+                    ):
+                    <PaperCard height={410}>
+                      <PaperCardHeader>
+                        <Text fz="md" fw={500} >
+                          Channels Rate in {getFullMonth(Number(monthSelected))}
+                        </Text>
+                        {/* <ActionIcon variant="subtle" color="gray">
+                  <IconMaximize style={{ width: rem(16), height: rem(16) }} />
+                </ActionIcon> */}
+                      </PaperCardHeader>
+                      <PaperCardBody>
+                        {
+                            salesChannelRate.length > 0 && (
+                                <Text>
+                                  This chart shows the total number of items sold.
+                                </Text>
+                            )
+                        }
+
+                        <Center>
+                          {
+                            salesChannelRate.length > 0 ? (
+                                <DonutChart
+                                    labelColor=''
+                                    size={200}
+                                    tooltipDataSource="segment"
+                                    thickness={50}
+                                    withLabelsLine
+                                    withLabels
+                                    paddingAngle={3}
+                                    data={salesChannelChart}
+                                />
+                            ): (
+                                // <Card p={20} withBorder={false} radius={14}>
+                                <Flex justify={"center"} align="center" wrap="wrap" mt={30}>
+                                  <Stack align="center" justify="flex-start">
+                                    <IconChartPie  size="3.5rem" stroke={1} />
+                                    <Text fw={400} c="dimmed" mb="md">
+                                      No sales channel rate data available
+                                    </Text>
+                                  </Stack>
+                                </Flex>
+                                // </Card>
+                            )
+                          }
+
+                        </Center>
+                      </PaperCardBody>
+                    </PaperCard>
+              }
+            </Grid.Col>
+        )}
+
+        <Grid.Col span={{ base: 12, md: 5, lg: 4 }}>
           {
             cardAnalyticsLoading?(
               <>
@@ -417,7 +424,7 @@ const Dashboard = () => {
             <PaperCard height={410}>
               <PaperCardHeader>
                 <Text fz="md" fw={500} >
-                  Latest Productions
+                  Latest Productions Undertaken
                 </Text>
                 {/* <ActionIcon variant="subtle" color="gray">
                   <IconMaximize style={{ width: rem(16), height: rem(16) }} />

@@ -46,8 +46,14 @@ export function getMaterialsOption(withoutComponents: boolean) {
 }
 
 // Server should return MaterialModel object
-export function getMaterials() {
-  return axios.get<MaterialCollection>(GET_MATERIALS,config);
+export function getMaterials(page?: number, per_page?: number) {
+  if (!page) {
+    page = 1;
+  }
+  if (!per_page) {
+    per_page = 25;
+  }
+  return axios.get<MaterialCollection>(GET_MATERIALS+'?page='+page+'&per_page='+per_page,config);
 }
 
 // Server should return MaterialModel object
