@@ -3,7 +3,7 @@ import { MaterialCollectionData } from '../../../requests/models/_material'
 import {deleteMaterial} from '../../../requests/_materialsRequests'
 import { notify } from '../../../requests/general/toast'
 import { modals } from '@mantine/modals'
-import {ActionIcon, Avatar, Group, Menu, rem, Table, Text} from '@mantine/core'
+import {ActionIcon, Avatar, Badge, Group, Menu, rem, Table, Text} from '@mantine/core'
 import {IconDotsVertical, IconEdit, IconEye, IconTrash} from '@tabler/icons-react'
 import { Link } from 'react-router-dom'
 import { GetWithUnit, MoneyFigure } from '../../../requests/general/_numberHelper'
@@ -62,7 +62,7 @@ const MaterialItem = ({row,materialsList,setMaterialsList,isMobile=false}:{row: 
 
     const menu = (row: MaterialCollectionData) => {
         return (
-            <Menu shadow="md" width={200}>
+            <Menu shadow="md" width={130}>
                 <Menu.Target>
                     <ActionIcon color='gray' variant="light" aria-label="Settings">
                         <IconDotsVertical style={{ width: '70%', height: '70%' }} stroke={2} />
@@ -106,7 +106,7 @@ const MaterialItem = ({row,materialsList,setMaterialsList,isMobile=false}:{row: 
             isMobile?(
             <PaperCard mb={10} shadow="none">
                 <PaperCardBody py={13} px={10}>
-                    <Group justify="space-between">
+                    <Group justify="space-between" wrap='nowrap'>
                         <Group gap="sm" wrap='nowrap'>
                             {/*<Indicator disabled={row.current_stock_level > row.minimum_stock_level}*/}
                             {/*           position="top-center" size={14}  withBorder processing color='red' inline*/}
@@ -124,6 +124,7 @@ const MaterialItem = ({row,materialsList,setMaterialsList,isMobile=false}:{row: 
                                 <Text c="dimmed" fz={'md'}>
                                     {row.category?.title}
                                 </Text>
+                                {row.current_stock_level <= row.minimum_stock_level?<Badge color="red" size="xs" radius="sm">Restock</Badge>:''}
                             </div>
                         </Group>
                         {menu(row)}
@@ -138,7 +139,7 @@ const MaterialItem = ({row,materialsList,setMaterialsList,isMobile=false}:{row: 
                             {/*           position="top-center" size={14}  withBorder processing color='red' inline*/}
                             {/*           label={<Text fz={12}>low</Text>}>*/}
                                 <Avatar component={Link} to={`/materials/${row.id}/view`}
-                                size={40}
+                                size={60}
                                 radius="md"
                                 src={row.image}
                                 />
@@ -162,6 +163,7 @@ const MaterialItem = ({row,materialsList,setMaterialsList,isMobile=false}:{row: 
                         (<Text c="yellow"><GetWithUnit figure={row.current_stock_level} unit={row.unit_of_measurement}/></Text>):
                         (<Text c="dimmed"><GetWithUnit figure={row.current_stock_level} unit={row.unit_of_measurement}/></Text>)
                         }
+                        {row.current_stock_level <= row.minimum_stock_level?<Badge color="red" size="xs" radius="sm">Restock</Badge>:''}
                     </Table.Td>
 
                     <Table.Td>

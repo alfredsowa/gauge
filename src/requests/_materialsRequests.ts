@@ -46,14 +46,20 @@ export function getMaterialsOption(withoutComponents: boolean) {
 }
 
 // Server should return MaterialModel object
-export function getMaterials(page?: number, per_page?: number) {
+export function getMaterials(page?: number, per_page?: number, search?: string) {
   if (!page) {
     page = 1;
   }
   if (!per_page) {
     per_page = 25;
   }
-  return axios.get<MaterialCollection>(GET_MATERIALS+'?page='+page+'&per_page='+per_page,config);
+  if (search === undefined || search.replace(/\s/g,'').length < 1 ) {
+    return axios.get<MaterialCollection>(GET_MATERIALS+'?page='+page+'&per_page='+per_page,config);
+  }
+  else {
+    return axios.get<MaterialCollection>(GET_MATERIALS+'?page='+page+'&per_page='+per_page+'&q='+search,config);
+  }
+
 }
 
 // Server should return MaterialModel object
@@ -61,7 +67,7 @@ export function getMaterialCategories() {
   return axios.get(GET_MATERIAL_CATEGORIES,config);
 }
 
-// Server should creates new Material
+// Server should create new Material
 export function createMaterial(data: MaterialCreate) {
   return axios.post(CREATE_MATERIAL,data,{
     headers: {

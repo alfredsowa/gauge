@@ -1,4 +1,4 @@
-import React, {ReactElement, useEffect, useState} from 'react'
+import {ReactElement, useEffect, useState} from 'react'
 import {MaterialCollection, MaterialCollectionData} from '../../../requests/models/_material';
 import {
     Button, em,
@@ -76,28 +76,55 @@ const MaterialsList = () => {
     const [totalRecords, setTotalRecords] = useState(0);
     const [per_page, setPerPage] = useState(10);
     const [last_page, setLastPage] = useState(1);
+    const [debouncedQuery, setDebouncedQuery] = useState("");
     const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
 
 
+    const queryDataResponse = async (page?: number) => {
+        if (!page) {
+            page = current_page;
+        }
+        const response = await getMaterials(page,per_page,search)
+        if(response.data.data){
+            setValue(response.data)
+            setSortedData(sortData(response.data.data, { sortBy: sortBy, reversed: reverseSortDirection, search: '' }));
+        }
+        setLoading(false)
+    }
+
     useEffect(() => {
         setLoading(true)
-
-        const queryDataResponse = async () => {
-            const response = await getMaterials(current_page, per_page)
-            console.log(response.data)
-            if(response.data.data){
-                setMaterialsList(response.data.data)
-                setCurrentPage(response.data.meta.current_page)
-                setPerPage(response.data.meta.per_page)
-                setTotalRecords(response.data.meta.total)
-                setLastPage(response.data.meta.last_page)
-                setLoading(false)
-            }
-        }
-
         queryDataResponse().then()
-
     },[])
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            if (search.replace(/\s/g,'').length > 2) {
+                setDebouncedQuery(search);
+            } else if (search.replace(/\s/g,'').length === 0 || search === '') {
+                queryDataResponse().then(); // Fetch all items when search is cleared
+            }
+        }, 1000);
+
+        return () => clearTimeout(handler);
+    }, [search]);
+
+    useEffect(() => {
+        if (debouncedQuery.length <= 2) return;
+
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                queryDataResponse().then()
+            } catch (err) {
+                console.log("Failed to fetch search results");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData().then();
+    }, [debouncedQuery]);
 
     useEffect(()=>{
         if(searchParams.size === 0){
@@ -112,6 +139,33 @@ const MaterialsList = () => {
 
     },[searchParams,materialsList])
 
+    // useEffect(() => {
+    //     if (search.length < 2) {
+    //         setSearch('');
+    //         return;
+    //     }
+    //
+    //     const delayDebounce = setTimeout(async () => {
+    //         setLoading(true);
+    //         try {
+    //             const response = await getMaterials(current_page,per_page,search)
+    //             if(response.data.data){
+    //                 setValue(response.data)
+    //
+    //                 if (materialsList) {
+    //                     setSortedData(sortData(response.data.data, { sortBy: sortBy, reversed: reverseSortDirection, search: search }));
+    //                 }
+    //             }
+    //         } catch (err) {
+    //             console.log("Failed to fetch search results");
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     }, 2000);
+    //
+    //     return () => clearTimeout(delayDebounce);
+    // }, [search]);
+
     const onNext = async (current_page: number) => {
         setLoading(true)
         if(current_page < last_page) {
@@ -120,8 +174,8 @@ const MaterialsList = () => {
         else {
             setCurrentPage(last_page)
         }
-        console.log(current_page)
-        const response = await getMaterials(current_page,per_page)
+
+        const response = await getMaterials(current_page,per_page,search);
         if(response.data.data){
             setValue(response.data)
         }
@@ -136,7 +190,7 @@ const MaterialsList = () => {
         else {
             setCurrentPage(current_page)
         }
-        const response = await getMaterials(current_page,per_page)
+        const response = await getMaterials(current_page,per_page,search);
         if(response.data.data){
             setValue(response.data)
         }
@@ -146,7 +200,8 @@ const MaterialsList = () => {
     const onPerPage = async (per_page: number) => {
         setLoading(true)
         setPerPage(per_page);
-        const response = await getMaterials(1,per_page);
+        setCurrentPage(1);
+        const response = await getMaterials(1,per_page,search);
         if(response.data.data){
             setValue(response.data)
         }
@@ -161,14 +216,40 @@ const MaterialsList = () => {
         setLastPage(materials.meta.last_page)
     }
 
-    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.currentTarget;
-        setSearch(value);
+    // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     const { value } = event.currentTarget;
+    //     setSearch(value);
+    //
+    //     if (materialsList) {
+    //         setSortedData(sortData(materialsList, { sortBy: sortBy, reversed: reverseSortDirection, search: value }));
+    //     }
+    // };
 
-        if (materialsList) {
-            setSortedData(sortData(materialsList, { sortBy: sortBy, reversed: reverseSortDirection, search: value }));
-        }
-    };
+    // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     const { value } = event.currentTarget;
+    //     setSearch(value);
+    //     if (value.length < 2) {
+    //         return;
+    //     }
+    //
+    //     setTimeout(async () => {
+    //         setLoading(true);
+    //         try {
+    //             const response = await getMaterials(current_page,per_page,search)
+    //             if(response.data.data){
+    //                 setValue(response.data)
+    //
+    //                 if (materialsList) {
+    //                     setSortedData(sortData(response.data.data, { sortBy: sortBy, reversed: reverseSortDirection, search: value }));
+    //                 }
+    //             }
+    //         } catch (err) {
+    //             console.log("Failed to fetch search results");
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     }, 2000);
+    // };
 
     const handleSort = (field: keyof MaterialCollectionData) => {
         const reversed = field === sortBy?!reverseSortDirection : false;
@@ -193,11 +274,12 @@ const MaterialsList = () => {
                 <Grid>
                     <Grid.Col span={{ base: 12, sm: 6, lg: 6 }}>
                         <TextInput
+                            radius={'md'}
                             size={'md'}
                             placeholder="Search by any field"
                             leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
                             value={search}
-                            onChange={handleSearchChange}
+                            onChange={(e) => setSearch(e.target.value)}
                         />
                     </Grid.Col>
 
@@ -291,7 +373,7 @@ const MaterialsList = () => {
                                 )
                             }
                         </div>
-                    ):(<Empty />)
+                    ):(<Empty title={'No Material found'} />)
             }
 
         </>

@@ -1,13 +1,21 @@
 import image from '../assets/images/no-data.svg'
 import {Center, Image, Stack, Text} from "@mantine/core";
 
-const Empty = ({w=250,h=250}:{w?: number|undefined, h?: number|undefined}) => {
+const Empty = ({
+    w=200,
+    h=200,
+    title="No Records Available",
+}:{
+    w?: number|undefined,
+    h?: number|undefined,
+    title?:string|undefined,
+}) => {
     
   return (
       <Center>
-        <Stack py={50}>
+        <Stack py={100}>
             <Image src={image} maw={w} mah={h} alt="empty image" />
-            <Text fz={30} ta={'center'} c={'dimmed'}>No Records Available</Text>
+            <Text fz={{sm: 20, md: 20}} ta={'center'} c={'dimmed'}>{title}</Text>
         </Stack>
       </Center>
   )
