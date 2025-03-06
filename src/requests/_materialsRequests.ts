@@ -46,18 +46,29 @@ export function getMaterialsOption(withoutComponents: boolean) {
 }
 
 // Server should return MaterialModel object
-export function getMaterials(page?: number, per_page?: number, search?: string) {
+export function getMaterials(page?: number, per_page?: number, search?: string, searchParams?: URLSearchParams) {
   if (!page) {
     page = 1;
   }
   if (!per_page) {
     per_page = 25;
   }
+
+  let categories: string[]|undefined = []
+  if (searchParams != undefined) {
+    const categoriesString = searchParams.get('categories')
+    if(categoriesString){
+      categories = categoriesString?.split(',')
+    }
+
+    console.log(categories)
+  }
+
   if (search === undefined || search.replace(/\s/g,'').length < 1 ) {
-    return axios.get<MaterialCollection>(GET_MATERIALS+'?page='+page+'&per_page='+per_page,config);
+    return axios.get<MaterialCollection>(GET_MATERIALS+'?page='+page+'&per_page='+per_page+'&categories='+categories,config);
   }
   else {
-    return axios.get<MaterialCollection>(GET_MATERIALS+'?page='+page+'&per_page='+per_page+'&q='+search,config);
+    return axios.get<MaterialCollection>(GET_MATERIALS+'?page='+page+'&per_page='+per_page+'&categories='+categories+'&q='+search,config);
   }
 
 }

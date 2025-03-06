@@ -20,7 +20,7 @@ const Categories = () => {
         const data = response.data.data;
         setCategories(data);
       }
-      categoriesResponse()
+      categoriesResponse().then()
       },[]);
     
 
@@ -120,100 +120,98 @@ const Categories = () => {
 
   return (
     <>
-    <Button onClick={open} size={'sm'} variant='light'> Categories </Button>
+        <Button onClick={open} size={'sm'} variant='light'> Categories </Button>
       
-      <Drawer
-        position="right"
-        size="sm"
-        opened={opened}
-        onClose={close}
-        title={<Text fw={600} fz={17}>Categories</Text>}
-        fs={'lg'}
-        pb={30}
-        overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
-      >
-        {/* <Card radius={'md'} mb={'lg'} id='editForm'> */}
+        <Drawer
+            position="right"
+            size="sm"
+            opened={opened}
+            onClose={close}
+            title={<Text fw={600} fz={17}>Categories</Text>}
+            fs={'lg'}
+            pb={30}
+            overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
+        >
             <form  method='POST' onSubmit={categoryForm.onSubmit(handleSubmit)}>
 
-            <Grid>
-                {/* Code */}
-                <Grid.Col pt={10} pb={10} span={12}>
-                    <TextInput
-                    {...categoryForm.getInputProps('title')}
-                    key={categoryForm.key('title')}
-                    radius={"md"}
-                    variant="filled"
-                    // c={'dimmed'}
-                    // size="sm"
-                    label="Title"
-                    required
-                    withAsterisk
-                    placeholder="Title"
-                    />
-                </Grid.Col>
+                <Grid>
+                    {/* Code */}
+                    <Grid.Col pt={10} pb={10} span={12}>
+                        <TextInput
+                        {...categoryForm.getInputProps('title')}
+                        key={categoryForm.key('title')}
+                        radius={"md"}
+                        variant="filled"
+                        // c={'dimmed'}
+                        // size="sm"
+                        label="Title"
+                        required
+                        withAsterisk
+                        placeholder="Title"
+                        />
+                    </Grid.Col>
 
-                {/* Description */}
-                <Grid.Col pt={10} span={12}>
-                    <Textarea
-                    {...categoryForm.getInputProps('description')}
-                    key={categoryForm.key('description')}
-                    radius={"md"}
-                    variant="filled"
-                    placeholder="Describe what the category means..."
-                    label="Description"
-                    autosize
-                    minRows={3}
-                    />
-                </Grid.Col>
+                    {/* Description */}
+                    <Grid.Col pt={10} span={12}>
+                        <Textarea
+                        {...categoryForm.getInputProps('description')}
+                        key={categoryForm.key('description')}
+                        radius={"md"}
+                        variant="filled"
+                        placeholder="Describe what the category means..."
+                        label="Description"
+                        autosize
+                        minRows={3}
+                        />
+                    </Grid.Col>
 
-                <Grid.Col pt={10} span={{ base: 12, md: 12, lg: 12 }}>
-                    <Button  
-                    type="submit"
-                    size={'sm'}
-                    loading={categoryFormloading}
-                    px={30}
-                    variant="filled">
-                    Save
-                    </Button>
+                    <Grid.Col pt={10} span={{ base: 12, md: 12, lg: 12 }}>
+                        <Button
+                        type="submit"
+                        size={'sm'}
+                        loading={categoryFormloading}
+                        px={30}
+                        variant="filled">
+                        Save
+                        </Button>
 
-                    <Button  
-                    ml={4}
-                    type="button"
-                    onClick={resetForm}
-                    disabled={enableClear}
-                    px={30}
-                    size={'sm'}
-                    color={'red'}
-                    variant="light">
-                    Reset
-                    </Button>
-            </Grid.Col>
-            </Grid>
+                        <Button
+                        ml={4}
+                        type="button"
+                        onClick={resetForm}
+                        disabled={enableClear}
+                        px={30}
+                        size={'sm'}
+                        color={'red'}
+                        variant="light">
+                        Reset
+                        </Button>
+                    </Grid.Col>
+                </Grid>
             </form>
-        {/* </Card> */}
-        
-        <Stack mt={20} style={{overflow:'scroll'}}>
-          {
-            categories?.map((category) => (
-              <div key={category.id}>
-              <Divider my={3} />
-              <Group wrap="nowrap" justify="space-between" color='#efefe'>
-                  <div>
-                      <Text>{category.title}</Text>
-                      <Text size="sm" c={'dimmed'}>{category.description}</Text>
-                  </div>
 
-                  <ActionIcon variant="light" aria-label="Save" onClick={()=>editCategory(category.id)}>
-                      <IconEdit style={{ width: '70%', height: '70%' }} stroke={2} />
-                  </ActionIcon>
-              
-              </Group>
-              </div>
-              )
-            )
-          }
-        </Stack>
-      </Drawer>
+            <Stack mt={20} style={{overflow:'scroll'}}>
+              {
+                categories?.map((category) => (
+                  <div key={category.id}>
+                  <Divider my={3} />
+                  <Group wrap="nowrap" justify="space-between" color='#efefe'>
+                      <div>
+                          <Text>{category.title}</Text>
+                          <Text size="sm" c={'dimmed'}>{category.description}</Text>
+                      </div>
+
+                      <ActionIcon variant="light" aria-label="Save" onClick={()=>editCategory(category.id)}>
+                          <IconEdit style={{ width: '70%', height: '70%' }} stroke={2} />
+                      </ActionIcon>
+
+                  </Group>
+                  </div>
+                  )
+                )
+              }
+            </Stack>
+        </Drawer>
     </>
   )
 }

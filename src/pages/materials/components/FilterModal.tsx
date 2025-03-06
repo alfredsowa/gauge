@@ -17,10 +17,10 @@ const FilterModal = ({setSearchParams}:{setSearchParams:(params: { categories: s
           const data = response.data.data;
           setCategories(data);
         }
-        categoriesResponse()
+        categoriesResponse().then()
     },[]);
 
-    const materialCatogories = useMemo(
+    const materialCategories = useMemo(
         () => {
           return categories?.map((category) => ({
             value: `${category.id}`,
@@ -46,7 +46,6 @@ const FilterModal = ({setSearchParams}:{setSearchParams:(params: { categories: s
     }
 
     const clearFilter = () => {
-        
         setValue([])
         navigate('/materials')
         close()
@@ -66,7 +65,7 @@ const FilterModal = ({setSearchParams}:{setSearchParams:(params: { categories: s
         label="Categories"
         placeholder="Choose Categories"
         value={value} onChange={setValue}
-        data={materialCatogories}
+        data={materialCategories}
         maxDropdownHeight={200}
         checkIconPosition="right"
         clearable
@@ -83,8 +82,8 @@ const FilterModal = ({setSearchParams}:{setSearchParams:(params: { categories: s
         </Group>
         
     </Modal>
-    <Button size={'sm'} variant="light" title={"Filter"} color="gauge-primary" onClick={openFilter} aria-label="Filter">
-        <IconFilter size={20} />
+    <Button size={'sm'} variant='light' leftSection={<IconFilter />} title={"Filter"} onClick={openFilter} aria-label="Filter">
+         Filter
     </Button>
     </>
   )
