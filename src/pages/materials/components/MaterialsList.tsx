@@ -1,6 +1,7 @@
 import {ReactElement, useEffect, useState} from 'react'
 import {MaterialCollection, MaterialCollectionData} from '../../../requests/models/_material';
 import {
+    Button,
     em,
     Flex,
     Grid,
@@ -11,10 +12,11 @@ import {
     TextInput,
 } from '@mantine/core';
 import {
+    IconPlus,
     IconSearch,
 } from '@tabler/icons-react';
 import Empty from '../../../components/Empty';
-import {useSearchParams} from 'react-router-dom';
+import {Link, useSearchParams} from 'react-router-dom';
 import Categories from './Categories';
 import MaterialItem from './MaterialItem';
 import FilterModal from './FilterModal';
@@ -23,6 +25,7 @@ import TableLoadingSingle from "../../../components/TableLoadingSingle.tsx";
 import {useMediaQuery} from "@mantine/hooks";
 import Paginator from "../../../components/Paginator.tsx";
 import MobileCardLoading from "../../../components/MobileCardLoading.tsx";
+import {MOBILE_SCREEN_SIZE} from "../../../base/constants.ts";
 
 const MaterialsList = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -34,8 +37,7 @@ const MaterialsList = () => {
     const [per_page, setPerPage] = useState(10);
     const [last_page, setLastPage] = useState(1);
     const [debouncedQuery, setDebouncedQuery] = useState("");
-    const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
-
+    const isMobile = useMediaQuery(`(max-width: ${em(MOBILE_SCREEN_SIZE)})`);
 
     const queryDataResponse = async (page?: number) => {
         if (!page) {
@@ -83,10 +85,8 @@ const MaterialsList = () => {
     }, [debouncedQuery]);
 
     useEffect(()=>{
-        // if(searchParams.get('categories')){
-            setLoading(true)
-            queryDataResponse().then()
-        // }
+        setLoading(true)
+        queryDataResponse().then()
 
     },[searchParams])
 
@@ -161,7 +161,7 @@ const MaterialsList = () => {
                     <TextInput
                         radius={'md'}
                         size={'md'}
-                        placeholder="Search by any field"
+                        placeholder="Enter 3 or more to start search by name"
                         leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -191,6 +191,10 @@ const MaterialsList = () => {
                         {/*)}*/}
                         <FilterModal setSearchParams={setSearchParams} />
                         <Categories  />
+                        {isMobile && (
+                            <Button size={'sm'} component={Link} to={'/materials/add'} variant='filled'
+                                    leftSection={<IconPlus size={16} />}>Add</Button>
+                        )}
                     </Flex>
                 </Grid.Col>
             </Grid>

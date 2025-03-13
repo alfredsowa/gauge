@@ -108,15 +108,13 @@ const AddIntermediateGoods = () => {
   
   const items: Array<LinkItem> = [
     { title: 'Dashboard', href: '/dashboard' },
-    { title: 'Products', href: '/products' },
-    { title: 'Add new product', href: '#' },
+    { title: 'Intermediate Goods', href: '/intermediate-goods' },
+    { title: 'Add new', href: '#' },
   ]
 
   return (
     <>
-    <PageTitle title='New Product'>
-      <PageBreadCrumb pageBreadCrumbs={items} />
-    </PageTitle>
+    <PageTitle title='New Intermediate Good' breadcrumb={<PageBreadCrumb pageBreadCrumbs={items} />} />
 
     <Stack mt={40} pos={'relative'}>
 

@@ -13,19 +13,25 @@ const Material = () => {
 
     return (
         <>
-
-            <PageTitle back={false} title="Materials">
-                <div>
-                    <Button ml={'sm'} size={'sm'} component={Link} to={'/materials/add'} variant='filled'
-                        leftSection={<IconPlus size={16} />}>Add</Button>
-                </div>
-
-            </PageTitle>
+            <PageTitle
+                back={false}
+                title="Materials"
+                button={
+                    <Button
+                        ml={'sm'}
+                        size={'sm'}
+                        component={Link}
+                        to={'/materials/add'}
+                        variant='filled'
+                        leftSection={<IconPlus size={16} />}>
+                        Add
+                    </Button>
+                }
+            />
 
             <MaterialsList />
 
             <PopUpSetupGuide />
-
         </>
     );
 }

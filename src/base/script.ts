@@ -134,6 +134,9 @@ export const baseTheme = createTheme({
       Modal: Modal.extend({
         defaultProps: {
           radius: 'lg',
+          transitionProps:{
+            transition: 'fade-down'
+          }
         },
       }),
       Card: Card.extend({

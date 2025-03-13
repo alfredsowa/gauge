@@ -60,8 +60,6 @@ export function getMaterials(page?: number, per_page?: number, search?: string, 
     if(categoriesString){
       categories = categoriesString?.split(',')
     }
-
-    console.log(categories)
   }
 
   if (search === undefined || search.replace(/\s/g,'').length < 1 ) {

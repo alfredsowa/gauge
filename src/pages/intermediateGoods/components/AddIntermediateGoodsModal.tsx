@@ -1,5 +1,5 @@
-import {IconArrowRight, IconPlus, IconX} from '@tabler/icons-react';
-import {Button, LoadingOverlay, Modal, Text, TextInput} from '@mantine/core';
+import { IconPlus} from '@tabler/icons-react';
+import {Button, Group, LoadingOverlay, Modal, Text, TextInput} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { notify } from '../../../requests/general/toast';
@@ -69,8 +69,8 @@ const AddIntermediateGoodsModal = () => {
     
   return (
     <>
-    <Modal opened={opened} size="xl" padding='xl' onClose={close} 
-    title={<Text fw={600} fz={17}>Add New Intermediate Good</Text>}
+    <Modal opened={opened} size="lg" padding='md' onClose={close}
+    title={<Text fw={500} fz={16}>Add New Intermediate Good</Text>}
     overlayProps={{
         backgroundOpacity: 0.55,
         blur: 1,
@@ -88,35 +88,36 @@ const AddIntermediateGoodsModal = () => {
                 key={generalInformation.key('name')}
                 radius={"md"}
                 variant="filled"
-                // c={'dimmed'}
                 label="Name"
                 withAsterisk
                 required
                 mb={20}
                 placeholder="Name"
             />
-            <Button
-                mr={10}
-                mb={10}
-                disabled={isPending}
-                type="submit"
-                px={40}
-                variant="filled"
-                rightSection={<IconArrowRight size={14} />}>
-                Save
-            </Button>
-            <Button
-                mb={10}
-                onClick={close}
-                type="reset"
-                px={40}
-                variant="light"
-                rightSection={<IconX size={14} />}>
-                Close
-            </Button>
+            <Group justify={'end'}>
+                <Button
+                    size={'sm'}
+                    mb={10}
+                    disabled={isPending}
+                    type="submit"
+                    px={20}
+                    variant="filled">
+                    Save
+                </Button>
+                <Button
+                    size={'sm'}
+                    mb={10}
+                    onClick={close}
+                    type="reset"
+                    px={20}
+                    variant="light">
+                    Close
+                </Button>
+            </Group>
+
         </form>
     </Modal>
-        <Button variant='filled' onClick={addNewIntermediateGood} leftSection={<IconPlus size={16} />}>Add New</Button>
+        <Button size={'sm'} variant='filled' onClick={addNewIntermediateGood} leftSection={<IconPlus size={16} />}>Add</Button>
     </>
   )
 }

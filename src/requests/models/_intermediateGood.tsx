@@ -58,6 +58,31 @@ export interface IntermediateGoodProductions {
 }
 export interface IntermediateGoodBasicCollectionModel {
     data: IntermediateGoodBasicModel[];
+    links: IntermediateGoodPaginationLinks,
+    meta: IntermediateGoodPagination
+}
+
+export interface IntermediateGoodPaginationLinks {
+    first: string|null;
+    last: string|null;
+    next: string|null;
+    prev: string|null;
+}
+export interface IntermediateGoodPagination {
+    current_page: number;
+    from: number;
+    last_page: number;
+    links: Array<Links>;
+    path: string|undefined;
+    per_page: number;
+    to: number|0;
+    total: number|0
+}
+
+type Links = {
+    active: boolean;
+    label: string;
+    url: string|null;
 }
 
 export interface AddedBy {

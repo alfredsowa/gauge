@@ -1,95 +1,63 @@
-import { ActionIcon, Avatar, Center, Flex, Grid, Group, Menu, Paper, ScrollArea, Table, TableTdProps, Text, TextInput, UnstyledButton, keys, rem } from '@mantine/core';
-import { IconChevronDown, IconChevronRight, IconChevronUp, IconCopy, IconEdit, IconEye, IconSearch, IconSelector, IconTrash } from '@tabler/icons-react';
-import React, { useState } from 'react'
-import classes from '../../purchases/assets/TableSelection.module.css';
-import { Link, useNavigate } from 'react-router-dom';
+import {
+    ActionIcon,
+    Avatar,
+    Grid,
+    Group,
+    Menu,
+    Paper,
+    ScrollArea,
+    Table,
+    TableTdProps,
+    Text,
+    TextInput,
+    rem,
+    em,
+} from '@mantine/core';
+import {
+    IconChevronRight,
+    IconCopy,
+    IconEdit,
+    IconEye,
+    IconSearch,
+    IconTrash
+} from '@tabler/icons-react';
+import React, {useEffect, useState} from 'react'
+import {Link, useNavigate} from 'react-router-dom';
 import { MoneyFigure, PrettyFigure } from '../../../requests/general/_numberHelper';
 import Empty from '../../../components/Empty';
 import { notify } from '../../../requests/general/toast';
 import { modals } from '@mantine/modals';
-import { IntermediateGoodBasicModel, IntermediateGoodMaterialsModel } from '../../../requests/models/_intermediateGood.tsx';
-import { deleteIntermediateGood, duplicateIntermediateGood } from '../../../requests/_intermediateGoodsRequests.ts';
-// import { DefaultReadableDate } from '../../../requests/general/_dates';
-// import TotalRecord from '../../../components/TotalRecord';
-// import TableLoadingSingle from '../../../components/TableLoadingSingle';
+import {
+    IntermediateGoodBasicCollectionModel, IntermediateGoodBasicModel,
+    IntermediateGoodMaterialsModel
+} from '../../../requests/models/_intermediateGood.tsx';
+import {
+    deleteIntermediateGood,
+    duplicateIntermediateGood,
+    getIntermediateGoods
+} from '../../../requests/_intermediateGoodsRequests.ts';
 import AddIntermediateGoodsModal from "./AddIntermediateGoodsModal.tsx";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import {useMediaQuery} from "@mantine/hooks";
+import {MOBILE_SCREEN_SIZE} from "../../../base/constants.ts";
+import Paginator from "../../../components/Paginator.tsx";
+import MobileCardLoading from "../../../components/MobileCardLoading.tsx";
+import TableLoadingSingle from "../../../components/TableLoadingSingle.tsx";
 
-interface RowData {
-  name: string;
-}
-  
-interface ThProps {
-  children: React.ReactNode;
-  reversed: boolean;
-  sorted: boolean;
-  onSort(): void;
-}
-  
-function Th({ children, reversed, sorted, onSort }: ThProps) {
-  const Icon = sorted ? (reversed ? IconChevronUp : IconChevronDown) : IconSelector;
-  return (
-      <Table.Th className={classes.th} style={{ width: '300px' }}>
-      <UnstyledButton onClick={onSort} className={classes.control}>
-          <Group justify="space-between">
-          <Text fw={700}>
-              {children}
-          </Text>
-          <Center className={classes.icon}>
-              <Icon style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-          </Center>
-          </Group>
-      </UnstyledButton>
-      </Table.Th>
-  );
-}
-  
-function filterData(data: IntermediateGoodBasicModel[], search: string) {
-  const query = search.toLowerCase().trim();
-  return data.filter((item) =>
-    keys(data[0])?.some((key: keyof IntermediateGoodBasicModel) =>
-      typeof item[key] === 'string' && 
-      typeof item[key]!== 'undefined' && 
-      (item[key] as string)?.toLowerCase().includes(query)
-    )
-  );
-}
-  
-function sortData(
-  data: IntermediateGoodBasicModel[],
-  payload: { sortBy: keyof IntermediateGoodBasicModel | null; reversed: boolean; search: string }) {
-  const { sortBy } = payload;
-
-  if (!sortBy) {
-    return filterData(data, payload.search);
-  }
-
-  return filterData(
-    [...data].sort((a, b) => {
-      if (payload.reversed) {
-        return sortBy!== null && typeof sortBy === 'string'
-        ? (b[sortBy] as string).localeCompare(a[sortBy] as string)
-          : 0;
-      }
-
-      return sortBy && typeof sortBy === 'string'? (a[sortBy] as string).localeCompare(b[sortBy] as string) : 0;
-    }),
-    payload.search
-  );
-}
-
-
-const IntermediateGoodsList = ({intermediateGoods}:{intermediateGoods: IntermediateGoodBasicModel[]|undefined}) => {
+const IntermediateGoodsList = () => {
 
     const [search, setSearch] = useState('');
-    // const [intermediateGoods, setIntermediateGoods] = useState<IntermediateGoodBasicModel[]>();
-    const [sortedData, setSortedData] = useState(intermediateGoods);
-    const [sortBy, setSortBy] = useState<keyof IntermediateGoodBasicModel>('name');
-    const [reverseSortDirection, setReverseSortDirection] = useState(false);
-    // const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
+    const [intermediateGoods, setIntermediateGoods] = useState<IntermediateGoodBasicModel[]>();
     const navigate = useNavigate()
+    const [current_page, setCurrentPage] = useState(1);
+    const [totalRecords, setTotalRecords] = useState(0);
+    const [per_page, setPerPage] = useState(10);
+    const [last_page, setLastPage] = useState(1);
+    const [debouncedQuery, setDebouncedQuery] = useState("");
     const queryClient = useQueryClient();
+    const isMobile = useMediaQuery(`(max-width: ${em(MOBILE_SCREEN_SIZE)})`);
 
     const {mutate: duplicatingIntermediateGood} = useMutation({
       mutationKey: ['intermediateGoodsNew'],
@@ -122,101 +90,148 @@ const IntermediateGoodsList = ({intermediateGoods}:{intermediateGoods: Intermedi
       }
   })
 
-    // useEffect(()=>{
-    //
-    //     const load_intermediateGoods = async () => {
-    //         const getIntermediateGoodsResponse = await getIntermediateGoods();
-    //         setIntermediateGoods(getIntermediateGoodsResponse.data.data);
-    //     }
-    //
-    //     setLoading(false)
-    //     load_intermediateGoods()
-    // },[])
-    //
-    // useEffect(()=>{
-    //     setSortedData(intermediateGoods);
-    // },[intermediateGoods])
-
-    const setSorting = (field: keyof RowData) => {
-        const reversed = field === sortBy ? !reverseSortDirection : false;
-        setReverseSortDirection(reversed);
-        setSortBy(field);
-        if(intermediateGoods) {
-            setSortedData(sortData(intermediateGoods, { sortBy: field, reversed, search }));
+    const queryDataResponse = async (page?: number) => {
+        if (!page) {
+            page = current_page;
         }
-    };
-
-    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-
-        // setLoading(true)
-        const { value } = event.currentTarget;
-        setSearch(value);
-        if(intermediateGoods) {
-            setSortedData(sortData(intermediateGoods, { sortBy, reversed: reverseSortDirection, search: value }));
+        const response = await getIntermediateGoods(page,per_page,search)
+        if(response.data.data){
+            setValue(response.data)
         }
-    
-        // setLoading(false)
-    };
-
-  function sumMaterialCost(materials: IntermediateGoodMaterialsModel[]) {
-    if(!Array.isArray(materials)) return 0;
-    if(materials.length === 0) return 0;
-
-    let totalCost = 0;
-
-    for (let position = 0; position < materials.length; position++) {
-      totalCost += Number(materials[position].cost_per_unit) * Number(materials[position].quantity);
+        setLoading(false)
     }
 
-    return totalCost
-  }
+    // FOR SEARCHING
+    useEffect(() => {
+        setLoading(true)
+        queryDataResponse().then()
+    },[])
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            if (search.replace(/\s/g,'').length > 2) {
+                setDebouncedQuery(search);
+            } else if (search.replace(/\s/g,'').length === 0 || search === '') {
+                queryDataResponse().then(); // Fetch all items when search is cleared
+            }
+        }, 1000);
+
+        return () => clearTimeout(handler);
+    }, [search]);
+
+    useEffect(() => {
+        if (debouncedQuery.length <= 2) return;
+
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                queryDataResponse().then()
+            } catch (err) {
+                console.log("Failed to fetch search results");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData().then();
+    }, [debouncedQuery]);
+    //END SEARCHING
+
+    //PAGINATION SCRIPTS
+    const onNext = async (current_page: number) => {
+        setLoading(true)
+        if(current_page < last_page) {
+            setCurrentPage(current_page)
+        }
+        else {
+            setCurrentPage(last_page)
+        }
+
+        const response = await getIntermediateGoods(current_page,per_page,search);
+        if(response.data.data){
+            setValue(response.data)
+        }
+        setLoading(false)
+    };
+
+    const onPrev = async (current_page: number) => {
+        setLoading(true)
+        if(current_page < 1) {
+            setCurrentPage(1)
+        }
+        else {
+            setCurrentPage(current_page)
+        }
+        const response = await getIntermediateGoods(current_page,per_page,search);
+        if(response.data.data){
+            setValue(response.data)
+        }
+        setLoading(false)
+    };
+
+    const onPerPage = async (per_page: number) => {
+        setLoading(true)
+        setPerPage(per_page);
+        setCurrentPage(1);
+        const response = await getIntermediateGoods(1,per_page,search);
+        if(response.data.data){
+            setValue(response.data)
+        }
+        setLoading(false)
+    }
+
+    const setValue = (goods: IntermediateGoodBasicCollectionModel) => {
+        setIntermediateGoods(goods.data)
+        setCurrentPage(goods.meta.current_page)
+        setPerPage(goods.meta.per_page)
+        setTotalRecords(goods.meta.total)
+        setLastPage(goods.meta.last_page)
+    }
+    // END PAGINATION SCRIPTS
+
+    function sumMaterialCost(materials: IntermediateGoodMaterialsModel[]) {
+        if(!Array.isArray(materials)) return 0;
+        if(materials.length === 0) return 0;
+
+        let totalCost = 0;
+
+        for (let position = 0; position < materials.length; position++) {
+          totalCost += Number(materials[position].cost_per_unit) * Number(materials[position].quantity);
+        }
+
+        return totalCost
+    }
 
     const deleteItem = async(id: number) => {
-      try {
-          const response = await deleteIntermediateGood(id)
-          if(response.data.deleted) {
-            const data = sortedData?.filter((purchase)=>{
-                return purchase.id!== id
-            })
-            setSortedData(data)
-            notify({
-                type:'success',
-                message: response.data.message,
-                title: 'Done'
-            })
-          }
-          else {
-            notify({
-                type:'error',
-                message: response.data.message,
-                title: 'Sorry!'
-            })
-          }
-      } catch (error) {
+        try {
+            const response = await deleteIntermediateGood(id)
+            if(response.data.deleted) {
+                queryDataResponse().then()
+                notify({
+                    type:'success',
+                    message: response.data.message,
+                    title: 'Done'
+                })
+            }
+            else {
+                notify({
+                    type:'error',
+                    message: response.data.message,
+                    title: 'Sorry!'
+                })
+            }
+        } catch (error) {
           notify({
               type:'error',
               message: 'Something went wrong',
               title: 'Oops!'
           })
-      }
+        }
         
     }
 
     const duplicateIntermediateGoodData = async(id: number) => {
       duplicatingIntermediateGood(id)
-        // const response = await duplicateIntermediateGood(id)
-        // const data = response.data
-
-        // if(data.saved) {
-
-        //     notify({
-        //         type:'success',
-        //         message: data.message,
-        //         title: 'Done'
-        //     })
-        //     navigate(`/intermediate-goods/${data.data.id}/edit`)
-        // }
-        
     }
     
     const openDeleteModal = (id: number) =>
@@ -236,8 +251,8 @@ const IntermediateGoodsList = ({intermediateGoods}:{intermediateGoods: Intermedi
     
     let rows: React.ReactElement<TableTdProps>[] = [];
 
-    if(sortedData) {
-        rows = sortedData.map((row) => (
+    if(intermediateGoods) {
+        rows = intermediateGoods.map((row) => (
 
             <Table.Tr key={row.id}>
                 <Table.Td>
@@ -329,79 +344,91 @@ const IntermediateGoodsList = ({intermediateGoods}:{intermediateGoods: Intermedi
 
     return (
         <>
-            <Paper mb={15} p="sm" radius="md">
-                <Grid>
-                    <Grid.Col span={{ base: 12, md: 4, lg: 4 }}>
-                        <TextInput
-                        placeholder="Search by any field"
-                        // mb="md"
+            <Grid mb={'20'}>
+                <Grid.Col span={{ base: 12, sm: 6, lg: 6 }}>
+                    <TextInput
+                        radius={'md'}
+                        size={'md'}
+                        placeholder="Enter 3 or more to start search by name"
                         leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
                         value={search}
-                        onChange={handleSearchChange}
-                        />
-                    </Grid.Col>
-                    <Grid.Col span={{ base: 12, md: 8, lg: 8 }}>
-                        <Flex
-                            gap="md"
-                            justify="flex-end"
-                            align="center"
-                            direction="row"
-                            wrap="wrap"
-                        >
+                        // onChange={handleSearchChange}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 6, lg: 6 }}>
+                    <Group gap="sm" justify="right">
+                        {isMobile && (
                             <AddIntermediateGoodsModal />
-                            {/*<Button component={Link} to={'/intermediate-goods/add'} variant='filled'*/}
-                            {/*leftSection={<IconPlus size={16} />}>New Intermediate Good</Button>*/}
-                        </Flex>
-                    </Grid.Col>
-                </Grid>
-            </Paper>
+                        )}
+                    </Group>
+                </Grid.Col>
+            </Grid>
             {
-              rows.length > 0 ? (
-              <Paper shadow="xs"  radius="lg">
-              {/* <TotalRecord count={rows.length} /> */}
-                  <ScrollArea>
-                      <Table withRowBorders={true} highlightOnHover withColumnBorders={false} horizontalSpacing="sm" verticalSpacing="xs" miw={700} layout="fixed">
-                          <Table.Thead>
-                          <Table.Tr>
-                              <Th 
-                              sorted={sortBy === 'name'}
-                              reversed={reverseSortDirection}
-                              onSort={() => setSorting('name')}
-                              >
-                              Name
-                              </Th>
-                              
-                              <Table.Th style={{ width: '150px' }} ta={'center'}>
-                                Current Stock
-                              </Table.Th>
-                              
-                              <Table.Th style={{ width: '150px' }} ta={'center'}>
-                                Minimum Stock
-                              </Table.Th>
-                              
-                              <Table.Th style={{ width: '150px' }} ta={'left'}>
-                                Materials Cost
-                              </Table.Th>
-                              
-                              {/* <Table.Th style={{ width: '150px' }} ta={'left'}>
-                                Labour Cost
-                              </Table.Th> */}
+                loading?
+                isMobile?
+                <MobileCardLoading withImage={true} columns={2} />:
+                <TableLoadingSingle withImage={true} columns={5} />:
+                rows.length > 0 ? (
+                  <div>
+                      <Paginator
+                          totalRecords={totalRecords}
+                          per_page={per_page}
+                          current_page={current_page}
+                          last_page={last_page}
+                          onNext={onNext}
+                          onPrev={onPrev}
+                          onPerPage={onPerPage}
+                      />
+                      {
+                          isMobile?(
+                              rows
+                          ):(
+                              <Paper shadow="xs"  radius="lg">
+                              {/* <TotalRecord count={rows.length} /> */}
+                                  <ScrollArea>
+                                      <Table withRowBorders={true} highlightOnHover withColumnBorders={false} horizontalSpacing="sm" verticalSpacing="xs" miw={700} layout="fixed">
+                                          <Table.Thead>
+                                          <Table.Tr>
+                                              <Table.Th style={{ width: '250px' }} ta={'left'}>
+                                              Name
+                                              </Table.Th>
 
-                              <Table.Th style={{ width: '60px' }} ta={'left'}>
+                                              <Table.Th style={{ width: '150px' }} ta={'center'}>
+                                                Current Stock
+                                              </Table.Th>
 
-                              </Table.Th>
-                          </Table.Tr>
-                          </Table.Thead>
-                          <Table.Tbody>
-                          {rows}
-                          </Table.Tbody>
-                      </Table>
-                  </ScrollArea>
-              </Paper>
-              ):
-              (
-                <Empty  />
-              )}
+                                              <Table.Th style={{ width: '150px' }} ta={'center'}>
+                                                Minimum Stock
+                                              </Table.Th>
+
+                                              <Table.Th style={{ width: '150px' }} ta={'left'}>
+                                                Materials Cost
+                                              </Table.Th>
+
+                                              {/* <Table.Th style={{ width: '150px' }} ta={'left'}>
+                                                Labour Cost
+                                              </Table.Th> */}
+
+                                              <Table.Th style={{ width: '60px' }} ta={'left'}>
+
+                                              </Table.Th>
+                                          </Table.Tr>
+                                          </Table.Thead>
+                                          <Table.Tbody>
+                                          {rows}
+                                          </Table.Tbody>
+                                      </Table>
+                                  </ScrollArea>
+                              </Paper>
+                          )
+                      }
+                  </div>
+                  ):
+                (
+                <Empty title={'No Goods found'} />
+                )
+            }
         </>
     )
 }

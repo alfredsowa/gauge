@@ -41,11 +41,23 @@ export function getIntermediateGood(slug: string) {
 }
 
 // Server should return MaterialModel object
-export function getIntermediateGoods() {
-  return axios.get<IntermediateGoodBasicCollectionModel>(GET_INTERMEDIATE_GOODS,config);
+export function getIntermediateGoods(page?: number, per_page?: number, search?: string) {
+  if (!page) {
+    page = 1;
+  }
+  if (!per_page) {
+    per_page = 25;
+  }
+
+  if (search === undefined || search.replace(/\s/g,'').length < 1 ) {
+    return axios.get<IntermediateGoodBasicCollectionModel>(GET_INTERMEDIATE_GOODS+'?page='+page+'&per_page='+per_page,config);
+  }
+  else {
+    return axios.get<IntermediateGoodBasicCollectionModel>(GET_INTERMEDIATE_GOODS+'?page='+page+'&per_page='+per_page+'&q='+search,config);
+  }
 }
 
-// Server should creates new IntermediateGood
+// Server should create new IntermediateGood
 /**
  * Creates a new intermediate-good by sending a POST request to the server.
  *

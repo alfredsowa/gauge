@@ -4,14 +4,20 @@ import { Link } from 'react-router-dom';
 import { IconHome } from '@tabler/icons-react';
 
 const PageBreadCrumb = ({pageBreadCrumbs}:{pageBreadCrumbs: Array<LinkItem>}) => {
-  const menus = pageBreadCrumbs.map((item: LinkItem, index: number) => (
-    <Anchor component={Link} size='14px' c={'dimmed'} fw={500} to={item.href} key={index}>
-      {item.title === "Dashboard"? (<IconHome style={{ width: rem(20), height: rem(20) }} stroke={1.5}  />):item.title}
+
+    const menus = pageBreadCrumbs.map((item: LinkItem, index: number) => (
+
+    <Anchor component={Link} size={'sm'} c={'dimmed'} fw={400} to={item.href} key={index}>
+      {
+          item.title === "Dashboard"?
+              (<IconHome style={{ width: rem(18), height: rem(18) }} stroke={1}  />)
+              :item.title
+      }
     </Anchor>
   ))
   return (
     <>
-      <Breadcrumbs separator="/" px={3} py={3} separatorMargin={7}>
+      <Breadcrumbs separator="/" fz={'sm'} px={3} py={3} separatorMargin={4}>
           {menus}
       </Breadcrumbs>
     </>

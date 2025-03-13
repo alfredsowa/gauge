@@ -11,6 +11,7 @@ import { deleteMaterial } from '../../requests/_materialsRequests'
 import { modals } from '@mantine/modals'
 import { notify } from '../../requests/general/toast'
 import PageTitle from '../../components/PageTitle'
+import {APPLICATION_NAME} from "../../base/constants.ts";
 
 const items: Array<LinkItem> = [
     { title: 'Dashboard', href: '/dashboard' },
@@ -46,7 +47,7 @@ const ViewMaterial = () => {
     const materialViewData = useLoaderData() as MaterialViewModel;
     const navigate = useNavigate()
 
-    useDocumentTitle("View Material")
+    useDocumentTitle(APPLICATION_NAME+" - View Material")
 
     const deleteItem = async(id: number) => {
         try {
@@ -187,10 +188,12 @@ const ViewMaterial = () => {
     
   return (
     <>
-        <PageTitle title='View Material'>
-            <PageBreadCrumb pageBreadCrumbs={items} />
-        </PageTitle>
-
+        <PageTitle
+            title='View Material'
+            back={true}
+            breadcrumb={<PageBreadCrumb pageBreadCrumbs={items} />}
+            button={<Button variant='light' component={Link} to={`/materials/${materialViewData.id}/edit`}>Edit Material</Button>}
+        />
         <Grid>
         
             <Grid.Col span={{ base: 12, sm: 4, md: 4, lg: 3 }}>
