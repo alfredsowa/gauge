@@ -11,11 +11,10 @@ import {
     Text,
     TextInput,
     rem,
-    em,
+    em, Badge,
 } from '@mantine/core';
 import {
-    IconChevronRight,
-    IconCopy,
+    IconCopy, IconDotsVertical,
     IconEdit,
     IconEye,
     IconSearch,
@@ -44,6 +43,8 @@ import {MOBILE_SCREEN_SIZE} from "../../../base/constants.ts";
 import Paginator from "../../../components/Paginator.tsx";
 import MobileCardLoading from "../../../components/MobileCardLoading.tsx";
 import TableLoadingSingle from "../../../components/TableLoadingSingle.tsx";
+import PaperCardBody from "../../../components/PaperCardBody.tsx";
+import PaperCard from "../../../components/PaperCard.tsx";
 
 const IntermediateGoodsList = () => {
 
@@ -248,98 +249,140 @@ const IntermediateGoodsList = () => {
       onCancel: () => console.log('Cancel'),
       onConfirm: () => deleteItem(id),
     });
+
+    const menu = (row: IntermediateGoodBasicModel) => {
+        return (
+            <Menu shadow="md" width={130}>
+                <Menu.Target>
+                    <ActionIcon color='gray' variant="light" aria-label="Settings">
+                        <IconDotsVertical style={{ width: '70%', height: '70%' }} stroke={2} />
+                    </ActionIcon>
+                </Menu.Target>
+
+                <Menu.Dropdown>
+                    <Menu.Item component={Link} to={`/intermediate-goods/${row.slug}/view`}
+                               leftSection={<IconEye style={{ width: rem(14), height: rem(14) }} />}>
+                        View
+                    </Menu.Item>
+                    <Menu.Item component={Link} to={`/intermediate-goods/${row.slug}/edit`}
+                               leftSection={<IconEdit style={{ width: rem(14), height: rem(14) }} />}>
+                        Edit
+                    </Menu.Item>
+                    <Menu.Item onClick={()=>duplicateIntermediateGoodData(row.id)}
+                               leftSection={<IconCopy style={{ width: rem(14), height: rem(14) }} />}>
+                        Duplicate
+                    </Menu.Item>
+                    <Menu.Divider />
+
+                    <Menu.Label>Danger zone</Menu.Label>
+
+                    <Menu.Item
+                        onClick={()=>openDeleteModal(row.id)}
+                        color="red"
+                        leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
+                    >
+                        Delete
+                    </Menu.Item>
+                </Menu.Dropdown>
+            </Menu>
+        )
+    }
     
     let rows: React.ReactElement<TableTdProps>[] = [];
 
     if(intermediateGoods) {
-        rows = intermediateGoods.map((row) => (
+        isMobile?(
+            rows = intermediateGoods.map((row) => (
+                <PaperCard mb={10} shadow="none">
+                    <PaperCardBody py={13} px={10}>
+                        <Group justify="space-between" wrap='nowrap'>
+                            <Group gap="sm" wrap='nowrap'>
+                                <Avatar component={Link} to={`/materials/${row.id}/view`}
+                                        size={50}
+                                        radius="md"
+                                        src={row.image}
+                                />
+                                <div>
+                                    <Text fw={500} fz={'lg'} component={Link} to={`/materials/${row.id}/view`}>
+                                        {row.name}
+                                    </Text>
+                                    {!row.status? (
+                                        <Text component='span' fz="sm" tt={'uppercase'} c="yellow">
+                                            Draft
+                                        </Text>
+                                    ):
+                                        (row.stock_quantity <= 0)?
+                                            (<Text c="red">Out of stock </Text>):
+                                            (row.min_stock_quantity > row.stock_quantity)?
+                                                (<Text c="dimmed"><Text component='span' c={'yellow'}> Running out </Text> - <PrettyFigure figure={row.stock_quantity} /></Text>):
+                                                (<Text c="dimmed"><Text component='span' c={'green'}> In stock </Text> - <PrettyFigure figure={row.stock_quantity} /></Text>)
+                                    }
+                                    {row.stock_quantity <= row.min_stock_quantity?<Badge color="red" size="xs" radius="sm">Restock</Badge>:''}
+                                </div>
+                            </Group>
+                            {menu(row)}
+                        </Group>
+                    </PaperCardBody>
+                </PaperCard>
+            ))
+        ):(
+            rows = intermediateGoods.map((row) => (
+                <Table.Tr key={row.id}>
+                    <Table.Td>
+                        <Group gap="sm">
+                            <Avatar src={row.image} size={40} radius={10}>PD</Avatar>
+                            <div>
+                                <Text fw={500}>
+                                    {row.name}
+                                </Text>
+                                <Text c="dimmed">
+                                    {!row.status? (
+                                        <Text component='span' fz="sm" tt={'uppercase'} c="yellow">
+                                            Draft
+                                        </Text>
+                                    ):''}
+                                    {/*Modified: <DefaultReadableDate dateFormat={row.updated_at} />*/}
+                                    {/* SKU: {row.sku} */}
+                                </Text>
+                            </div>
+                        </Group>
+                    </Table.Td>
 
-            <Table.Tr key={row.id}>
-                <Table.Td>
-                  <Group gap="sm">
-                      <Avatar src={row.image} size={40} radius={10}>PD</Avatar>
-                      <div>
-                          <Text fw={500}>
-                          {row.name}
-                          </Text>
-                          <Text c="dimmed">
-                              {!row.status? (
-                                  <Text component='span' fz="sm" tt={'uppercase'} c="yellow">
-                                      Draft
-                                  </Text>
-                              ):''}
-                            {/*Modified: <DefaultReadableDate dateFormat={row.updated_at} />*/}
-                              {/* SKU: {row.sku} */}
-                          </Text>
-                      </div>
-                  </Group>
-                </Table.Td>
+                    <Table.Td ta={'center'}>
+                        {
+                            (row.stock_quantity <= 0)?
+                                (<Text c="red">Out of stock </Text>):
+                                (row.min_stock_quantity > row.stock_quantity)?
+                                    (<Text c="dimmed"><Text component='span' c={'yellow'}> Running out </Text> - <PrettyFigure figure={row.stock_quantity} /></Text>):
+                                    (<Text c="dimmed"><Text component='span' c={'green'}> In stock </Text> - <PrettyFigure figure={row.stock_quantity} /></Text>)
+                        }
+                    </Table.Td>
 
-                <Table.Td ta={'center'}>
-                  {
-                    (row.stock_quantity <= 0)? 
-                    (<Text c="red">Out of stock </Text>):
-                    (row.min_stock_quantity > row.stock_quantity)? 
-                    (<Text c="dimmed"><Text component='span' c={'yellow'}> Running out </Text> - <PrettyFigure figure={row.stock_quantity} /></Text>):
-                    (<Text c="dimmed"><Text component='span' c={'green'}> In stock </Text> - <PrettyFigure figure={row.stock_quantity} /></Text>)
-                  }
-                </Table.Td>
+                    <Table.Td ta={'center'}>
+                        <Text c="dimmed">
+                            {row.min_stock_quantity}
+                        </Text>
+                    </Table.Td>
 
-                <Table.Td ta={'center'}>
-                  <Text c="dimmed">
-                      {row.min_stock_quantity}
-                  </Text>
-                </Table.Td>
+                    <Table.Td ta={'left'}>
+                        <Text c="dimmed">
+                            {row.materials?<MoneyFigure figure={sumMaterialCost(row.materials)}  />:0}
+                        </Text>
+                    </Table.Td>
 
-                <Table.Td ta={'left'}>
-                  <Text c="dimmed">
-                      {row.materials?<MoneyFigure figure={sumMaterialCost(row.materials)}  />:0}
-                  </Text>
-                </Table.Td>
-
-                {/* <Table.Td ta={'left'}>
+                    {/* <Table.Td ta={'left'}>
                     <Text c={'dimmed'}>
                         <Text c={'dimmed'} component='span' fw={600}><MoneyFigure figure={row.labour_cost} /></Text>
                     </Text>
                 </Table.Td> */}
 
-                <Table.Td ta={'left'}>
-                    <Menu shadow="md" width={200}>
-                        <Menu.Target>
-                        <ActionIcon color='gray' variant="light">
-                        <IconChevronRight style={{ width: '70%', height: '70%' }} stroke={2} />
-                        </ActionIcon>
-                        </Menu.Target>
+                    <Table.Td ta={'left'}>
+                        {menu(row)}
+                    </Table.Td>
+                </Table.Tr>
+            ))
+        )
 
-                        <Menu.Dropdown>
-                          <Menu.Item component={Link} to={`/intermediate-goods/${row.slug}/view`}
-                                leftSection={<IconEye style={{ width: rem(14), height: rem(14) }} />}>
-                                View
-                            </Menu.Item>
-                            <Menu.Item component={Link} to={`/intermediate-goods/${row.slug}/edit`}
-                                leftSection={<IconEdit style={{ width: rem(14), height: rem(14) }} />}>
-                                Edit
-                            </Menu.Item>
-                            <Menu.Item onClick={()=>duplicateIntermediateGoodData(row.id)}
-                                leftSection={<IconCopy style={{ width: rem(14), height: rem(14) }} />}>
-                                Duplicate
-                            </Menu.Item>
-                        <Menu.Divider />
-
-                        <Menu.Label>Danger zone</Menu.Label>
-                        
-                        <Menu.Item 
-                            onClick={()=>openDeleteModal(row.id)}
-                                color="red"
-                                leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
-                            >
-                            Delete
-                        </Menu.Item>
-                        </Menu.Dropdown>
-                    </Menu>
-                </Table.Td>
-            </Table.Tr>
-        ));
     }
 
     return (

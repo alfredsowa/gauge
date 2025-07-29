@@ -4,7 +4,7 @@ import { removeAuth } from "./AuthHelpers";
 
 const API_URL = import.meta.env.VITE_APP_API_URL;
 
-export const GET_USER_BY_ACCESSTOKEN_URL = `${API_URL}/verify_token`;
+export const GET_USER_BY_ACCESS_TOKEN_URL = `${API_URL}/verify_token`;
 export const LOGIN_URL = `${API_URL}/login`;
 export const REGISTER_URL = `${API_URL}/sign-up`;
 export const REQUEST_PASSWORD_URL = `${API_URL}/forgot-password`;
@@ -64,7 +64,7 @@ export async function getUserByToken(token: string|undefined) {
 
   try {
       // return token
-      const response = await axios.post<UserModel>(GET_USER_BY_ACCESSTOKEN_URL, {},config);
+      const response = await axios.post<UserModel>(GET_USER_BY_ACCESS_TOKEN_URL, {},config);
       return response.data as UserModel;
 
     } catch (error) {

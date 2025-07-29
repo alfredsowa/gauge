@@ -41,7 +41,7 @@ const PrimaryLayout = () => {
         <PrimarySidebar toggle={toggle} />
 
         <AppShell.Main bg={'var(--mantine-color-default-hover)'}>
-            <Container p={3} fluid={true}>
+            <Container p={3} fluid={false}>
                 <Outlet />
             </Container>
         </AppShell.Main>

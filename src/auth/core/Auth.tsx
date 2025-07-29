@@ -90,7 +90,7 @@ const AuthInit = ({children}: { children: ReactNode }) => {
     }
 
     if (auth && auth.api_token) {
-      requestUser(auth.api_token)
+      requestUser(auth.api_token).then()
     } else {
       logout()
       setShowSplashScreen(false)

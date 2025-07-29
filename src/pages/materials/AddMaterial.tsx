@@ -245,8 +245,10 @@ const AddMaterial = () => {
 
   return (
     <>
-    <PageTitle title="New Material">
-      <PageBreadCrumb pageBreadCrumbs={items} />
+    <PageTitle
+        title="New Material"
+        breadcrumb={<PageBreadCrumb pageBreadCrumbs={items} />}
+    >
     </PageTitle>
 
     <Group justify="flex-end">

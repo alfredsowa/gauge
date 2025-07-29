@@ -277,8 +277,11 @@ const EditMaterial = () => {
     // @ts-ignore
     return (
         <>
-            <PageTitle title="Edit Material">
-                <PageBreadCrumb pageBreadCrumbs={items} />
+            <PageTitle
+                title="Edit Material"
+                breadcrumb={<PageBreadCrumb pageBreadCrumbs={items} />}
+            >
+
             </PageTitle>
 
             <Group justify="flex-end">

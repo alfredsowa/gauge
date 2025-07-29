@@ -1,4 +1,4 @@
-import {em, Group, Stack, Title} from '@mantine/core'
+import {em, Flex, Group, Title} from '@mantine/core'
 import { BackButton } from './BackButton'
 import React from "react";
 import {useMediaQuery} from "@mantine/hooks";
@@ -23,22 +23,28 @@ const PageTitle = (
   return (
       <>
         {isMobile ?
-            <Group wrap="nowrap" justify="left" mb={20}>
+            <Group wrap="nowrap" justify="left" mb={10}>
                 {back && <BackButton mr={1} mb={3}/>}
-                <Title fw={500} fz={20}>
+                <Title fw={500} fz={18}>
                     {title}
                 </Title>
-            </Group>:
-            <Group wrap="nowrap" justify="space-between" mb={20}>
-                <Group justify="left">
+            </Group>
+            :
+            <Group wrap="nowrap" justify="space-between" mb={10}>
+                <Flex
+                      gap="sm"
+                      justify="flex-start"
+                      align="center"
+                      direction="row"
+                      wrap="wrap">
                     {back && <BackButton mr={5} mb={3}/>}
-                    <Stack>
-                        <Title fw={500} fz={{ base: 20, sm: 20, md: 25}} mr={20}>
+                    <Group>
+                        <Title fw={500} fz={{ base: 18, sm: 18, md: 22}} mr={10}>
                             {title}
-                            {breadcrumb}
                         </Title>
-                    </Stack>
-                </Group>
+                        {breadcrumb}
+                    </Group>
+                </Flex>
                 <>
                     {button}
                 </>
